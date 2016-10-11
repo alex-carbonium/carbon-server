@@ -80,8 +80,8 @@ namespace Carbon.Services.Controllers
         {
             var userId = GetUserId();
             
-            await _sharingService.PublishPage(userId, name, description, tags, pageData, previewPicture, isPublic ? PublishScope.Public : PublishScope.Company);
-            return Success();
+            var page = await _sharingService.PublishPage(userId, name, description, tags, pageData, previewPicture, isPublic ? PublishScope.Public : PublishScope.Company);
+            return Ok(new {data=page});
         }
 
         [HttpGet, Route("resources")]

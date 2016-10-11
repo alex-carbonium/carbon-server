@@ -214,7 +214,7 @@ namespace Carbon.Business.Services
             return dataUri;
         }
 
-        public async Task PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, PublishScope scope)
+        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, PublishScope scope)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
@@ -240,6 +240,7 @@ namespace Carbon.Business.Services
             };
 
             await _sharedPageRepository.InsertAsync(page);
+            return page;
         }
 
         public async Task<IQueryable<SharedPage>> SearchResources(string userId, string search, PublishScope scope)

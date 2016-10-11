@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -11,10 +12,13 @@ using System.Web.Http;
 using Carbon.Business.CloudDomain;
 using Carbon.Business.Domain;
 using Carbon.Business.Services;
+using Carbon.Framework.Cloud;
 using Carbon.Framework.Extensions;
 using Carbon.Framework.Repositories;
+using Carbon.Framework.UnitOfWork;
 using Carbon.Framework.Util;
 using Carbon.Owin.Common.WebApi;
+using File = Carbon.Business.CloudDomain.File;
 
 namespace Carbon.Services.Controllers
 {    
@@ -23,11 +27,13 @@ namespace Carbon.Services.Controllers
     {
         private readonly IActorFabric _actorFabric;
         private readonly IRepository<CompanyFile> _fileRepository;
+        private readonly ICloudUnitOfWorkFactory _cloudUnitOfWorkFactory;
 
-        public FileController(IActorFabric actorFabric, IRepository<CompanyFile> fileRepository)
+        public FileController(IActorFabric actorFabric, IRepository<CompanyFile> fileRepository, ICloudUnitOfWorkFactory cloudUnitOfWorkFactory)
         {
             _actorFabric = actorFabric;
             _fileRepository = fileRepository;
+            _cloudUnitOfWorkFactory = cloudUnitOfWorkFactory;
         }
 
         private string FullFileUrl(string url)
@@ -113,6 +119,28 @@ namespace Carbon.Services.Controllers
 
             var images = tasks.Where(x => x != null).Select(x => ToMetadata(companyId, x.Result));
             return Ok(new {Images = images});
+        }
+
+        [HttpPost, Route("uploadPublicImage")]
+        public async Task<IHttpActionResult> UploadPublicImage([FromBody]string dataUrl)
+        {
+            string imageUri;
+            var split = dataUrl.Split(',');
+            if (split.Length != 2)
+            {
+                throw new InvalidEnumArgumentException("dataUrl");
+            }
+            string previewPicture = split[1];
+            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
+            {
+                File file = new File("img", Guid.NewGuid() + ".png");
+                file.SetContent(Convert.FromBase64String(previewPicture));
+                await uow.InsertAsync(file);
+                imageUri = file.Uri.AbsoluteUri;
+                uow.Commit();
+            }
+
+            return Ok(new {url=imageUri});
         }
 
         [HttpPost, Route("delete")]
