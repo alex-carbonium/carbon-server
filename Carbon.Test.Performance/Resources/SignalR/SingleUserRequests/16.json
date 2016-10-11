@@ -1,0 +1,97 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "e5a1bca9-8a1a-4f00-831c-b06f36b58947"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.GroupContainer",
+              "version": 1,
+              "id": "e5a1bca9-8a1a-4f00-831c-b06f36b58947",
+              "properties": {
+                "width": 123,
+                "height": 45,
+                "name": "Logo",
+                "left": 9,
+                "top": 52,
+                "zOrder": 2,
+                "enableGroupLocking": true
+              },
+              "children": [
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "61ae337f-6e6f-4527-c53c-75c4cc21d482",
+                  "properties": {
+                    "width": 69,
+                    "height": 45,
+                    "left": 54,
+                    "top": 0,
+                    "zOrder": 2,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.bottom": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "text": "Logo",
+                    "textAlign": "center",
+                    "textVerticalAlign": "middle",
+                    "font.size": 46,
+                    "font.__type__": "sketch.framework.Font"
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Icon",
+                  "version": 6,
+                  "id": "6bc00127-8828-41d7-9061-c0f701c08bbd",
+                  "properties": {
+                    "width": 40,
+                    "height": 40,
+                    "left": 0,
+                    "top": 3,
+                    "zOrder": 2,
+                    "anchor.bottom": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "source.__type__": "sketch.framework.ImageSourceNone"
+                  }
+                }
+              ]
+            },
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "order": 7,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        },
+        {
+          "id": {
+            "command": "element_move_resize",
+            "elementId": "e5a1bca9-8a1a-4f00-831c-b06f36b58947"
+          },
+          "data": {
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "rect": {
+              "x": 9,
+              "y": 52,
+              "width": 123,
+              "height": 45
+            },
+            "order": 7,
+            "pageId": 1
+          },
+          "_index": 1,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 15
+  }
+}

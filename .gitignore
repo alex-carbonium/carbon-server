@@ -1,0 +1,8 @@
+.hg/*
+.vs/*
+**/bin/*
+**/obj/*
+**/pkg/*
+Carbon.Services.FabricHost/PackageRoot/Data/app/
+TestResults/*
+packages/*

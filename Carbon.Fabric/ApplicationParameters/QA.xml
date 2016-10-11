@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/Carbon.Fabric" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="FabricHost_InstanceCount" Value="-1" />
+    <Parameter Name="IdSrv_PublicKeyFile" Value="idsrv-release.cer" />
+    <Parameter Name="Endpoints_Storage" Value="//carbon-qa.westeurope.cloudapp.azure.com:9100" />
+    <Parameter Name="Endpoints_Cdn" Value="//carbonstatic.azureedge.net" />
+    <Parameter Name="Endpoints_File" Value="//carbonstorageqa.blob.windows.core.net" />
+    <Parameter Name="Roles_Storage" Value="qa-storage" />
+    <Parameter Name="Roles_Services" Value="qa-services" />
+  </Parameters>
+</Application>

@@ -1,0 +1,63 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "6527ddc8-ae22-493b-8583-6dce84b90578"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.TemplatedElement",
+              "version": 1,
+              "id": "6527ddc8-ae22-493b-8583-6dce84b90578",
+              "properties": {
+                "width": 90,
+                "name": "Asset [5a5b1a5a-9cf8-4797-c0ab-c6a13a1a91f3]",
+                "left": 5,
+                "top": 46,
+                "zOrder": 4,
+                "margin.top": 2,
+                "margin.bottom": 2,
+                "margin.__type__": "sketch.framework.Box",
+                "horizontalAlignment": "stretch",
+                "templateId": "ui.web.templates.RadioButtonTemplate"
+              },
+              "tags": "Primitive,RadioButton"
+            },
+            "parentId": "ecd04537-bd8e-48df-b616-cf901c2ccf4d",
+            "order": 2,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        },
+        {
+          "id": {
+            "command": "element_move_resize",
+            "elementId": "6527ddc8-ae22-493b-8583-6dce84b90578"
+          },
+          "data": {
+            "parentId": "ecd04537-bd8e-48df-b616-cf901c2ccf4d",
+            "rect": {
+              "x": 5,
+              "y": 46,
+              "width": 90,
+              "height": 16
+            },
+            "order": 2,
+            "pageId": 1
+          },
+          "_index": 1,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 19
+  }
+}

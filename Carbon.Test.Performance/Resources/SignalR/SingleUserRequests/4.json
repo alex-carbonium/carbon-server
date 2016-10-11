@@ -1,0 +1,77 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "e17e4613-5977-4ab0-e7a6-6547e3a76d0a"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.TemplatedElement",
+              "version": 1,
+              "id": "e17e4613-5977-4ab0-e7a6-6547e3a76d0a",
+              "properties": {
+                "width": 140,
+                "name": "Asset [937]",
+                "left": 12,
+                "top": 155,
+                "zOrder": 14,
+                "margin.left": 12,
+                "margin.right": 12,
+                "margin.__type__": "sketch.framework.Box",
+                "horizontalAlignment": "stretch",
+                "templateId": "ui.web.templates.StackedNavItemTemplate",
+                "text": "Profile"
+              },
+              "tags": "Primitive,NavItem"
+            },
+            "parentId": "b2283537-bd8e-48df-b616-cf901c2ccf4d",
+            "order": 12,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        },
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "34b89116-46c5-4323-92c3-24419a6cde81"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.TemplatedElement",
+              "version": 1,
+              "id": "34b89116-46c5-4323-92c3-24419a6cde81",
+              "properties": {
+                "width": 140,
+                "name": "Asset [937]",
+                "left": 12,
+                "top": 180,
+                "zOrder": 16,
+                "margin.left": 12,
+                "margin.right": 12,
+                "margin.__type__": "sketch.framework.Box",
+                "horizontalAlignment": "stretch",
+                "templateId": "ui.web.templates.StackedNavItemTemplate",
+                "text": "Profile"
+              },
+              "tags": "Primitive,NavItem"
+            },
+            "parentId": "b2283537-bd8e-48df-b616-cf901c2ccf4d",
+            "order": 14,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 3
+  }
+}

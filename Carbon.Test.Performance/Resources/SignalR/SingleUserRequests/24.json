@@ -1,0 +1,124 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "07695537-bd8e-48df-b616-cf901c2ccf4d"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.GroupContainer",
+              "version": 1,
+              "id": "07695537-bd8e-48df-b616-cf901c2ccf4d",
+              "properties": {
+                "width": 493,
+                "height": 38,
+                "name": "Alert",
+                "left": 298,
+                "top": 1033,
+                "zOrder": 2,
+                "backgroundBrush.value": "web.alert.fill",
+                "backgroundBrush.type": "resource",
+                "backgroundBrush.lineWidth": 0,
+                "backgroundBrush.__type__": "sketch.framework.Brush",
+                "enableGroupLocking": true,
+                "cornerRadius.bottomLeft": 4,
+                "cornerRadius.bottomRight": 4,
+                "cornerRadius.upperLeft": 4,
+                "cornerRadius.upperRight": 4,
+                "cornerRadius.__type__": "sketch.framework.QuadAndLock"
+              },
+              "children": [
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "7d8daf0d-4bbc-4e54-81b9-d69edd526d6d",
+                  "properties": {
+                    "width": 375,
+                    "height": 38,
+                    "left": 94,
+                    "top": 0,
+                    "zOrder": 1,
+                    "anchor.right": true,
+                    "anchor.bottom": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "text": "Best check you self, you're not looking too good.",
+                    "textVerticalAlign": "middle",
+                    "font.size": "16",
+                    "font.__type__": "sketch.framework.Font"
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "f1a2aca0-98ee-415e-aee6-f5c3493a2f28",
+                  "properties": {
+                    "width": 53,
+                    "height": 38,
+                    "left": 10,
+                    "top": 0,
+                    "zOrder": 2,
+                    "anchor.bottom": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "text": "Warning!",
+                    "textVerticalAlign": "middle",
+                    "font.size": "16",
+                    "font.__type__": "sketch.framework.Font"
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Icon",
+                  "version": 6,
+                  "id": "4fa4c184-c679-424f-d9a1-03d000a930dc",
+                  "properties": {
+                    "width": 24,
+                    "height": 10,
+                    "left": 469,
+                    "top": 14,
+                    "zOrder": 3,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "source.name": "close",
+                    "source.__type__": "sketch.framework.ImageSourceFont"
+                  }
+                }
+              ]
+            },
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "order": 14,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        },
+        {
+          "id": {
+            "command": "element_move_resize",
+            "elementId": "07695537-bd8e-48df-b616-cf901c2ccf4d"
+          },
+          "data": {
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "rect": {
+              "x": 298,
+              "y": 1033,
+              "width": 493,
+              "height": 38
+            },
+            "order": 14,
+            "pageId": 1
+          },
+          "_index": 1,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 23
+  }
+}

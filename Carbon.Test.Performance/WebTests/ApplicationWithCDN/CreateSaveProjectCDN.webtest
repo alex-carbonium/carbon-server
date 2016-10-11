@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebTest Name="CreateSaveProject" Id="48276631-b657-41d2-a3fb-d7d2217efa6d" Owner="" Priority="0" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="" StopOnError="False" RecordedResultFile="">
+  <Items>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Account/LoginWithInvitation" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <DependentRequests>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/js/libs/jquery-1.7.1.min.js" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/site.styles.min.css" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/js/libs/sketch.feature-detector.js" ThinkTime="1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/logo.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/js/libs/modernizr-1.7.min.js" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+      </DependentRequests>
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="ReturnUrl" Value="/" RecordedValue="" CorrelationBinding="" UrlEncode="True" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Account/LoginWithInvitation" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="id" Value="sensei" RecordedValue="" CorrelationBinding="" UrlEncode="True" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Account/Register" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Account/Register" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="Email" Value="{{UniqueId}}@enkelsoft.com" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="Password" Value="password" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="ConfirmPassword" Value="password" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="InvitationCode" Value="sensei" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <DependentRequests>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/slide1.png" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/arrow.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/slide_on.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/slide_off.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/iPhonePortrait.png" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/meebo.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/facebook-messenger.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/slides/twitterrific.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+      </DependentRequests>
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Project/Create" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Project/Edit" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <ExtractionRules>
+        <ExtractionRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ExtractRegularExpression, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" VariableName="ProjectId" DisplayName="Extract Regular Expression" Description="Extract text from the response matching a regular expression and place it into the test context.">
+          <RuleParameters>
+            <RuleParameter Name="RegularExpression" Value="(?&lt;=Workplace/)\d+(?=&quot;)" />
+            <RuleParameter Name="IgnoreCase" Value="False" />
+            <RuleParameter Name="Required" Value="True" />
+            <RuleParameter Name="Index" Value="0" />
+            <RuleParameter Name="HtmlDecode" Value="True" />
+          </RuleParameters>
+        </ExtractionRule>
+      </ExtractionRules>
+      <FormPostHttpBody>
+        <FormPostParameter Name="Id" Value="0" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="OpenInDesigner" Value="True" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="ProjectType" Value="iPhoneProject" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="Theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="Name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="Description" Value="" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Designer/Workplace/{{ProjectId}}" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <DependentRequests>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/styles.min.css" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/scripts.libs.min.js" ThinkTime="-2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/logo-project.png" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/core.min.js" ThinkTime="-2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/foundation.min.js" ThinkTime="-2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/target/Bootloader.js" ThinkTime="1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/loading_logo.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/help.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/feedback.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/arrow.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/pinned.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/pencil.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/pen.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/line.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/point.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/rectangle.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/circle.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/phone_visible.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/zoom_out.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/zoom_in.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/zoom_100.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/zoom_fit.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/add_page_ver.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/add_page_hor.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/txt-properties.png" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/undo.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/redo.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/save.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/comments.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/share.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/preview.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/my_projects.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/exit-2.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/login.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/chess.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/sprites/glyphish.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/sprites/ios.png" ThinkTime="-2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/sprites/stickers.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/sprites/standard.png" ThinkTime="1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/unpinned.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/txt-pages.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/txt-outliner.png" ThinkTime="-1" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/copy.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/paste.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/cut.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/duplicate.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/toolbox_search.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/delete.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/search_cancel.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ios/table_background1.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/txt-elements.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ios/empty_view.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/expander_right.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/delete_page.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/drop.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/expander_down.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/checkbox-sprite-white.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/value_up.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/jspDrag.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/value_down.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/ui/checkbox-sprite.png" ThinkTime="9" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{CDNServer}}/img/tips/tip1.png" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+      </DependentRequests>
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Notification/Listen" ThinkTime="-120" Timeout="180" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="lastId" Value="0" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="projectId" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Comments/GetAll" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="projectId" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Log/LogStats" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="stats" Value="loaded=4073" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Designer/SaveProjectData" ThinkTime="2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="id" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="version" Value="1" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="data" Value="&#x1C;J=M&#x8;&#xD;F&#x13;i&#x1;&#x14;D:&#x11;&#x15;&#xD;&#x6;DX(&#x8;X=29&#x18;&#x1A;NFR!=6&#x1B;&#x8;@&#x19;&#xC;&#x6;#!h@&#xC;p-&#xC;&#x15;&#x6;#&#x11;&#x3;PLl:&#x1A;&#xD;E&#x1D;Ca=&#x10;L5&#xE;&#x11;4&#x1A;L&#x10;q&#xC;&#x18;i=&#x10;&#xF;6&#x18;NgBq&#x3;&lt;hi3&#x1A;Lfn&#x19;y&lt;=lI&#x19;&#xE;=M&#x6;&#x10;x&#x19;Hfi	#M!gH=l=l&#x18;Dd2&#x19;&#xC;=7SbaR`p0&#x19;LA=789n&#x3;M=7aTGC&#x18;|J$=&#x10;=2:&#x1E;N&#x10;hA#LVe:&#x18;M&#x2;=7c)$]`1&#x1C;?EF&#x12;&#x1;=2&#xC;e&#x18;(X`Px&#x1D;[@&#x13;b&#x10;&#xC;f&#x17;#fI0Hr2&#x1B;,M0&#x1B;&#xD;N&#xF;&#x10;;)^ow=l&#x19;C&#xC;=ln2&#xB;08y&#x5;?=2!&#x1A;5CN&#x7;l#}Le?1A	`=7y&#x15;Rh2T&#x1C;RDP3I&#x1C;&#xD;Q^5&#xC;&#x6;SqV&#x11;h&#x1E;r,&#x1C;=6c&#x7;X~S-&#x18;Xf&#x16;K;#&#xE; XJPZm7&#x16;AV&#xA;retP^/W7Kq=7M&#x7;Ui&#x15;q&#x1D;S)3Zem=7km{=M/csF]&#x4;M`H_V$(J&#x1E;b8N,@h`=7&#xA;L&#x15;&#x8;&#x6;.&#xD;*&#xE;&#x19;&#x6;Ka&#x12;&#x1E;g:&#xF;C&#x1D;=6&gt;&#xF;=2l:&gt;&#x1;=&#x10;" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Designer/SaveProjectData" ThinkTime="3" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="id" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="version" Value="2" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="data" Value="&#x1C;J=M&#x8;&#xD;F&#x13;i&#x1;&#x14;D:&#x11;&#x15;&#xD;&#x6;DX(&#x8;X=29&#x18;&#x1A;NFR!=6&#x1B;&#x8;@&#x19;&#xC;&#x6;#!h@&#xC;p-&#xC;&#x15;&#x6;#&#x11;CPLl:&#x1A;&#xD;E&#x1F;C&#x1;&#x18;@5&#xE;&#x11;4&#x1A;L&#x10;q&#xC;&#x18;i=&#x10;&#xF;6&#x18;NgBq&#x3;&lt;hi3&#x1A;Lfn&#x19;y&lt;=lI&#x19;&#xE;=M&#x6;&#x10;x&#x19;Hfi5#AFPs$. .=22&#x19;LF&#x13;&#x7;)0i08&#x18;LUfS&#x1C;&#x1C;7&#x1;=6&#x1B;Sj#!&#xC;&gt;e&#x2;4*&#x1E;N&#x10;hA#LVe:&#x18;M&#x2;gc)$]a1&#x1C;?EF&#x12;&#x1;=2&#xC;e&#x1C;(X Px&#x1D;_@&#x13;c&#x10;&#xC;f&#x17;#fI0Hr2&#x1B;,]P&#x13;=5Ji&#x10;;)^ow=l&#x19;C&#xC;=ln2&#xB;08y&#x5;/=6!&#x1A;6CN&#x7;,#}Le?2A	`=7y&#x15;Vh2T&#x1C;RDP3I&#x1C;&#x5;Q_6&#xC;&#x6;Sqv&#x11;h&#x1E;r,&#x1C;=6c&#x7;X~S-&#x18;Xf&#x16;K;#&#xE; XJPZm7&#x16;QV&#x8;s=M&#x7;P^/W7Kq=7M&#x7;Ui&#x15;q&#x1D;S)3Zee=7kn&#x2;-&#x1E;W&#x7;pq7A&#x13;x2r7I*2&#x7;8&#xE;b3&#x10;&#x1A;8)B5v&#x5;A!&#x10;hZ*~A:=6f9n&#xB;&#x1D;=6&gt;&#xF;=2l:&gt;&#x1;=&#x10;" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Designer/SaveProjectData" ThinkTime="2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="id" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="version" Value="3" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="data" Value="&#x1C;J=M&#x8;&#xD;F&#x13;i&#x1;&#x14;D:&#x11;&#x15;&#xD;&#x6;DX(&#x8;X=29&#x18;&#x1A;NFR!=6&#x1B;&#x8;@&#x19;&#xC;&#x6;#!h@&#xC;p-&#xC;&#x15;&#x6;#&#x11;#PLl:&#x1A;&#xC;&#x5;&#x1;CIIj&#x1C;=24=5&#x19; c&#x19;0R&#x1E;&lt;l0&#x1C;N&#x4;cy3PRf4&#x18;L3&#xD;cy8&#x13;2&#x1D;&#xC;:!q3&#x11;LSE&#xF;&#x3;&#xC;agH=l=l&#x18;Dd2&#x19;&#xC;=7SbaR^p0&#x19;LA=789n&#x3;L=7 T&#x7;C&#x18;|FgtS&lt;&#x1C; P&#x3;&#x19;S,Jt1&#x1A;&#x5;GLSH:Ab9&#xB;!&#xD;=5&#x3;E&#x14;JP/0A!p:6=2YD &#x18;Ko=6&#x13;&#x6;a&#x10;de7Y`L=7K&#xD;N!v&lt;V^/&#x18;#&#x6;&#x14;=l0e&#x17;a0R{E&#x18;?3k&#x7;&#x1C;&#xE;Fg{&#x11;J}c&#x3;@&#x1A;Ns&#x1A;$Ld8U=5&#x8;!f&#x13;9=21=Mk&#x18;&#xC;=6B#EQ&lt;eX9LO=70|&#x1E;W//-a&#x17;v=6&#x1D;90!3Zml&#x3;,^&#x1C;v&#xF;&#x1F;;^ow5SN&#x17;&#xD;)Sa3{&#x6;Sf0KMeW[D[-=7_wD=l&#x4;MXH^w$(J&#x1E;a8.48h`=6jL&#x15;h&#x6;&#x4;C#h&#x3;&#x6;:A8d&#x7;9.{;ni&#xF;#h;&#xF;&#x2;&#xF; " RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Designer/SaveProjectData" ThinkTime="2" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="id" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="version" Value="4" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="data" Value="&#x1C;J=M&#x8;&#xD;F&#x13;i&#x1;&#x14;D:&#x11;&#x15;&#xD;&#x6;DX(&#x8;X=29&#x18;&#x1A;NFR!=6&#x1B;&#x8;@&#x19;&#xC;&#x6;#!h@&#xC;p-&#xC;&#x15;&#x6;#&#x11;cPLl:&#x1A;&#xC;&#x5;&#x1D;Ca0D5&#xE;&#x11;4&#x1A;L&#x10;q&#xC;&#x18;i=&#x10;&#xF;6&#x18;NgBq&#x3;&lt;hi3&#x1A;Lfn&#x19;y&lt;=lI&#x19;&#xE;=M&#x6;&#x10;x&#x19;Hfi-#Afb#$. .=22&#x19;LF&#x13;&#x7;)0i08&#x18;LUfS&#x1C;&#x1C;7&#x1;=6&#x1B;Sj#!&#xC;&gt;e&#x6;4&#x7;&#x1D;&#xF;=7&#x8;4&#x12; fk2&#x1D;&#xC;fm&#x1;qTR.0X=5NbcI@QF&#x2;2&#x14;,Ph|&#xE;&#xF;/&#xA;1&#x8;&#x6;3&#xB;&#x7;Y$Xd9&#x19;MYVh&#xD;Ji&#x7;&#x8;X^/WKv&#x10;a&#x11;&#x7;7&#x19;EXlD[BSPM[!gn&#x3;&#x11;&gt;hr&#x1F;Y: p&#x13;&lt;J=;4@&#x19;&#xE;)b(Y$&#xD;Nh/[&#x6;&#x3;*w&#x19;h&#x1E;r,&#x1C;=6c&#x7;X~W/&#x19;Xg&#x16;K;3&#xE;$XNPZmw6QV&#x1A;vguP^oww[y=7O&#x8;Uj&#x14;1=MS)3=lea=7l.&#x2;-=6[&#x7;pq7a&#x13;z2r7i*2&#x7;8.b;&#x12;&#x1A;8IB5n&#x5;A*#l&#x3;&#x6;zA8d&#x7;9N&#x3;?pi&#xF;#h;&#xF;&#x2;&#xF; " RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Designer/SaveProjectData" ThinkTime="8" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="id" Value="{{ProjectId}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="name" Value="Theme" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="version" Value="5" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="theme" Value="default" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="data" Value="&#x1C;J=M&#x8;&#xD;F&#x13;i&#x1;&#x14;D:&#x11;&#x15;&#xD;&#x6;DX(&#x8;X=29&#x18;&#x1A;NFR!=6&#x1B;&#x8;@&#x19;&#xC;&#x6;#!h@&#xC;p-&#xC;&#x15;&#x6;#&#x11;#PLl:&#x1A;&#xD;&#x5;&#x1D;Cq=&#x10;P5&#xE;&#x11;4&#x1A;L&#x10;q&#xC;&#x18;i=&#x10;&#xF;6&#x18;NgBq&#x3;&lt;hi3&#x1A;Lfn&#x19;y&lt;=lI&#x19;&#xE;=M&#x6;&#x10;x&#x19;Hfi=M#AF0s$. .=22&#x19;LF&#x13;&#x7;)0i08&#x18;LUfS&#x1C;&#x1C;7&#x1;=6&#x1B;Sj#!&#xC;&gt;e&#x2;4*&#x1E;N&#x10;hA#LVe:&#x18;M&#x2;gc)$]a1&#x1C;?EF&#x12;&#x1;=2&#xC;e&#x1C;(X Px&#x1D;_@&#x13;c&#x10;&#xC;f&#x17;#fI0Hr2&#x1B;,]P&#x13;=5Ji&#x10;;)^ow=l&#x19;C&#xC;=ln2&#xB;08y&#x5;/=6!&#x1A;6CN&#x7;,#}Le?2A	`=7y&#x15;Vh2T&#x1C;RDP3I&#x1C;&#x5;Q_6&#xC;&#x6;Sqv&#x11;h&#x1E;r,&#x1C;=6c&#x7;X~S-&#x18;Xf&#x16;K;#&#xE; XJPZm7&#x16;QV&#x8;s=M&#x7;P^/W7Kq=7M&#x7;Ui&#x15;q&#x1D;S)3Zee=7kn&#x2;-&#x1E;W&#x7;pq7A&#x13;x2r7I*2&#x7;8&#xE;b3&#x10;&#x1A;8)B5v&#x5;A!&#x10;hZ #a&#x10;n&#x19;!ns3 |:chz.&#x7;Cch" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Project/List" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Account/Logout" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Account/LoginWithInvitation" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="ReturnUrl" Value="/" RecordedValue="" CorrelationBinding="" UrlEncode="True" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+  </Items>
+  <ContextParameters>
+    <ContextParameter Name="TargetServer" Value="http://qa.carbonium.io" />
+    <ContextParameter Name="CDNServer" Value="http://az291014.vo.msecnd.net/cdn/1.4.160.0" />
+  </ContextParameters>
+  <WebTestPlugins>
+    <WebTestPlugin Classname="Sketch.Test.Performance.Plugins.UniqueId, Sketch.Test.Performance.Plugins" DisplayName="UniqueId" Description="" />
+  </WebTestPlugins>
+</WebTest>

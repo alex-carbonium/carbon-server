@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebTest Name="TryIt" Id="80b1c255-a725-4da7-a0c8-f3e23140925f" Owner="" Priority="2147483647" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="" StopOnError="False" RecordedResultFile="WebTest1.af937ddd-8c7b-4c28-bf75-4802fa4eaab0.rec.webtestresult">
+  <Items>
+    <IncludedWebTest Name="OpenHomePage" Path="openhomepage.webtest" Id="972d714d-aa16-495b-b084-dc3b57a23dbe" IsCodedWebTest="False" InheritWebTestSettings="False" />
+    <Request Method="GET" Version="1.1" Url="{{TargetServer}}/Designer/Demo2" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <DependentRequests>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter1.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter2.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter3.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter4.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/head.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/img/icons/toolbar/Refresh.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/img/icons/toolbar/Compose.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter8.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter7.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter9.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter5.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter6.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter10.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter11.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter13.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter15.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/img/icons/textbox/SearchField.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+        <Request Method="GET" Version="1.1" Url="{{TargetServer}}/userfiles/11/twitter16.png" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+          <Headers>
+            <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+          </Headers>
+        </Request>
+      </DependentRequests>
+      <Headers>
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Log/LogStats" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="stats" Value="loaded=5456" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Comments/GetAll" ThinkTime="0" Timeout="60" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="projectId" Value="165" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+    <Request Method="POST" Version="1.1" Url="{{TargetServer}}/Notification/Listen" ThinkTime="0" Timeout="180" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
+      <Headers>
+        <Header Name="Origin" Value="http://denysk-s02:8011" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Content-Type" Value="application/x-www-form-urlencoded" />
+        <Header Name="Accept-Charset" Value="ISO-8859-1,utf-8;q=0.7,*;q=0.3" />
+      </Headers>
+      <FormPostHttpBody>
+        <FormPostParameter Name="lastId" Value="0" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+        <FormPostParameter Name="projectId" Value="165" RecordedValue="" CorrelationBinding="" UrlEncode="True" />
+      </FormPostHttpBody>
+    </Request>
+  </Items>
+  <ContextParameters>
+    <ContextParameter Name="TargetServer" Value="http://denysk-s02:8011" />
+    <ContextParameter Name="CDNServer" Value="http://az291014.vo.msecnd.net/cdn/1.4.160.0" />
+  </ContextParameters>
+  <ValidationRules>
+    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidateResponseUrl, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response URL" Description="Validates that the response URL after redirects are followed is the same as the recorded response URL.  QueryString parameters are ignored." Level="Low" ExectuionOrder="BeforeDependents" />
+    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleResponseTimeGoal, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response Time Goal" Description="Validates that the response time for the request is less than or equal to the response time goal as specified on the request.  Response time goals of zero will be ignored." Level="Low" ExectuionOrder="AfterDependents">
+      <RuleParameters>
+        <RuleParameter Name="Tolerance" Value="0" />
+      </RuleParameters>
+    </ValidationRule>
+  </ValidationRules>
+</WebTest>

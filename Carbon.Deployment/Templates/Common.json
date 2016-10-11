@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "CodeName": {
+            "type": "string",
+            "defaultValue": "carbon"
+        }
+    },
+    "variables": {
+        "cdnName": "[concat(parameters('CodeName'), 'static')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('cdnName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "Standard_LRS"
+            },
+            "tags": {
+                "displayName": "CDN Storage"
+            }
+        },
+        {
+            "name": "[variables('cdnName')]",
+            "type": "Microsoft.Cdn/profiles",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-01",
+            "properties": {
+                "sku": {
+                    "name": "Standard"
+                }
+            },
+            "tags": {
+                "displayName": "CDN Profile"
+            }
+        },
+        {
+            "apiVersion": "2015-06-01",
+            "dependsOn": [
+                "[concat('Microsoft.Cdn/profiles/', variables('cdnName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('cdnName'))]"
+            ],
+            "location": "[resourceGroup().location]",
+            "name": "[concat(variables('cdnName'),'/',variables('cdnName'))]",
+            "type": "Microsoft.Cdn/profiles/endpoints",
+            "properties": {
+                "originHostHeader": "[replace(replace(reference(resourceId('Microsoft.Storage/storageAccounts', variables('cdnName')),'2015-06-15').primaryEndpoints.blob,'https://',''),'/','')]",
+                "isHttpAllowed": true,
+                "isHttpsAllowed": true,
+                "queryStringCachingBehavior": "IgnoreQueryString",
+                "contentTypesToCompress": [
+                    "text/plain",
+                    "text/html",
+                    "text/css",
+                    "application/x-javascript",
+                    "text/javascript",
+                    "font/ttf",
+                    "application/x-font-woff",
+                    "image/png"
+                ],
+                "isCompressionEnabled": true,
+                "origins": [
+                    {
+                        "name": "origin1",
+                        "properties": {
+                            "hostName": "[replace(replace(reference(resourceId('Microsoft.Storage/storageAccounts', variables('cdnName')),'2015-06-15' ).primaryEndpoints.blob,'https://',''),'/','')]"
+                        }
+                    }
+                ]
+            },
+            "tags": {
+                "displayName": "CDN Endpoint"
+            }
+        }
+    ]
+}

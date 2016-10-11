@@ -1,0 +1,46 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    "storageName": {
+      "value": "ppandabuildstorage"
+    },
+    "vmIPPublicDnsName": {
+      "value": "ppanda-build"
+    },
+    "storageType": {
+      "value": "Standard_LRS"
+    },
+    "deployLocation": {
+      "value": "West Europe"
+    },
+    "vmName": {
+      "value": "ppandabuildvm"
+    },
+    "vmAdminUserName": {
+      "value": "panda"
+    },
+    "vmAdminPassword": {
+      "value": "PANda2016"
+    },
+    "vmSize": {
+      "value": "Standard_DS1"
+    },
+    "vmVisualStudioVersion": {
+      "value": "VS-2015-Ent-AzureSDK-2.8-WS2012R2.2"
+    },
+    "vsoAccount": {
+      "value": "project-panda"
+    },
+    "vsoUser": {
+      "value": "dennisfrostlander"
+    },
+    "vsoPass": {
+      "value": ""
+    },
+    "poolName": {
+      "value": "Default"
+    }
+  }
+}

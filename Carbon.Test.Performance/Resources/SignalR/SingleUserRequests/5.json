@@ -1,0 +1,214 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "eebc3537-bd8e-48df-b616-cf901c2ccf4d"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.TemplatedElement",
+              "version": 1,
+              "id": "eebc3537-bd8e-48df-b616-cf901c2ccf4d",
+              "properties": {
+                "width": 454,
+                "height": 256,
+                "name": "Asset [674]",
+                "left": 34,
+                "top": 360,
+                "zOrder": 2,
+                "enableGroupLocking": true,
+                "templateId": "ui.web.templates.FormTemplate"
+              },
+              "children": [
+                {
+                  "type": "sketch.framework.GroupContainer",
+                  "version": 1,
+                  "id": "0f65017b-0c0a-4007-8654-65bb51a52c06",
+                  "properties": {
+                    "width": 438,
+                    "height": 35,
+                    "name": "Group [680]",
+                    "left": 7,
+                    "top": 21,
+                    "zOrder": 1,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "enableGroupLocking": true
+                  },
+                  "children": [
+                    {
+                      "type": "sketch.ui.common.Label",
+                      "version": 3,
+                      "id": "d94cff90-8745-4793-bcae-4b7f2542723c",
+                      "properties": {
+                        "width": 180,
+                        "height": 24,
+                        "name": "Label [687]",
+                        "zOrder": 1,
+                        "text": "Horizontal form",
+                        "font.size": 29,
+                        "font.__type__": "sketch.framework.Font"
+                      }
+                    },
+                    {
+                      "type": "sketch.framework.TemplatedElement",
+                      "version": 1,
+                      "id": "214a945e-cae8-4133-9ab7-d40ed6b39e6b",
+                      "properties": {
+                        "width": 438,
+                        "name": "Asset [658]",
+                        "left": 0,
+                        "top": 28,
+                        "zOrder": 2,
+                        "anchor.right": true,
+                        "anchor.__type__": "sketch.framework.Anchor",
+                        "templateId": "ui.web.templates.SeparatorHorizontalTemplate"
+                      },
+                      "tags": "Primitive,Separator,SeparatorHorizontal"
+                    }
+                  ]
+                },
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "d1df4027-7b99-4c18-ad5e-0fe4dc24290b",
+                  "properties": {
+                    "width": 100,
+                    "height": 17,
+                    "name": "Label [672]",
+                    "left": 17,
+                    "top": 82,
+                    "zOrder": 2,
+                    "text": "Email",
+                    "textAlign": "right"
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "ac2e1490-e889-4d44-cab9-80513e791ead",
+                  "properties": {
+                    "width": 100,
+                    "height": 17,
+                    "name": "Label [672]",
+                    "left": 17,
+                    "top": 131,
+                    "zOrder": 3,
+                    "text": "Password",
+                    "textAlign": "right"
+                  }
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "b0bf5277-6f5d-4e5d-c101-33ef48b2af54",
+                  "properties": {
+                    "name": "Asset [707]",
+                    "left": 149,
+                    "top": 75,
+                    "zOrder": 4,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "templateId": "ui.web.templates.TextBoxTemplate",
+                    "text": "Email"
+                  }
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "9983e58d-f701-4c2a-c30f-43225ddbcb78",
+                  "properties": {
+                    "name": "Asset [707]",
+                    "left": 151,
+                    "top": 124,
+                    "zOrder": 5,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "templateId": "ui.web.templates.TextBoxTemplate",
+                    "text": "Password"
+                  }
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "f9a8d8cd-03c0-4f8e-9ad7-b723dfc585ec",
+                  "properties": {
+                    "width": 222,
+                    "name": "Asset [733]",
+                    "left": 149,
+                    "top": 175,
+                    "zOrder": 6,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "templateId": "ui.web.templates.CheckBoxTemplate",
+                    "text": "Remember me"
+                  }
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "bad0f2a2-d216-45e5-ef2e-6bc99caf5b1f",
+                  "properties": {
+                    "name": "Asset [742]",
+                    "left": 151,
+                    "top": 196,
+                    "zOrder": 7,
+                    "anchor.left": false,
+                    "anchor.right": true,
+                    "anchor.__type__": "sketch.framework.Anchor",
+                    "backgroundBrush.value": "web.button.fill",
+                    "backgroundBrush.type": "resource",
+                    "backgroundBrush.lineWidth": 0,
+                    "backgroundBrush.__type__": "sketch.framework.Brush",
+                    "borderBrush.value": "web.button.stroke",
+                    "borderBrush.type": "resource",
+                    "borderBrush.lineWidth": 0,
+                    "borderBrush.__type__": "sketch.framework.Brush",
+                    "templateId": "ui.web.templates.ButtonTemplate",
+                    "text": "Sign in",
+                    "font.__type__": "sketch.framework.Font"
+                  }
+                }
+              ]
+            },
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "order": 2,
+            "pageId": 1
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        },
+        {
+          "id": {
+            "command": "element_move_resize",
+            "elementId": "eebc3537-bd8e-48df-b616-cf901c2ccf4d"
+          },
+          "data": {
+            "parentId": "ed21f3b9-17df-4c5a-ca5a-c3e18148f59f",
+            "rect": {
+              "x": 34,
+              "y": 360,
+              "width": 454,
+              "height": 256
+            },
+            "order": 2,
+            "pageId": 1
+          },
+          "_index": 1,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 4
+  }
+}

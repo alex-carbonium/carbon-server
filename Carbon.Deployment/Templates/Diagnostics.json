@@ -1,0 +1,50 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "CodeName": {
+      "type": "string",
+      "defaultValue": "carbon"
+    },
+    "EnvironmentName": {
+      "type": "string"
+    }
+  },
+
+    "variables": {
+        "AppInsightsName": "[concat(parameters('CodeName'), '-insights-', parameters('EnvironmentName'))]",
+        "ExportStorageName": "[concat(parameters('CodeName'), 'insights', parameters('EnvironmentName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Insights/components",
+            "kind": "web",
+            "name": "[variables('AppInsightsName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": { },
+            "properties": {                
+                "ApplicationId": "[variables('AppInsightsName')]"
+            },
+            "resources": [ ],
+            "dependsOn": [ ]
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[variables('ExportStorageName')]",
+            "apiVersion": "2016-01-01",
+            "location": "[resourceGroup().location]",
+            "tags": { },
+            "properties": { },
+            "resources": [ ],
+            "dependsOn": [ ]
+        }        
+    ],
+  "outputs": {
+  }
+}

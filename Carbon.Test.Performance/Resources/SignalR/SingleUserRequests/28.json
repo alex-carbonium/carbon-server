@@ -1,0 +1,186 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "element_new",
+            "elementId": "056a87c6-b187-4c8e-a5f6-42200df29b72"
+          },
+          "data": {
+            "data": {
+              "type": "sketch.framework.GroupContainer",
+              "version": 1,
+              "id": "056a87c6-b187-4c8e-a5f6-42200df29b72",
+              "properties": {
+                "width": 603,
+                "height": 91,
+                "left": 0,
+                "top": 0,
+                "zOrder": 8,
+                "enableGroupLocking": true
+              },
+              "children": [
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "45e22a5a-9cf8-4797-c0ab-c6a13a1a91f3",
+                  "properties": {
+                    "name": "Asset [f2cd21cf-9829-42a6-bf56-ca94df1e6981]",
+                    "left": 20,
+                    "top": 0,
+                    "zOrder": 2,
+                    "templateId": "ui.web.templates.LabelTemplate"
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "23ab5537-bd8e-48df-b616-cf901c2ccf4d",
+                  "properties": {
+                    "width": 33,
+                    "height": 19,
+                    "left": 250,
+                    "top": 15,
+                    "zOrder": 2,
+                    "text": "Label",
+                    "font.__type__": "sketch.framework.Font",
+                    "scaleWithFontSize": true
+                  }
+                },
+                {
+                  "type": "sketch.ui.common.Label",
+                  "version": 3,
+                  "id": "bf8321d6-95e4-45e1-e553-4c8e17d5ab07",
+                  "properties": {
+                    "width": 33,
+                    "height": 19,
+                    "left": 129,
+                    "top": 16,
+                    "zOrder": 2,
+                    "text": "Label",
+                    "font.__type__": "sketch.framework.Font",
+                    "scaleWithFontSize": true
+                  }
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "3b265537-bd8e-48df-b616-cf901c2ccf4d",
+                  "properties": {
+                    "name": "Asset [68f02a5a-9cf8-4797-c0ab-c6a13a1a91f3]",
+                    "left": 0,
+                    "top": 35,
+                    "zOrder": 2,
+                    "templateId": "ui.web.templates.LabelTemplate"
+                  }
+                },
+                {
+                  "type": "sketch.framework.GroupContainer",
+                  "version": 1,
+                  "id": "07695537-bd8e-48df-b616-cf901c2ccf4d",
+                  "properties": {
+                    "width": 493,
+                    "height": 38,
+                    "name": "Alert",
+                    "left": 110,
+                    "top": 53,
+                    "zOrder": 2,
+                    "backgroundBrush.value": "web.alert.fill",
+                    "backgroundBrush.type": "resource",
+                    "backgroundBrush.lineWidth": 0,
+                    "backgroundBrush.__type__": "sketch.framework.Brush",
+                    "enableGroupLocking": true,
+                    "cornerRadius.bottomLeft": 4,
+                    "cornerRadius.bottomRight": 4,
+                    "cornerRadius.upperLeft": 4,
+                    "cornerRadius.upperRight": 4,
+                    "cornerRadius.__type__": "sketch.framework.QuadAndLock"
+                  },
+                  "children": [
+                    {
+                      "type": "sketch.ui.common.Label",
+                      "version": 3,
+                      "id": "7d8daf0d-4bbc-4e54-81b9-d69edd526d6d",
+                      "properties": {
+                        "width": 375,
+                        "height": 38,
+                        "left": 94,
+                        "top": 0,
+                        "zOrder": 1,
+                        "anchor.right": true,
+                        "anchor.bottom": true,
+                        "anchor.__type__": "sketch.framework.Anchor",
+                        "text": "Best check you self, you're not looking too good.",
+                        "textVerticalAlign": "middle",
+                        "font.size": "16",
+                        "font.__type__": "sketch.framework.Font"
+                      }
+                    },
+                    {
+                      "type": "sketch.ui.common.Label",
+                      "version": 3,
+                      "id": "f1a2aca0-98ee-415e-aee6-f5c3493a2f28",
+                      "properties": {
+                        "width": 53,
+                        "height": 38,
+                        "left": 10,
+                        "top": 0,
+                        "zOrder": 2,
+                        "anchor.bottom": true,
+                        "anchor.__type__": "sketch.framework.Anchor",
+                        "text": "Warning!",
+                        "textVerticalAlign": "middle",
+                        "font.size": "16",
+                        "font.__type__": "sketch.framework.Font"
+                      }
+                    },
+                    {
+                      "type": "sketch.ui.common.Icon",
+                      "version": 6,
+                      "id": "4fa4c184-c679-424f-d9a1-03d000a930dc",
+                      "properties": {
+                        "width": 24,
+                        "height": 10,
+                        "left": 469,
+                        "top": 14,
+                        "zOrder": 3,
+                        "anchor.left": false,
+                        "anchor.right": true,
+                        "anchor.__type__": "sketch.framework.Anchor",
+                        "source.name": "close",
+                        "source.__type__": "sketch.framework.ImageSourceFont"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "sketch.framework.TemplatedElement",
+                  "version": 1,
+                  "id": "c1075537-bd8e-48df-b616-cf901c2ccf4d",
+                  "properties": {
+                    "name": "Asset [696d223b-1c93-4ed9-a6ee-eaafd74fb169]",
+                    "left": 10,
+                    "top": 62,
+                    "zOrder": 2,
+                    "templateId": "ui.web.templates.LabelTemplate"
+                  }
+                }
+              ]
+            },
+            "parentId": "08ff3d4b-613b-4996-e2e9-acd61e129369",
+            "order": 0,
+            "pageId": 2
+          },
+          "_index": 0,
+          "partyId": "5e5cfca3-e067-49d4-87a7-dee142dfc0ff"
+        }
+      ],
+      true
+    ],
+    "I": 27
+  }
+}

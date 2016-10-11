@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{61E2BE4E-62ED-493C-B512-44BCE8DF16CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Carbon.Business</RootNamespace>
+    <AssemblyName>Carbon.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Azure.KeyVault.Core">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.7.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.7.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.7.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Actors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Actors.2.2.207\lib\net45\Microsoft.ServiceFabric.Actors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.2.207\lib\net45\Microsoft.ServiceFabric.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data.Interfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.2.207\lib\net45\Microsoft.ServiceFabric.Data.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.2.207\lib\net45\Microsoft.ServiceFabric.Internal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.2.207\lib\net45\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.2.2.207\lib\net45\Microsoft.ServiceFabric.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceFabricServiceModel, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Actors.2.2.207\lib\net45\ServiceFabricServiceModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Fabric, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.2.207\lib\net45\System.Fabric.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Fabric.Strings, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.2.207\lib\net45\System.Fabric.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.7.0\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="CloudDomain\CompanyFile.cs" />
+    <Compile Include="CloudDomain\FeatureSubscription.cs" />
+    <Compile Include="CloudDomain\Html\FileModel.cs" />
+    <Compile Include="CloudDomain\Html\ProjectFile.cs" />
+    <Compile Include="CloudDomain\File.cs" />
+    <Compile Include="CloudDomain\SharedPage.cs" />
+    <Compile Include="CloudDomain\ShareToken.cs" />
+    <Compile Include="CloudSpecifications\FindByExpression.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="DataProvider.cs" />
+    <Compile Include="Domain\CompanyActor.cs" />
+    <Compile Include="Domain\CompanyNameRegistry.cs" />
+    <Compile Include="Domain\DataTree\CompositeDataTreeVisitor.cs" />
+    <Compile Include="Domain\FontManager.cs" />
+    <Compile Include="Domain\ProjectModelChange.cs" />
+    <Compile Include="Domain\ExternalAcl.cs" />
+    <Compile Include="Domain\ExternalProject.cs" />
+    <Compile Include="Domain\PublishScope.cs" />
+    <Compile Include="Domain\RegistrationType.cs" />
+    <Compile Include="Domain\AclEntry.cs" />
+    <Compile Include="Domain\ResourceType.cs" />
+    <Compile Include="Domain\UniqueAclEntryComparer.cs" />
+    <Compile Include="Domain\UniquePropertyComparer.cs" />
+    <Compile Include="Exceptions\InsertConflictException.cs" />
+    <Compile Include="JsonObject.cs" />
+    <Compile Include="Domain\ProjectModelStatistics.cs" />
+    <Compile Include="IPipe.cs" />
+    <Compile Include="CloudDomain\ProjectSnapshot.cs" />
+    <Compile Include="CloudDomain\ProjectLog.cs" />
+    <Compile Include="CloudDomain\ProjectState.cs" />
+    <Compile Include="CloudDomain\PublicResource.cs" />
+    <Compile Include="CloudDomain\ResourceType.cs" />
+    <Compile Include="CloudDomain\Specifications\ProjectTypeSpecification.cs" />
+    <Compile Include="CloudSpecifications\FindByRowKeyRange.cs" />
+    <Compile Include="CloudSpecifications\FindByRowKey.cs" />
+    <Compile Include="CloudSpecifications\ITableEntitySpecification.cs" />
+    <Compile Include="Defs.cs" />
+    <Compile Include="Domain\Acl.cs" />
+    <Compile Include="Domain\Bill.cs" />
+    <Compile Include="Domain\Comment.cs" />
+    <Compile Include="Domain\Company.cs" />
+    <Compile Include="Domain\CompanyFileInfo.cs" />
+    <Compile Include="Domain\CompanyInvitation.cs" />
+    <Compile Include="Domain\CompanyRole.cs" />
+    <Compile Include="Domain\DataTree\DataNode.cs" />
+    <Compile Include="Domain\DataTree\NodeType.cs" />
+    <Compile Include="Domain\Discount.cs" />
+    <Compile Include="Domain\Email.cs" />
+    <Compile Include="Domain\IIdentityContext.cs" />
+    <Compile Include="Domain\Marketing\Campaign.cs" />
+    <Compile Include="Domain\Marketing\CampaignNotification.cs" />
+    <Compile Include="Domain\Marketing\EmailServer.cs" />
+    <Compile Include="Domain\Marketing\Sessionbatch.cs" />
+    <Compile Include="Domain\PaymentInfo.cs" />
+    <Compile Include="Domain\Permission.cs" />
+    <Compile Include="Domain\DeviceType.cs" />
+    <Compile Include="Domain\ProjectFolder.cs" />
+    <Compile Include="Domain\ProjectModelStatisticsVisitor.cs" />
+    <Compile Include="Domain\DataTree\DataTreeVisitor.cs" />
+    <Compile Include="Domain\PromoCode.cs" />
+    <Compile Include="Domain\Statistics\ProjectInfo.cs" />
+    <Compile Include="Domain\PasswordResetToken.cs" />
+    <Compile Include="Domain\Project.cs" />
+    <Compile Include="Domain\ProjectModel.cs" />
+    <Compile Include="Domain\ProjectMember.cs" />
+    <Compile Include="Domain\ProjectMembership.cs" />
+    <Compile Include="Domain\SurveyAnswer.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Exceptions\CompanyBlockedException.cs" />
+    <Compile Include="Exceptions\CompanyLockedException.cs" />
+    <Compile Include="Exceptions\DeletedUserException.cs" />
+    <Compile Include="Exceptions\DeprecatedApiException.cs" />
+    <Compile Include="Exceptions\IncrementalUpdateException.cs" />
+    <Compile Include="Exceptions\ProjectLimitExceededException.cs" />
+    <Compile Include="Exceptions\ProjectNotSharedException.cs" />
+    <Compile Include="Exceptions\NonExistingProjectException.cs" />
+    <Compile Include="Exceptions\ProjectStorageChangedException.cs" />
+    <Compile Include="Exceptions\InsufficientPermissionsException.cs" />
+    <Compile Include="Exceptions\UpdateConflictException.cs" />
+    <Compile Include="FormattingExtensions.cs" />
+    <Compile Include="Jobs\CampaignMailJob.cs" />
+    <Compile Include="Jobs\EmailJob.cs" />
+    <Compile Include="Logging\ContextLogExtensions.cs" />
+    <Compile Include="ModelMigrations\IModelMigration.cs" />
+    <Compile Include="ModelMigrations\ModelMigrationAttribute.cs" />
+    <Compile Include="ModelMigrations\ModelMigrator.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\ActivityService.cs" />
+    <Compile Include="Services\CloudProjectModelRepository.cs" />
+    <Compile Include="Services\HtmlService.cs" />
+    <Compile Include="Services\IActorFabric.cs" />
+    <Compile Include="Services\ICampaignRepository.cs" />
+    <Compile Include="Services\ICompanyActor.cs" />
+    <Compile Include="Services\IFileWatcherService.cs" />
+    <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\IProjectRendersService.cs" />
+    <Compile Include="Services\ProjectModelService.cs" />
+    <Compile Include="Services\ICommentsService.cs" />
+    <Compile Include="Services\CampaignService.cs" />
+    <Compile Include="CloudSpecifications\TableEntitySpecification.cs" />
+    <Compile Include="CloudSpecifications\FindByPartition.cs" />
+    <Compile Include="Services\SharingService.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Sync\DataNodeAddPrimitive.cs" />
+    <Compile Include="Sync\DataNodeBasePrimitive.cs" />
+    <Compile Include="Sync\DataNodeChangePositionPrimitive.cs" />
+    <Compile Include="Sync\DataNodeChangePrimitive.cs" />
+    <Compile Include="Domain\DataTree\DataNodePath.cs" />
+    <Compile Include="Sync\DataNodePatchPropsPrimitive.cs" />
+    <Compile Include="Sync\DataNodeRemovePrimitive.cs" />
+    <Compile Include="Sync\DataNodeSetPropsPrimitive.cs" />
+    <Compile Include="Sync\ErrorPrimitive.cs" />
+    <Compile Include="Sync\Handlers\ErrorThrowingHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentAddPrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentBasePrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentChangeStatusPrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentMoveNotePrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentRemovePrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\CommentUpdatePrimitiveHandler.cs" />
+    <Compile Include="Sync\Handlers\ProjectNameChangeHandler.cs" />
+    <Compile Include="Sync\PrimitiveConverter.cs" />
+    <Compile Include="Sync\PrimitiveFactory.cs" />
+    <Compile Include="Sync\Primitive.cs" />
+    <Compile Include="Sync\PrimitiveType.cs" />
+    <Compile Include="Sync\PrimitiveVisitor.cs" />
+    <Compile Include="Sync\Handlers\NoOpPrimitiveHandler.cs" />
+    <Compile Include="Sync\PrimitiveContext.cs" />
+    <Compile Include="Sync\Handlers\PrimitiveHandler.cs" />
+    <Compile Include="Sync\PrimitiveHandlerAttribute.cs" />
+    <Compile Include="Sync\ProjectNameChangePrimitive.cs" />
+    <Compile Include="Sync\RawPrimitive.cs" />
+    <Compile Include="Services\IJavaScriptEngine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Carbon.Framework\Carbon.Framework.csproj">
+      <Project>{9DD18DC9-C053-4B3D-95D0-54DFED3694D8}</Project>
+      <Name>Carbon.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sync\PrimitiveHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Microsoft.ServiceFabric.Actors.2.2.207\build\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.2.2.207\build\Microsoft.ServiceFabric.Actors.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.2.2.207\build\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.2.2.207\build\Microsoft.ServiceFabric.Actors.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

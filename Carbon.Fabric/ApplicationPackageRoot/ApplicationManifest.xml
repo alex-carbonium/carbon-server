@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="Carbon.Fabric" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="FabricHost_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="CompanyActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="CompanyActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="CompanyActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="IdSrv_PublicKeyFile" DefaultValue="idsrv-debug.cer" />
+    <Parameter Name="IdSrv_PrivateKeyFile" DefaultValue="idsrv-debug.pfx" />
+    <Parameter Name="IdSrv_PrivateKeyDebugPassword" DefaultValue="PandaIsSafe" />
+    <Parameter Name="ConnectionStrings_sql" DefaultValue="MIICUQYJKoZIhvcNAQcDoIICQjCCAj4CAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAK6nVwLe9ktCb79iH79ycOfeHGB90l3O5d2S4RyLYgxMwQ/DXnh8IHVv+btiJp4A2Um0zDhV08jdSIYXWqQPk+S7zYJOu2o27TXEHXi7J6r8G7zVgHudj3dyAo0y9knFD6M0H3tV5RXR5ceoSIc0DOfouWeOpp9OFT3zgXvyMek8qUpZuaJyjS4Y+Li57ZllsPJFX0ZMj5Z9Pz+kzkPSnLXU3fcpOob6t797JK0r/JciyfwT5Rk9eCyJ+EQlH4zdg9AIHXiqSIcsZGkxCAchbxf6Pkj0I3ecZ5j2JSVaeYvK9LN+DrDm1wCRQxv2p/kZLZMatXhkNZIoDBGlcLZQJejCB3QYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQiAoAlwQLo0ZnvED5rbLl64CBsEER6Xqx2GN7vKJ3c8qrkEoRSiuAkjOBqcu5tG++ImIp5zlY4QQ0TOQihj0JdawHpjH9lxTyECqg0b3C8LqvRLKZAtVWigMr39e9mnXNQN1XuG0wFPRHQAtVBIEaConMBTFWgGEc9CB63suZw8tgIJMsZmdp8B5qARlCJUp77FaUMofknKATivdHRoQnDX9CpwG5xRmLvfoNzYESISd6MA9sAaQx2mhEQFjQLbQ0Cc84" />
+    <Parameter Name="ConnectionStrings_nosql" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
+    <Parameter Name="Certificates_IdSrv" DefaultValue="" />
+    <Parameter Name="Certificates_Encrypt" DefaultValue="9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F" />
+    <Parameter Name="Certificates_Ssl" DefaultValue="3C6C98A08678F2BEDFD558B24F4122AF12D1097B" />
+    <Parameter Name="Endpoints_Listen" DefaultValue="ServiceEndpoint" />
+    <Parameter Name="Endpoints_Storage" DefaultValue="//localhost:9100" />
+    <Parameter Name="Endpoints_Cdn" DefaultValue="" />
+    <Parameter Name="Endpoints_File" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
+    <Parameter Name="Azure_TelemetryKey" DefaultValue="1cba6580-00d7-4dc3-be0d-c335a7866842" />
+    <Parameter Name="Roles_Storage" DefaultValue="local-storage" />
+    <Parameter Name="Roles_Services" DefaultValue="local-services" />
+  </Parameters>
+  <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
+       should match the Name and Version attributes of the ServiceManifest element defined in the 
+       ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Carbon.CompanyActorPkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Carbon.StorageService.FabricHostPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="General">
+            <Parameter Name="TestSecret" Value="MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggFRMIIBTQIBADA1MCExHzAdBgNVBAMMFmh0dHBzOi8vY2FyYm9uLWVuY3J5cHQCECV3vb/8q72VSmvqeDaNMScwDQYJKoZIhvcNAQEHMAAEggEAQldQj6ffMGmAcPv+bVhB7BJCvE9cBipqIOaqznNmDBWpllOhWayYR725g6/lGFD5xR1vZi7LHeODi9A71JkKDqU15W8TjTPrPpiodU05Faxu8mFHAV0dwM7jNVad/QqKBkk69MedmhzfF3EhjKECu0QO5uI6B1IHxc5fwcZ1l6EIE9gYk3EZ/BjeiJfqWyCoRmjUB0oXVqtpPIK+GETcrf3KojJPhVK/bpZa1zgR+Z9US3wN5vowfKcqU/Ei1TaiOFFCdtcIthk6T8Int7Sw997zghq9Dkc9Hnup6RJxys7Rr5Cf+R8zx87STwBkVAOpT23ZhAXG+xokhNuTCtTSEDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJgNJgEHPtx2fXY/SbMjz4gCAH+y8IOTlHVgGSQjzw9kE8UGpNa2uYtRk/JyhREdkDdg==" IsEncrypted="true" />
+            <Parameter Name="RoleName" Value="[Roles_Storage]" />
+          </Section>
+          <Section Name="IdSrv">
+            <Parameter Name="PublicKeyFile" Value="[IdSrv_PublicKeyFile]" />
+          </Section>
+          <Section Name="ConnectionStrings">
+            <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
+          </Section>
+          <Section Name="Endpoints">
+            <Parameter Name="Listen" Value="[Endpoints_Listen]" />
+          </Section>
+          <Section Name="Azure">
+            <Parameter Name="TelemetryKey" Value="[Azure_TelemetryKey]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
+    </Policies>
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Carbon.Services.FabricHostPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="General">
+            <Parameter Name="TestSecret" Value="MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggFRMIIBTQIBADA1MCExHzAdBgNVBAMMFmh0dHBzOi8vY2FyYm9uLWVuY3J5cHQCECV3vb/8q72VSmvqeDaNMScwDQYJKoZIhvcNAQEHMAAEggEAQldQj6ffMGmAcPv+bVhB7BJCvE9cBipqIOaqznNmDBWpllOhWayYR725g6/lGFD5xR1vZi7LHeODi9A71JkKDqU15W8TjTPrPpiodU05Faxu8mFHAV0dwM7jNVad/QqKBkk69MedmhzfF3EhjKECu0QO5uI6B1IHxc5fwcZ1l6EIE9gYk3EZ/BjeiJfqWyCoRmjUB0oXVqtpPIK+GETcrf3KojJPhVK/bpZa1zgR+Z9US3wN5vowfKcqU/Ei1TaiOFFCdtcIthk6T8Int7Sw997zghq9Dkc9Hnup6RJxys7Rr5Cf+R8zx87STwBkVAOpT23ZhAXG+xokhNuTCtTSEDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJgNJgEHPtx2fXY/SbMjz4gCAH+y8IOTlHVgGSQjzw9kE8UGpNa2uYtRk/JyhREdkDdg==" IsEncrypted="true" />
+            <Parameter Name="RoleName" Value="[Roles_Services]" />
+          </Section>
+          <Section Name="IdSrv">
+            <Parameter Name="PublicKeyFile" Value="[IdSrv_PublicKeyFile]" />
+            <Parameter Name="PrivateKeyFile" Value="[IdSrv_PrivateKeyFile]" />
+            <Parameter Name="PrivateKeyDebugPassword" Value="[IdSrv_PrivateKeyDebugPassword]" />
+            <Parameter Name="PrivateKeyReleaseThumbprint" Value="[Certificates_IdSrv]" />
+            <Parameter Name="ProtectionCertificateThumbprint" Value="[Certificates_Encrypt]" />
+          </Section>
+          <Section Name="ConnectionStrings">
+            <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
+            <Parameter Name="sql" Value="[ConnectionStrings_sql]" IsEncrypted="true" />
+          </Section>
+          <Section Name="Endpoints">
+            <Parameter Name="Storage" Value="[Endpoints_Storage]" />
+            <Parameter Name="Listen" Value="[Endpoints_Listen]" />
+            <Parameter Name="Cdn" Value="[Endpoints_Cdn]" />
+            <Parameter Name="File" Value="[Endpoints_File]" />
+          </Section>
+          <Section Name="Azure">
+            <Parameter Name="TelemetryKey" Value="[Azure_TelemetryKey]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
+    </Policies>
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!-- The section below creates instances of service types, when an instance of this 
+         application type is created. You can also create one or more instances of service type using the 
+         ServiceFabric PowerShell module.
+         
+         The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="StorageService">
+      <StatelessService ServiceTypeName="StorageService" InstanceCount="[FabricHost_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="Services">
+      <StatelessService ServiceTypeName="Services" InstanceCount="[FabricHost_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="CompanyActorService" GeneratedIdRef="b0090689-6294-4c22-97e6-f8ab70622db5|Persisted">
+      <StatefulService ServiceTypeName="FabricCompanyActorServiceType" TargetReplicaSetSize="[CompanyActorService_TargetReplicaSetSize]" MinReplicaSetSize="[CompanyActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[CompanyActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+  </DefaultServices>
+  <Principals>
+    <Users>
+      <User Name="ServiceAccount" AccountType="NetworkService" />
+    </Users>
+  </Principals>
+  <Policies>
+    <SecurityAccessPolicies>
+      <SecurityAccessPolicy ResourceRef="IdSrvRelease" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
+      <SecurityAccessPolicy ResourceRef="Encryption" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
+      <SecurityAccessPolicy ResourceRef="SslCertificate" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
+    </SecurityAccessPolicies>
+  </Policies>
+  <Certificates>
+    <SecretsCertificate X509FindValue="[Certificates_IdSrv]" Name="IdSrvRelease" />
+    <SecretsCertificate X509FindValue="[Certificates_Encrypt]" Name="Encryption" />
+    <EndpointCertificate X509FindValue="[Certificates_Ssl]" Name="SslCertificate" />
+  </Certificates>
+</ApplicationManifest>

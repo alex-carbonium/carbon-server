@@ -1,0 +1,72 @@
+﻿{
+  "data": {
+    "H": "datasynchub",
+    "M": "changeProject",
+    "A": [
+      1599,
+      [
+        {
+          "id": {
+            "command": "app_prop_change",
+            "name": "lastSavedPageId"
+          },
+          "data": {
+            "value": 2
+          }
+        },
+        {
+          "id": {
+            "command": "page_add",
+            "pageId": 2
+          },
+          "data": {
+            "page": {
+              "version": 1,
+              "id": 2,
+              "type": "sketch.ui.pages.PortableDevicePage",
+              "name": "Page 2",
+              "background": {
+                "value": "#ffffff",
+                "type": "color",
+                "lineWidth": null,
+                "__type__": "sketch.framework.Brush"
+              },
+              "children": [
+                {
+                  "type": "sketch.ui.common.Device",
+                  "version": 1,
+                  "id": "08ff3d4b-613b-4996-e2e9-acd61e129369",
+                  "properties": {
+                    "width": 3704,
+                    "height": 2288,
+                    "zOrder": 1,
+                    "background.value": "#ffffff",
+                    "background.type": "color",
+                    "background.__type__": "sketch.framework.Brush"
+                  },
+                  "children": [],
+                  "panelProperties": {
+                    "type": "sketch.ui.common.PortableDevicePanel",
+                    "version": 1,
+                    "id": "ea88b607-2c06-4132-94f8-791638d3e50e",
+                    "properties": {
+                      "width": 1024,
+                      "height": 768,
+                      "left": 1340,
+                      "top": 760,
+                      "zOrder": 1
+                    }
+                  }
+                }
+              ],
+              "isDeleted": false,
+              "groupId": 1
+            }
+          }
+        }
+      ],
+      true
+    ],
+    "I": 26
+  }
+}

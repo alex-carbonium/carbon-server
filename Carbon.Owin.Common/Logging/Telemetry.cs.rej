@@ -1,0 +1,18 @@
+--- Telemetry.cs
++++ Telemetry.cs
+@@ -1,15 +0,0 @@
+-﻿using Microsoft.ApplicationInsights.Extensibility;
+-using Owin;
+-
+-namespace Sketch.Owin.Common.Logging
+-{
+-    public static class Telemetry
+-    {
+-        public static IAppBuilder UseTelemetry(this IAppBuilder app, AppSettings appSettings)
+-        {
+-            TelemetryConfiguration.Active.InstrumentationKey = appSettings.Azure.AppInsightsKey;
+-            TelemetryConfiguration.Active.ContextInitializers.Add(new TelemetryInitializer(appSettings));
+-            return app;
+-        }        
+-    }
+-}

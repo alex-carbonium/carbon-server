@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebTest Name="ChangeProjectWithSingleR" Id="dadfc671-8790-4342-8aec-768f74ad5021" Owner="" Priority="2147483647" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="WebTest1.15437a1a-7e62-46a4-8aa8-5c649408b057.rec.webtestresult" ResultsLocale="">
+  <Items>
+    <IncludedWebTest Name="Register" Path="..\register.webtest" Id="3a48cb7c-50c7-41ca-a9a2-7df7bec68ee0" IsCodedWebTest="False" InheritWebTestSettings="False" />
+    <Request Method="GET" Guid="9dcf49fe-72a8-4ed1-b522-4d768543bfa2" Version="1.1" Url="{{TargetServer}}/api/myAccount/plan" ThinkTime="3" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/account/pricing" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="_" Value="1404111120919" RecordedValue="1404111120919" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Guid="d0e04290-2d8c-4d44-8192-4f0ec90bf106" Version="1.1" Url="{{TargetServer}}/api/myAccount/getChangeSubscriptionInfo" ThinkTime="3" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/account/change/pro" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="to" Value="pro" RecordedValue="pro" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+        <QueryStringParameter Name="_" Value="1404111124367" RecordedValue="1404111124367" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="POST" Guid="31976e0b-48fd-4874-aeb9-57f1c79adc3c" Version="1.1" Url="{{TargetServer}}/api/myAccount/updateSubscription" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/account/change/pro" />
+      </Headers>
+      <StringHttpBody ContentType="application/json; charset=utf-8" InsertByteOrderMark="False">ewAiAHQAbwAiADoAMQB9AA==</StringHttpBody>
+    </Request>
+    <Request Method="GET" Guid="416f8e3f-51c3-414a-8609-3142ce54c0d3" Version="1.1" Url="{{TargetServer}}/api/myAccount/companyInfo" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/my-account" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="_" Value="1404111128013" RecordedValue="1404111128013" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="POST" Guid="526f8245-86c5-4509-9ec6-7d13d76134ad" Version="1.1" Url="{{TargetServer}}/api/project/SetOfflineAccess" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/" />
+      </Headers>
+      <StringHttpBody ContentType="application/json; charset=utf-8" InsertByteOrderMark="False">ewAiAG8AZgBmAGwAaQBuAGUARQBuAGEAYgBsAGUAZAAiADoAdAByAHUAZQB9AA==</StringHttpBody>
+    </Request>
+    <Request Method="GET" Guid="e890b0d2-2ccd-42e7-8ba3-aa79cc0bf210" Version="1.1" Url="{{TargetServer}}/api/project/getProjectsData" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="_" Value="1404111322127" RecordedValue="1404111322127" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Guid="b1e9a549-8a92-4fc8-bdf3-65e76ee52f28" Version="1.1" Url="{{TargetServer}}/html/offline/manifest" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Referer" Value="{{TargetServer}}/" />
+      </Headers>
+    </Request>
+    <Request Method="GET" Guid="89a28c62-d2b0-4deb-9f0d-112d757f9d15" Version="1.1" Url="{{TargetServer}}/api/project/getProjectsData" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+      </Headers>
+      <ExtractionRules>
+        <ExtractionRule Classname="Sketch.Test.Performance.Plugins.JsonExtractionRule, Sketch.Test.Performance.Plugins" VariableName="FolderId" DisplayName="JSON property extractor" Description="">
+          <RuleParameters>
+            <RuleParameter Name="Expression" Value="folders[0].id" />
+          </RuleParameters>
+        </ExtractionRule>
+      </ExtractionRules>
+      <QueryStringParameters>
+        <QueryStringParameter Name="_" Value="1380903684577" RecordedValue="1380903684577" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Guid="255385b6-830b-4a30-8b40-8afe416e914e" Version="1.1" Url="{{TargetServer}}/api/designer/getParams" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Content-Type" Value="application/json; charset=utf-8" />
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/project/create/166" />
+      </Headers>
+      <QueryStringParameters>
+        <QueryStringParameter Name="id" Value="" RecordedValue="" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+        <QueryStringParameter Name="folderId" Value="{{FolderId}}" RecordedValue="166" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+        <QueryStringParameter Name="_" Value="1403852683486" RecordedValue="1403852683486" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+      </QueryStringParameters>
+    </Request>
+    <Request Method="GET" Guid="c854de93-7065-4e25-bd6e-b859de5ce3fb" Version="1.1" Url="{{TargetServer}}/Designer/Workplace" ThinkTime="1" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Referer" Value="{{TargetServer}}/project/create/166" />
+      </Headers>
+    </Request>
+    <Request Method="POST" Guid="bc0ce41c-df63-45e7-a681-d4bbe56e99aa" Version="1.1" Url="{{TargetServer}}/api/Designer/SaveProjectData" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <Headers>
+        <Header Name="Accept" Value="application/json, text/javascript, */*; q=0.01" />
+        <Header Name="X-Requested-With" Value="XMLHttpRequest" />
+        <Header Name="Referer" Value="{{TargetServer}}/Designer/NewWorkplace/WebProject/napkin/166/1" />
+      </Headers>
+      <ExtractionRules>
+        <ExtractionRule Classname="Sketch.Test.Performance.Plugins.JsonExtractionRule, Sketch.Test.Performance.Plugins" VariableName="ProjectId" DisplayName="JSON property extractor" Description="">
+          <RuleParameters>
+            <RuleParameter Name="Expression" Value="id" />
+          </RuleParameters>
+        </ExtractionRule>
+      </ExtractionRules>
+      <StringHttpBody ContentType="application/json; charset=utf-8" InsertByteOrderMark="False">ewAiAGkAZAAiADoAMAAsACIAbgBhAG0AZQAiADoAIgBVAG4AdABpAHQAbABlAGQAIABwAHIAbwBqAGUAYwB0ACIALAAiAHQAaABlAG0AZQAiADoAIgBuAGEAcABrAGkAbgAiACwAIgBwAHIAbwBqAGUAYwB0AFQAeQBwAGUAIgA6ACIAVwBlAGIAUAByAG8AagBlAGMAdAAiACwAIgBmAG8AbABkAGUAcgBJAGQAIgA6AHsAewBGAG8AbABkAGUAcgBJAGQAfQB9ACwAIgBkAGEAdABhAEYAbwByAG0AYQB0ACIAOgAiAGoAcwBvAG4AIgAsACIAZABhAHQAYQAiADoAIgB7AFwAIgBpAGQAXAAiADoAMAAsAFwAIgBhAHAAcABOAGEAbQBlAFwAIgA6AFwAIgBVAG4AdABpAHQAbABlAGQAIABwAHIAbwBqAGUAYwB0AFwAIgAsAFwAIgBzAGEAdgBlAFQAaQBtAGUAXAAiADoAXAAiADIAMAAxADQALQAwADYALQAyADcAVAAwADcAOgAwADUAOgAwADIALgA0ADYANgBaAFwAIgAsAFwAIgBsAGEAcwB0AFMAYQB2AGUAZABQAGEAZwBlAEkAZABcACIAOgAxACwAXAAiAGwAYQBzAHQATgBvAHQAaQBmAGkAYwBhAHQAaQBvAG4ASQBkAFwAIgA6ADAALABcACIAdABoAGUAbQBlAFwAIgA6AFwAIgBuAGEAcABrAGkAbgBcACIALABcACIAaQBzAEMAcgBhAHoAeQBcACIAOgB0AHIAdQBlACwAXAAiAGQAZQBmAGEAdQBsAHQARgBvAG4AdABGAGEAbQBpAGwAeQBcACIAOgBcACIAVABvAG0AcwBIAGEAbgBkAHcAcgBpAHQAdABlAG4AXAAiACwAXAAiAHAAYQBnAGUARwByAG8AdQBwAHMAXAAiADoAWwB7AFwAIgB0AHkAcABlAFwAIgA6AFwAIgBzAGsAZQB0AGMAaAAuAGYAcgBhAG0AZQB3AG8AcgBrAC4AUABhAGcAZQBHAHIAbwB1AHAAXAAiACwAXAAiAHAAcgBvAHAAZQByAHQAaQBlAHMAXAAiADoAewBcACIAaQBkAFwAIgA6ADEALABcACIAbgBhAG0AZQBcACIAOgBcACIARABlAGYAYQB1AGwAdAAgAGcAcgBvAHUAcABcACIALABcACIAcABhAGcAZQBJAGQAcwBcACIAOgBbADEAXQB9AH0AXQAsAFwAIgBzAGEAdABlAGwAbABpAHQAZQBQAHIAbwBqAGUAYwB0AHMAXAAiADoAWwBdACwAXAAiAHAAYQBnAGUAcwBcACIAOgBbAHsAXAAiAHYAZQByAHMAaQBvAG4AXAAiADoAMQAsAFwAIgBpAGQAXAAiADoAMQAsAFwAIgB0AHkAcABlAFwAIgA6AFwAIgBzAGsAZQB0AGMAaAAuAHUAaQAuAHAAYQBnAGUAcwAuAFAAbwByAHQAYQBiAGwAZQBEAGUAdgBpAGMAZQBQAGEAZwBlAFwAIgAsAFwAIgBuAGEAbQBlAFwAIgA6AFwAIgBQAGEAZwBlACAAMQBcACIALABcACIAYgBhAGMAawBnAHIAbwB1AG4AZABcACIAOgB7AFwAIgB2AGEAbAB1AGUAXAAiADoAXAAiACMAZgBmAGYAZgBmAGYAXAAiACwAXAAiAHQAeQBwAGUAXAAiADoAXAAiAGMAbwBsAG8AcgBcACIALABcACIAbABpAG4AZQBXAGkAZAB0AGgAXAAiADoAbgB1AGwAbAAsAFwAIgBfAF8AdAB5AHAAZQBfAF8AXAAiADoAXAAiAHMAawBlAHQAYwBoAC4AZgByAGEAbQBlAHcAbwByAGsALgBCAHIAdQBzAGgAXAAiAH0ALABcACIAYwBoAGkAbABkAHIAZQBuAFwAIgA6AFsAewBcACIAdAB5AHAAZQBcACIAOgBcACIAcwBrAGUAdABjAGgALgB1AGkALgBjAG8AbQBtAG8AbgAuAEQAZQB2AGkAYwBlAFwAIgAsAFwAIgB2AGUAcgBzAGkAbwBuAFwAIgA6ADEALABcACIAaQBkAFwAIgA6AFwAIgBlAGQAMgAxAGYAMwBiADkALQAxADcAZABmAC0ANABjADUAYQAtAGMAYQA1AGEALQBjADMAZQAxADgAMQA0ADgAZgA1ADkAZgBcACIALABcACIAcAByAG8AcABlAHIAdABpAGUAcwBcACIAOgB7AFwAIgB3AGkAZAB0AGgAXAAiADoAMwA3ADAANAAsAFwAIgBoAGUAaQBnAGgAdABcACIAOgAyADIAOAA4ACwAXAAiAHoATwByAGQAZQByAFwAIgA6ADEALABcACIAYgBhAGMAawBnAHIAbwB1AG4AZAAuAHYAYQBsAHUAZQBcACIAOgBcACIAIwBmAGYAZgBmAGYAZgBcACIALABcACIAYgBhAGMAawBnAHIAbwB1AG4AZAAuAHQAeQBwAGUAXAAiADoAXAAiAGMAbwBsAG8AcgBcACIALABcACIAYgBhAGMAawBnAHIAbwB1AG4AZAAuAF8AXwB0AHkAcABlAF8AXwBcACIAOgBcACIAcwBrAGUAdABjAGgALgBmAHIAYQBtAGUAdwBvAHIAawAuAEIAcgB1AHMAaABcACIAfQAsAFwAIgBjAGgAaQBsAGQAcgBlAG4AXAAiADoAWwB7AFwAIgB0AHkAcABlAFwAIgA6AFwAIgBzAGsAZQB0AGMAaAAuAGYAcgBhAG0AZQB3AG8AcgBrAC4AVABlAG0AcABsAGEAdABlAGQARQBsAGUAbQBlAG4AdABcACIALABcACIAdgBlAHIAcwBpAG8AbgBcACIAOgAxACwAXAAiAGkAZABcACIAOgBcACIAMABkADkAYgAzADIAOQAwAC0AOABkADAAMQAtADQAMAA5AGYALQA4ADcAZAAxAC0AYQA3ADAAZAA5ADAAMAA2ADQAYgBmAGYAXAAiACwAXAAiAHAAcgBvAHAAZQByAHQAaQBlAHMAXAAiADoAewBcACIAdwBpAGQAdABoAFwAIgA6ADEAMAAyADQALABcACIAbgBhAG0AZQBcACIAOgBcACIAQQBzAHMAZQB0ACAAWwBjADAAZAA5ADkANgBlAGIALQBmADgAMQA4AC0ANAAzADMAZgAtADkAZAA0ADgALQAzADEAMQBkAGIAMwA1ADgANwA0AGIAOQBdAFwAIgAsAFwAIgBsAGUAZgB0AFwAIgA6ADAALABcACIAdABvAHAAXAAiADoAMAAsAFwAIgB6AE8AcgBkAGUAcgBcACIAOgAxACwAXAAiAGQAcgBvAHAAUABvAHMAaQB0AGkAbwBuAGkAbgBnAFwAIgA6AFwAIgBoAG8AcgBpAHoAbwBuAHQAYQBsAFwAIgAsAFwAIgBlAG4AYQBiAGwAZQBHAHIAbwB1AHAATABvAGMAawBpAG4AZwBcACIAOgB0AHIAdQBlACwAXAAiAHQAZQBtAHAAbABhAHQAZQBJAGQAXAAiADoAXAAiAHUAaQAuAHcAZQBiAC4AdABlAG0AcABsAGEAdABlAHMALgBOAGEAdgBCAGEAcgBUAGUAbQBwAGwAYQB0AGUAXAAiAH0ALABcACIAYwBoAGkAbABkAHIAZQBuAFwAIgA6AFsAewBcACIAdAB5AHAAZQBcACIAOgBcACIAcwBrAGUAdABjAGgALgBmAHIAYQBtAGUAdwBvAHIAawAuAFQAZQBtAHAAbABhAHQAZQBkAEUAbABlAG0AZQBuAHQAXAAiACwAXAAiAHYAZQByAHMAaQBvAG4AXAAiADoAMQAsAFwAIgBpAGQAXAAiADoAXAAiADkAOQAzADMAOQAzAGIAYQAtADEAZQBiAGIALQA0ADYAOQAxAC0AZQA5ADQAOAAtAGQAYQAwAGUANgA0ADUAMAAyADcAOAA4AFwAIgAsAFwAIgBwAHIAbwBwAGUAcgB0AGkAZQBzAFwAIgA6AHsAXAAiAGgAZQBpAGcAaAB0AFwAIgA6ADQAMgAsAFwAIgBuAGEAbQBlAFwAIgA6AFwAIgBBAHMAcwBlAHQAIABbADMAOQA0AF0AXAAiACwAXAAiAGwAZQBmAHQAXAAiADoAMgAwACwAXAAiAHQAbwBwAFwAIgA6ADAALABcACIAegBPAHIAZABlAHIAXAAiADoAMQAsAFwAIgB2AGUAcgB0AGkAYwBhAGwAQQBsAGkAZwBuAG0AZQBuAHQAXAAiADoAXAAiAHMAdAByAGUAdABjAGgAXAAiACwAXAAiAHQAZQBtAHAAbABhAHQAZQBJAGQAXAAiADoAXAAiAHUAaQAuAHcAZQBiAC4AdABlAG0AcABsAGEAdABlAHMALgBCAHIAYQBuAGQAVABlAG0AcABsAGEAdABlAFwAIgB9ACwAXAAiAHQAYQBnAHMAXAAiADoAXAAiAFAAcgBpAG0AaQB0AGkAdgBlACwATgBhAHYASQB0AGUAbQBcACIAfQAsAHsAXAAiAHQAeQBwAGUAXAAiADoAXAAiAHMAawBlAHQAYwBoAC4AZgByAGEAbQBlAHcAbwByAGsALgBUAGUAbQBwAGwAYQB0AGUAZABFAGwAZQBtAGUAbgB0AFwAIgAsAFwAIgB2AGUAcgBzAGkAbwBuAFwAIgA6ADEALABcACIAaQBkAFwAIgA6AFwAIgAzADEAZQA4ADkANQA1ADcALQAwADgAZQA5AC0ANAAzAGIAOAAtAGYAYQA1ADUALQBjAGUANgA3AGIAOAA1AGIAZQAyADUAOQBcACIALABcACIAcAByAG8AcABlAHIAdABpAGUAcwBcACIAOgB7AFwAIgBoAGUAaQBnAGgAdABcACIAOgA0ADIALABcACIAbgBhAG0AZQBcACIAOgBcACIAQQBzAHMAZQB0ACAAWwAzADkANgBdAFwAIgAsAFwAIgBsAGUAZgB0AFwAIgA6ADgAMAAsAFwAIgB0AG8AcABcACIAOgAwACwAXAAiAHoATwByAGQAZQByAFwAIgA6ADIALABcACIAdgBlAHIAdABpAGMAYQBsAEEAbABpAGcAbgBtAGUAbgB0AFwAIgA6AFwAIgBzAHQAcgBlAHQAYwBoAFwAIgAsAFwAIgBiAGEAYwBrAGcAcgBvAHUAbgBkAEIAcgB1AHMAaAAuAHYAYQBsAHUAZQBcACIAOgBcACIAdwBlAGIALgBuAGEAdgBiAGEAcgBJAHQAZQBtAC4AcwBlAGwAZQBjAHQAZQBkAC4AZgBpAGwAbABcACIALABcACIAYgBhAGMAawBnAHIAbwB1AG4AZABCAHIAdQBzAGgALgB0AHkAcABlAFwAIgA6AFwAIgByAGUAcwBvAHUAcgBjAGUAXAAiACwAXAAiAGIAYQBjAGsAZwByAG8AdQBuAGQAQgByAHUAcwBoAC4AbABpAG4AZQBXAGkAZAB0AGgAXAAiADoAMAAsAFwAIgBiAGEAYwBrAGcAcgBvAHUAbgBkAEIAcgB1AHMAaAAuAF8AXwB0AHkAcABlAF8AXwBcACIAOgBcACIAcwBrAGUAdABjAGgALgBmAHIAYQBtAGUAdwBvAHIAawAuAEIAcgB1AHMAaABcACIALABcACIAdABlAG0AcABsAGEAdABlAEkAZABcACIAOgBcACIAdQBpAC4AdwBlAGIALgB0AGUAbQBwAGwAYQB0AGUAcwAuAE4AYQB2AEkAdABlAG0AVABlAG0AcABsAGEAdABlAFwAIgAsAFwAIgB0AGUAeAB0AFwAIgA6AFwAIgBIAG8AbQBlAFwAIgAsAFwAIgBmAG8AbgB0AC4AYwBvAGwAbwByAC4AdgBhAGwAdQBlAFwAIgA6AFwAIgB3AGUAYgAuAGwAaQBuAGsALgBhAGMAdABpAHYAZQAuAHQAZQB4AHQAXAAiACwAXAAiAGYAbwBuAHQALgBjAG8AbABvAHIALgB0AHkAcABlAFwAIgA6AFwAIgByAGUAcwBvAHUAcgBjAGUAXAAiACwAXAAiAGYAbwBuAHQALgBjAG8AbABvAHIALgBfAF8AdAB5AHAAZQBfAF8AXAAiADoAXAAiAHMAawBlAHQAYwBoAC4AZgByAGEAbQBlAHcAbwByAGsALgBCAHIAdQBzAGgAXAAiACwAXAAiAGYAbwBuAHQALgBfAF8AdAB5AHAAZQBfAF8AXAAiADoAXAAiAHMAawBlAHQAYwBoAC4AZgByAGEAbQBlAHcAbwByAGsALgBGAG8AbgB0AFwAIgAsAFwAIgBzAGUAbABlAGMAdABlAGQAXAAiADoAdAByAHUAZQB9ACwAXAAiAHQAYQBnAHMAXAAiADoAXAAiAFAAcgBpAG0AaQB0AGkAdgBlACwATgBhAHYASQB0AGUAbQBcACIAfQAsAHsAXAAiAHQAeQBwAGUAXAAiADoAXAAiAHMAawBlAHQAYwBoAC4AZgByAGEAbQBlAHcAbwByAGsALgBUAGUAbQBwAGwAYQB0AGUAZABFAGwAZQBtAGUAbgB0AFwAIgAsAFwAIgB2AGUAcgBzAGkAbwBuAFwAIgA6ADEALABcACIAaQBkAFwAIgA6AFwAIgBhAGYANABhADMAZgBlAGUALQBiADIAYgBjAC0ANAA1ADgANQAtAGMAYgAxADUALQBjADYAMgBiADAAMgBiADkAYQAzAGYAZQBcACIALABcACIAcAByAG8AcABlAHIAdABpAGUAcwBcACIAOgB7AFwAIgBoAGUAaQBnAGgAdABcACIAOgA0ADIALABcACIAbgBhAG0AZQBcACIAOgBcACIAQQBzAHMAZQB0ACAAWwAzADkAOABdAFwAIgAsAFwAIgBsAGUAZgB0AFwAIgA6ADEANAAwACwAXAAiAHQAbwBwAFwAIgA6ADAALABcACIAegBPAHIAZABlAHIAXAAiADoAMwAsAFwAIgB2AGUAcgB0AGkAYwBhAGwAQQBsAGkAZwBuAG0AZQBuAHQAXAAiADoAXAAiAHMAdAByAGUAdABjAGgAXAAiACwAXAAiAHQAZQBtAHAAbABhAHQAZQBJAGQAXAAiADoAXAAiAHUAaQAuAHcAZQBiAC4AdABlAG0AcABsAGEAdABlAHMALgBOAGEAdgBJAHQAZQBtAFQAZQBtAHAAbABhAHQAZQBcACIALABcACIAdABlAHgAdABcACIAOgBcACIAUAByAG8AZgBpAGwAZQBcACIAfQAsAFwAIgB0AGEAZwBzAFwAIgA6AFwAIgBQAHIAaQBtAGkAdABpAHYAZQAsAE4AYQB2AEkAdABlAG0AXAAiAH0ALAB7AFwAIgB0AHkAcABlAFwAIgA6AFwAIgBzAGsAZQB0AGMAaAAuAGYAcgBhAG0AZQB3AG8AcgBrAC4AVABlAG0AcABsAGEAdABlAGQARQBsAGUAbQBlAG4AdABcACIALABcACIAdgBlAHIAcwBpAG8AbgBcACIAOgAxACwAXAAiAGkAZABcACIAOgBcACIAZQA0ADkAYgAxADcAYQBmAC0ANgBiAGQAYwAtADQANgBmADgALQBkADkAYQBlAC0AMQA4ADEAMwBiADkAYQAzAGUAZgA3AGMAXAAiACwAXAAiAHAAcgBvAHAAZQByAHQAaQBlAHMAXAAiADoAewBcACIAaABlAGkAZwBoAHQAXAAiADoANAAyACwAXAAiAG4AYQBtAGUAXAAiADoAXAAiAEEAcwBzAGUAdAAgAFsANAAwADAAXQBcACIALABcACIAbABlAGYAdABcACIAOgAyADAAMAAsAFwAIgB0AG8AcABcACIAOgAwACwAXAAiAHoATwByAGQAZQByAFwAIgA6ADQALABcACIAdgBlAHIAdABpAGMAYQBsAEEAbABpAGcAbgBtAGUAbgB0AFwAIgA6AFwAIgBzAHQAcgBlAHQAYwBoAFwAIgAsAFwAIgB0AGUAbQBwAGwAYQB0AGUASQBkAFwAIgA6AFwAIgB1AGkALgB3AGUAYgAuAHQAZQBtAHAAbABhAHQAZQBzAC4ATgBhAHYASQB0AGUAbQBUAGUAbQBwAGwAYQB0AGUAXAAiACwAXAAiAHQAZQB4AHQAXAAiADoAXAAiAE0AZQBzAHMAYQBnAGUAcwBcACIAfQAsAFwAIgB0AGEAZwBzAFwAIgA6AFwAIgBQAHIAaQBtAGkAdABpAHYAZQAsAE4AYQB2AEkAdABlAG0AXAAiAH0AXQB9AF0ALABcACIAcABhAG4AZQBsAFAAcgBvAHAAZQByAHQAaQBlAHMAXAAiADoAewBcACIAdAB5AHAAZQBcACIAOgBcACIAcwBrAGUAdABjAGgALgB1AGkALgBjAG8AbQBtAG8AbgAuAFAAbwByAHQAYQBiAGwAZQBEAGUAdgBpAGMAZQBQAGEAbgBlAGwAXAAiACwAXAAiAHYAZQByAHMAaQBvAG4AXAAiADoAMQAsAFwAIgBpAGQAXAAiADoAXAAiAGYAMwBiAGYAYwBhAGQAOAAtADAAZQAwADYALQA0ADAANwAyAC0AYQA4ADQAOQAtAGMAMwA5AGIAZgBhAGEAMwBkADQANAA4AFwAIgAsAFwAIgBwAHIAbwBwAGUAcgB0AGkAZQBzAFwAIgA6AHsAXAAiAHcAaQBkAHQAaABcACIAOgAxADAAMgA0ACwAXAAiAGgAZQBpAGcAaAB0AFwAIgA6ADcANgA4ACwAXAAiAGwAZQBmAHQAXAAiADoAMQAzADQAMAAsAFwAIgB0AG8AcABcACIAOgA3ADYAMAAsAFwAIgB6AE8AcgBkAGUAcgBcACIAOgAxAH0AfQB9AF0ALABcACIAaQBzAEQAZQBsAGUAdABlAGQAXAAiADoAZgBhAGwAcwBlACwAXAAiAGcAcgBvAHUAcABJAGQAXAAiADoAMQB9AF0ALABcACIAcgBlAHMAbwB1AHIAYwBlAHMAXAAiADoAewBcACIAdABlAG0AcABsAGEAdABlAHMAXAAiADoAewB9ACwAXAAiAGMAbwBsAG8AcgBQAGEAbABsAGUAdABcACIAOgBbAF0AfQAsAFwAIgBzAGgAYQByAGUAUwB0AGEAcgB0AHUAcABQAGEAZwBlAFwAIgA6AG4AdQBsAGwAfQAiAH0A</StringHttpBody>
+    </Request>
+    <IncludedWebTest Name="Sketch.Test.Performance.WebTests.ApplicationOnly.SignalR.SingleUserRequests" Path="..\..\bin\debug\sketch.test.performance.dll" Id="adda131b-6d8b-40bd-9d94-a2fbde176eec" IsCodedWebTest="True" InheritWebTestSettings="False" />
+  </Items>
+  <ContextParameters>
+    <ContextParameter Name="TargetServer" Value="http://localhost:8010" />
+  </ContextParameters>
+  <ValidationRules>
+    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidateResponseUrl, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response URL" Description="Validates that the response URL after redirects are followed is the same as the recorded response URL.  QueryString parameters are ignored." Level="Low" ExectuionOrder="BeforeDependents" />
+    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleResponseTimeGoal, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response Time Goal" Description="Validates that the response time for the request is less than or equal to the response time goal as specified on the request.  Response time goals of zero will be ignored." Level="Low" ExectuionOrder="AfterDependents">
+      <RuleParameters>
+        <RuleParameter Name="Tolerance" Value="0" />
+      </RuleParameters>
+    </ValidationRule>
+  </ValidationRules>
+</WebTest>
