@@ -9,7 +9,6 @@ using Carbon.Data.Azure.Table;
 using Carbon.Framework.Util;
 using Carbon.Services;
 using Carbon.Test.Common;
-using Carbon.Test.Common.Integration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -29,8 +28,7 @@ namespace Carbon.Test.Integration.CloudPersistence
             base.Setup();
 
             //testing against an online account since limitations are different in the emulator
-            var account = CloudStorageAccount.Parse(Defs.StorageConnectionString);
-            //var account = CloudStorageAccount.DevelopmentStorageAccount;
+            var account = CreateTestStorageAccount(canUseLocal: false);
             _client = account.CreateCloudTableClient();
             var listOfTables = _client.ListTables();
             foreach (var table in listOfTables)

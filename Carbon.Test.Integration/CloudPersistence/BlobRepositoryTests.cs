@@ -8,7 +8,6 @@ using Carbon.Framework.Util;
 using Carbon.Owin.Common.Data;
 using Carbon.Services;
 using Carbon.Test.Common;
-using Carbon.Test.Common.Integration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 
@@ -41,7 +40,7 @@ namespace Carbon.Test.Integration.CloudPersistence
             _container = TestDependencyContainer.Configure();
             _repository = _container.Resolve<BlobRepository<TestEntity>>();
 
-            var client = CloudStorageAccount.DevelopmentStorageAccount.CreateCloudBlobClient();            
+            var client = CreateTestStorageAccount().CreateCloudBlobClient();            
             foreach (var container in client.ListContainers())
             {
                 container.Delete();

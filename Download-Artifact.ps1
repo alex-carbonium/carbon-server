@@ -26,6 +26,11 @@ param(
     }
     $buildId = ($builds.value).id;    
 
+    if (-not (Test-Path $targetFolder))
+    {
+        mkdir $targetFolder
+    }
+
     $dropArchiveDestination = Join-path $targetFolder "drop.zip"
 
 

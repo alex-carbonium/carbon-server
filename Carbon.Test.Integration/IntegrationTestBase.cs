@@ -4,13 +4,13 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Carbon.Framework.UnitOfWork;
+using Carbon.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Storage;
 
-namespace Carbon.Test.Common.Integration
+namespace Carbon.Test.Integration
 {
-    [TestClass]
-    [DeploymentItem("ConnectionStrings.config")]
-    [DeploymentItem("SharedAppSettings.config")]
+    [TestClass]    
     //[DeploymentItem(@"Files\ProjectImages.txt")]
     public class IntegrationTestBase
     {        
@@ -42,7 +42,18 @@ namespace Carbon.Test.Common.Integration
         public virtual void Cleanup()
         {
             Monitor.Exit(_lock);
-        }        
+        }
+
+        protected CloudStorageAccount CreateTestStorageAccount(bool canUseLocal = true)
+        {
+#if DEBUG
+            if (canUseLocal)
+            {
+                return CloudStorageAccount.DevelopmentStorageAccount;
+            }            
+#endif
+            return CloudStorageAccount.Parse(Defs.StorageConnectionString);
+        }
 
         public DataSetup DataSetup
         {
