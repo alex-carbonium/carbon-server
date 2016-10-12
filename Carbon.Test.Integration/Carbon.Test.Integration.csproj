@@ -112,6 +112,7 @@
     <Compile Include="CloudPersistence\BlobRepositoryTests.cs" />
     <Compile Include="CloudPersistence\TableRepositoryTests.cs" />
     <Compile Include="CloudPersistence\FatEntitityRepositoryTests.cs" />
+    <Compile Include="IntegrationTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

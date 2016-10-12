@@ -29,6 +29,11 @@ namespace Carbon.Services.Controllers
         private readonly IRepository<CompanyFile> _fileRepository;
         private readonly ICloudUnitOfWorkFactory _cloudUnitOfWorkFactory;
 
+        public class FileContentModel
+        {
+            public string Content { get; set; }
+        }
+
         public FileController(IActorFabric actorFabric, IRepository<CompanyFile> fileRepository, ICloudUnitOfWorkFactory cloudUnitOfWorkFactory)
         {
             _actorFabric = actorFabric;
@@ -122,13 +127,17 @@ namespace Carbon.Services.Controllers
         }
 
         [HttpPost, Route("uploadPublicImage")]
-        public async Task<IHttpActionResult> UploadPublicImage([FromBody]string dataUrl)
+        public async Task<IHttpActionResult> UploadPublicImage(FileContentModel data)
         {
             string imageUri;
-            var split = dataUrl.Split(',');
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+            var split = data.Content.Split(',');
             if (split.Length != 2)
             {
-                throw new InvalidEnumArgumentException("dataUrl");
+                throw new InvalidEnumArgumentException(nameof(data));
             }
             string previewPicture = split[1];
             using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
@@ -141,6 +150,26 @@ namespace Carbon.Services.Controllers
             }
 
             return Ok(new {url=imageUri});
+        }
+
+        [HttpPost, Route("uploadPublicFile")]
+        public async Task<IHttpActionResult> UploadPublicFile(FileContentModel data)
+        {
+            string fileUri;
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
+            {
+                File file = new File("file", Guid.NewGuid() + ".data");
+                file.SetContent(data.Content);
+                await uow.InsertAsync(file);
+                fileUri = file.Uri.AbsoluteUri;
+                uow.Commit();
+            }
+
+            return Ok(new { url = fileUri });
         }
 
         [HttpPost, Route("delete")]

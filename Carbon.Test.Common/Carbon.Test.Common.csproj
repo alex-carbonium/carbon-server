@@ -64,7 +64,6 @@
     <Compile Include="DataSetup.cs" />
     <Compile Include="Defs.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <Compile Include="Integration\IntegrationTestBase.cs" />
     <Compile Include="ProjectModelRepositoryStub.cs" />
     <Compile Include="ProjectSnaphotRepositoryStub.cs" />
     <Compile Include="TestAppSettings.cs" />
@@ -76,6 +75,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Integration\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
