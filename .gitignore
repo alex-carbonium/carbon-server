@@ -1,11 +1,12 @@
-.hg/*
-.hgignore
 .vs/*
 **/bin/*
 **/obj/*
 **/pkg/*
 *.orig
 *.rej
-Carbon.Services.FabricHost/PackageRoot/Data/app/
+*.user
+*.log
+Carbon.Services.FabricHost/PackageRoot/Data/app/*
 TestResults/*
 packages/*
+target/*

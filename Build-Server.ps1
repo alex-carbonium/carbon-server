@@ -1,29 +1,52 @@
 ﻿param(    
     [string] $Configuration = "Release",
+    [switch] $SkipBuild = $false,    
     [switch] $SkipInit = $false,    
     [switch] $SkipTest = $false
 )
 
-Remove-Item .\TestResults\* -Recurse -ErrorAction SilentlyContinue
-
-if (-not $SkipInit)
+try
 {
-    .\Restore-Packages.ps1
-}
+    Push-Location $PSScriptRoot
 
-$params = @("..\carbon-server\CarbonServer.sln", "/p:Configuration=$Configuration;Platform=""x64""", "/v:m")
-& "${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe" $params
-if ($LASTEXITCODE -ne 0)
-{
-    throw "Build failed";
-}
+    Remove-Item .\TestResults\* -Recurse -ErrorAction SilentlyContinue
 
-if (-not $SkipTest)
-{
-    $params = @("..\carbon-server\Carbon.Test.Unit\bin\$Configuration\Carbon.Test.Unit.dll",`
-            "..\carbon-server\Carbon.Test.Integration\bin\$Configuration\Carbon.Test.Integration.dll",`
-            "..\carbon-server\Carbon.Test.Performance\bin\$Configuration\Carbon.Test.Performance.dll",`
-            "/platform:x64", "/parallel", "/logger:trx")        
+    if (-not $SkipInit)
+    {
+        .\Restore-Packages.ps1
+    }
+
+    $msbuild = "${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe"
+
+    if (-not $SkipBuild)
+    {
+        $params = @(".\CarbonServer.sln", "/p:Configuration=$Configuration;Platform=x64", "/v:m")
+        & $msbuild $params
+        if ($LASTEXITCODE -ne 0)
+        {
+            throw "Build failed";
+        }
+    }
+
+    if (-not $SkipTest)
+    {
+        $params = @(".\Carbon.Test.Unit\bin\$Configuration\Carbon.Test.Unit.dll",`
+                ".\Carbon.Test.Integration\bin\$Configuration\Carbon.Test.Integration.dll",`
+                ".\Carbon.Test.Performance\bin\$Configuration\Carbon.Test.Performance.dll",`
+                "/platform:x64", "/parallel", "/logger:trx")        
                              
-& "$env:VS140COMNTOOLS..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" $params
+        & "$env:VS140COMNTOOLS..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" $params
+    }
+
+    Write-Host "Packaging project..."        
+    $params = @(".\Carbon.Fabric\Carbon.Fabric.sfproj", "/target:Package", "/p:Platform=x64;Configuration=$Configuration;PackageLocation=..\target", "/v:m")
+    & $msbuild $params
+    if ($LASTEXITCODE -ne 0)
+    {
+        throw "Packaging failed";
+    }
+}
+finally
+{
+    Pop-Location
 }

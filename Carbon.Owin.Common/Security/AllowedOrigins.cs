@@ -50,6 +50,7 @@ namespace Carbon.Owin.Common.Security
 #if DEBUG
             foreach (var ip in GetIPAddress())
             {
+                allowedDomains.Add(ip + ":8010");
                 allowedDomains.Add(ip + ":8080");
                 allowedDomains.Add(ip + ":9000");
                 allowedDomains.Add(ip + ":9100");
