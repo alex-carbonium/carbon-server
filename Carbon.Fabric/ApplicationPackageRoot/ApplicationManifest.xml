@@ -17,7 +17,7 @@
     <Parameter Name="Endpoints_Storage" DefaultValue="//localhost:9100" />
     <Parameter Name="Endpoints_Cdn" DefaultValue="" />
     <Parameter Name="Endpoints_File" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
-    <Parameter Name="Azure_TelemetryKey" DefaultValue="1cba6580-00d7-4dc3-be0d-c335a7866842" />
+    <Parameter Name="Azure_TelemetryKey" DefaultValue="6ad84643-9530-4367-a698-6dde4567f0cd" />
     <Parameter Name="Roles_Storage" DefaultValue="local-storage" />
     <Parameter Name="Roles_Services" DefaultValue="local-services" />
   </Parameters>

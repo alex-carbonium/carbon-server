@@ -1,4 +1,5 @@
 ﻿param(    
+    [string] $BuildNumber, 
     [string] $Configuration = "Release",
     [switch] $SkipBuild = $false,    
     [switch] $SkipInit = $false,    
@@ -49,6 +50,8 @@ try
     Copy-Item .\Carbon.Fabric\ApplicationParameters .\target -Recurse -Force
     Copy-Item .\Carbon.Fabric\PublishProfiles .\target -Recurse -Force
     Copy-Item .\Carbon.Deployment\Templates .\target -Recurse -Force
+
+    $BuildNumber > .\target\version
 }
 finally
 {
