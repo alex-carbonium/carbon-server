@@ -1,23 +1,19 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Threading;
 using Carbon.Business.CloudDomain;
 using Carbon.Business.CloudSpecifications;
 using Carbon.Business.Exceptions;
 using Carbon.Data.Azure.Table;
-using Carbon.Framework.Util;
-using Carbon.Services;
-using Carbon.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Carbon.Test.Integration.CloudPersistence
 {
     [TestClass]
     public class TableRepositoryTests : IntegrationTestBase
-    {
-        private IDependencyContainer _container;
+    {        
         private TableRepository<ProjectLog> _repository;
         private CloudTableClient _client;
 
@@ -27,16 +23,24 @@ namespace Carbon.Test.Integration.CloudPersistence
             base.Setup();
 
             var account = CreateTestStorageAccount();
-            _client = account.CreateCloudTableClient();
-            var listOfTables = _client.ListTables();
-            foreach (var table in listOfTables)
+            _client = account.CreateCloudTableClient();            
+
+            _repository = new TableRepository<ProjectLog>(_client);
+            _repository.TestNameSuffix = Guid.NewGuid().ToString("N").ToLower();
+        }
+
+        [TestCleanup]
+        public override void Cleanup()
+        {
+            base.Cleanup();
+
+            foreach (var container in _client.ListTables())
             {
-                table.Delete();
+                if (container.Name.EndsWith(_repository.TestNameSuffix))
+                {
+                    container.Delete();
+                }
             }
-
-            _container = TestDependencyContainer.Configure();
-
-            _repository = _container.Resolve<TableRepository<ProjectLog>>();            
         }
 
         [TestMethod]

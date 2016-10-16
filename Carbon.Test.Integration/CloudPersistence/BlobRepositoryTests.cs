@@ -1,23 +1,20 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using Carbon.Data.Azure.Blob;
 using Carbon.Framework.Cloud.Blob;
-using Carbon.Framework.Util;
-using Carbon.Owin.Common.Data;
-using Carbon.Services;
-using Carbon.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Carbon.Test.Integration.CloudPersistence
 {
     [TestClass]
     public class BlobRepositoryTests : IntegrationTestBase
-    {
-        private IDependencyContainer _container;
+    {        
         private BlobRepository<TestEntity> _repository;
+        private CloudBlobClient _client;        
 
         [Container(Name = "testContainer", Type = ContainerType.Public)]
         public class TestEntity : BlobDomainObject
@@ -36,14 +33,25 @@ namespace Carbon.Test.Integration.CloudPersistence
         public override void Setup()
         {
             base.Setup();
-                        
-            _container = TestDependencyContainer.Configure();
-            _repository = _container.Resolve<BlobRepository<TestEntity>>();
 
-            var client = CreateTestStorageAccount().CreateCloudBlobClient();            
-            foreach (var container in client.ListContainers())
+            var account = CreateTestStorageAccount();
+            _client = account.CreateCloudBlobClient();            
+
+            _repository = new BlobRepository<TestEntity>(_client);
+            _repository.TestNameSuffix = Guid.NewGuid().ToString("N").ToLower();
+        }
+
+        [TestCleanup]
+        public override void Cleanup()
+        {
+            base.Cleanup();
+
+            foreach (var container in _client.ListContainers())
             {
-                container.Delete();
+                if (container.Name.EndsWith(_repository.TestNameSuffix))
+                {
+                    container.Delete();
+                }                
             }
         }
 
@@ -105,7 +113,7 @@ namespace Carbon.Test.Integration.CloudPersistence
             //act            
             _repository.DeleteBy(new PrefixSpecification<TestEntity>("Prefix1"));
 
-            //assert            
+            //assert      
             var all = _repository.FindAll().ToList();
 
             Assert.AreEqual(1, all.Count, "One entity should be left");

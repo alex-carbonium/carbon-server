@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Carbon.Framework.Cloud.Blob;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.Specifications;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
@@ -18,12 +20,14 @@ namespace Carbon.Data.Azure.Blob
     {
         private readonly CloudBlobClient _client;
         private static readonly object _syncRoot = new object();
-        private static bool _corsChecked;        
+        private bool _corsChecked;        
 
         public BlobRepository(CloudBlobClient client)
         {            
             _client = client;
         }
+
+        public string TestNameSuffix { get; set; }
 
         private void EnsureCorsEnabled(CloudBlobClient client)
         {
@@ -56,7 +60,7 @@ namespace Carbon.Data.Azure.Blob
         }
 
         private CloudBlobContainer GetContainer()
-        {
+        {            
             EnsureCorsEnabled(_client);
 
             var attributes = typeof(TEntity).GetCustomAttributes(typeof(ContainerAttribute), inherit: true);
@@ -72,17 +76,32 @@ namespace Carbon.Data.Azure.Blob
             {
                 name = typeof(TEntity).Name;
             }
-
+            
             name = Regex.Replace(name, "[^a-zA-Z0-9]", string.Empty).ToLower();
 
-            var container = _client.GetContainerReference(name);
-            if (container.CreateIfNotExists())
+            if (TestNameSuffix != null)
             {
-                if (type == ContainerType.Public)
+                name += TestNameSuffix;
+            }
+
+            var container = _client.GetContainerReference(name);
+            try
+            {
+                if (container.CreateIfNotExists())
                 {
-                    var containerPermissions = new BlobContainerPermissions();
-                    containerPermissions.PublicAccess = BlobContainerPublicAccessType.Blob;
-                    container.SetPermissions(containerPermissions);
+                    if (type == ContainerType.Public)
+                    {
+                        var containerPermissions = new BlobContainerPermissions();
+                        containerPermissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+                        container.SetPermissions(containerPermissions);
+                    }
+                }
+            }
+            catch (StorageException ex)
+            {
+                if (ex.RequestInformation.HttpStatusCode != (int)HttpStatusCode.Conflict)
+                {
+                    throw;
                 }
             }
             return container;

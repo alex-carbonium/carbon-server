@@ -841,9 +841,9 @@
                 "reliabilityLevel": "Bronze",
                 "vmImage": "Windows",
                 "azureActiveDirectory": {
-                  "tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47",
-                  "clusterApplication":"64c6e306-0b55-495d-b20a-087645948525",
-                  "clientApplication":"cd8197f2-7efc-4348-82c9-e94f674c96bc"
+                  "tenantId":"c7be2644-4bb3-4917-9154-abab42950acb",
+                  "clusterApplication":"b8eb6375-5525-40fc-9fc5-fa0c097892fd",
+                  "clientApplication":"c01b1872-b230-4412-b098-217264dd7b47"
                 }
             },
             "tags": {

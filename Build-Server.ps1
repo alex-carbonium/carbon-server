@@ -45,6 +45,10 @@ try
     {
         throw "Packaging failed";
     }
+
+    Copy-Item .\Carbon.Fabric\ApplicationParameters .\target -Recurse -Force
+    Copy-Item .\Carbon.Fabric\PublishProfiles .\target -Recurse -Force
+    Copy-Item .\Carbon.Deployment\Templates .\target -Recurse -Force
 }
 finally
 {

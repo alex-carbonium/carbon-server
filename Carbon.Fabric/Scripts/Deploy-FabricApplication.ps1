@@ -206,55 +206,7 @@ $RegKey = "HKLM:\SOFTWARE\Microsoft\Service Fabric SDK"
 $ModuleFolderPath = (Get-ItemProperty -Path $RegKey -Name FabricSDKPSModulePath).FabricSDKPSModulePath
 Import-Module "$ModuleFolderPath\ServiceFabricSDK.psm1"
 
-### <extension>
-Remove-Module CarbonExtensions -ErrorAction Ignore
-Import-Module (join-path $LocalFolder ".\CarbonExtensions.psm1") -WarningAction Ignore
-if ($ReplaceDevPort)
-{
-    Replace-CarbonDevPort $ApplicationPackagePath
-}
-### </extension>
-
 $IsUpgrade = ($publishProfile.UpgradeDeployment -and $publishProfile.UpgradeDeployment.Enabled -and $OverrideUpgradeBehavior -ne 'VetoUpgrade') -or $OverrideUpgradeBehavior -eq 'ForceUpgrade'
-
-### <extension>
-$IsUpgrade = $Upgrade
-
-$global:clusterConnection = $clusterConnection  
-
-if ($IsUpgrade)
-{
-    $appManifest = Join-Path $ApplicationPackagePath ApplicationManifest.xml    
-    $manifestXml = [xml](Get-Content $appManifest)        
-    $appType = $manifestXml.ApplicationManifest.ApplicationTypeName
-    $app = Get-ServiceFabricApplication -ApplicationName "fabric:/$appType"
-    if ($ForceNew -and $Configuration -eq 'Debug')
-    {
-        if ($app)
-        {
-            Write-Host "Application will be deleted!"
-            Remove-ServiceFabricApplication -ApplicationName "fabric:/$appType"            
-        }
-        $IsUpgrade = $false
-    }
-    else 
-    {
-        if ($app -eq $null)
-        {
-            $IsUpgrade = $false        
-        }
-    }    
-    
-    if ($IsUpgrade)
-    {
-        Write-Host "Will try to upgrade application"
-    }        
-}
-if ($versionFile)
-{        
-    Update-CarbonVersion $ApplicationPackagePath $VersionFile $Configuration $Bump
-}
-### </extension>
 
 if ($IsUpgrade)
 {

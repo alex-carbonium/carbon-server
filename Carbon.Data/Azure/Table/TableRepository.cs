@@ -2,11 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.Specifications;
 using Microsoft.WindowsAzure.Storage.Table;
-using Carbon.Business.Exceptions;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Carbon.Data.Azure.Table
 {
@@ -20,6 +21,8 @@ namespace Carbon.Data.Azure.Table
         {
             _client = client;
         }
+
+        public string TestNameSuffix { get; set; }
 
         public override IQueryable<T> FindAll(bool cache = false)
         {            
@@ -161,11 +164,27 @@ namespace Carbon.Data.Azure.Table
         }
 
         private CloudTable GetOrCreateTable()
-        {
+        {            
             return _tables.GetOrAdd(typeof(T), t =>
             {
-                var table = _client.GetTableReference(t.Name);
-                table.CreateIfNotExists();
+                var name = t.Name;
+                if (TestNameSuffix != null)
+                {
+                    name += TestNameSuffix;
+                }
+                var table = _client.GetTableReference(name);
+                try
+                {
+                    table.CreateIfNotExists();
+                }
+                catch (StorageException ex)
+                {
+                    if (ex.RequestInformation.HttpStatusCode != (int)HttpStatusCode.Conflict)
+                    {
+                        throw;
+                    }
+                       
+                }
                 return table;
             });
         }
