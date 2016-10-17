@@ -51,7 +51,10 @@ try
     Copy-Item .\Carbon.Fabric\PublishProfiles .\target -Recurse -Force
     Copy-Item .\Carbon.Deployment\Templates .\target -Recurse -Force
 
-    $BuildNumber > .\target\version
+    if ($BuildNumber)
+    {
+        $BuildNumber > .\target\version
+    }
 }
 finally
 {
