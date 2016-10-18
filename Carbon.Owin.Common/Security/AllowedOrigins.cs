@@ -36,12 +36,12 @@ namespace Carbon.Owin.Common.Security
         {
             var allowedDomains = new List<string>
             {
-                "carbon-qa.westeurope.cloudapp.azure.com",
+                "carbon-qa2.westeurope.cloudapp.azure.com",
                 "carbon-prod.westeurope.cloudapp.azure.com",
                 "dev.carbonium.io",
-                "qa.carbonium.io",
                 "prod.carbonium.io",
                 "carbonium.io",
+                "carbonium.local",
                 "carbonium.local:8080",
                 "carbonium.local:9000",
                 "carbonium.local:9100"
