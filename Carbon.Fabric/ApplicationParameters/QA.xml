@@ -3,9 +3,9 @@
   <Parameters>
     <Parameter Name="FabricHost_InstanceCount" Value="-1" />
     <Parameter Name="IdSrv_PublicKeyFile" Value="idsrv-release.cer" />
-    <Parameter Name="Endpoints_Storage" Value="//carbon-qa.westeurope.cloudapp.azure.com:9100" />
+    <Parameter Name="Endpoints_Storage" Value="//carbon-qa2.westeurope.cloudapp.azure.com:9100" />
     <Parameter Name="Endpoints_Cdn" Value="//carbonstatic.azureedge.net" />
-    <Parameter Name="Endpoints_File" Value="//carbonstorageqa.blob.windows.core.net" />
+    <Parameter Name="Endpoints_File" Value="//carbonstorageqa1.blob.windows.core.net" />
     <Parameter Name="Roles_Storage" Value="qa-storage" />
     <Parameter Name="Roles_Services" Value="qa-services" />
   </Parameters>
