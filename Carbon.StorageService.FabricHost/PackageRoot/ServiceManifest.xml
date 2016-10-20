@@ -24,7 +24,7 @@
        independently-updateable and versioned set of custom configuration settings for your service. -->
   <ConfigPackage Name="Config" Version="1.0.0" />
 
-  <DataPackage Name="Data" Version="1.0.0"/>
+  <DataPackage Name="Data" Version="1.0.1"/>
 
   <Resources>
     <Endpoints>
