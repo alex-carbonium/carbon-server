@@ -153,7 +153,7 @@
     </None>
     <None Include="app.config" />
     <None Include="PackageRoot\Config\Settings.xml" />
-    <Content Include="PackageRoot\Data\app\**\*" />
+    <Content Include="PackageRoot\Data\Client\**\*" />
     <Content Include="PackageRoot\Data\idsrv-debug.cer" />
     <Content Include="PackageRoot\Data\idsrv-debug.pfx" />
     <Content Include="PackageRoot\Data\idsrv-release.cer" />
@@ -180,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
+    <Folder Include="PackageRoot\Client\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

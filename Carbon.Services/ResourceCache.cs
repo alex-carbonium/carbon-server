@@ -28,12 +28,12 @@ namespace Carbon.Services
 
         private string ReadFile(string name)
         {
-            var path = _dataProvider.ResolvePath(@"app\" + name);
+            var path = _dataProvider.ResolvePath(Defs.Packages.Client, name);
             var content = File.ReadAllText(path);
 
             return content
                 .Replace("telemetryKey = ''", "telemetryKey = '" + _appSettings.Azure.TelemetryKey + "'")
-                .Replace("appBuild = '1.0.0'", "appBuild = '" + _appSettings.GetDataPackageVersion() + "'")
+                .Replace("appBuild = '1.0.0'", "appBuild = '" + _appSettings.GetDataPackageVersion(Defs.Packages.Client) + "'")
                 .Replace("storage: ''", "storage: '" + _appSettings.GetString("Endpoints", "Storage") + "'")
                 .Replace("cdn: ''", "cdn: '" + _appSettings.GetString("Endpoints", "Cdn") + "'");
         }

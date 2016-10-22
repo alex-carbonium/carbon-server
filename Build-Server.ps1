@@ -11,6 +11,7 @@ try
     Push-Location $PSScriptRoot
 
     Remove-Item .\TestResults\* -Recurse -ErrorAction SilentlyContinue
+    Remove-Item .\target\* -Recurse -ErrorAction SilentlyContinue
 
     if (-not $SkipInit)
     {

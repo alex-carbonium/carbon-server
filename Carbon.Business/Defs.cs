@@ -45,6 +45,12 @@ namespace Carbon.Business
             public static readonly Dictionary<string, string> QueryFilter = new Dictionary<string, string> { { AccessTokenKey, "xxx" } };
         }
 
+        public static class Packages
+        {
+            public const string Client = "Client";
+            public const string Data = "Data";
+        }
+
         public enum AutoSaveIntervals
         {
             Manual = 0,

@@ -45,7 +45,7 @@ namespace Carbon.Services.IdentityServer
             else
             {
                 SigningCertificate = new X509Certificate2(
-                    appSettings.ResolvePath(appSettings.IdServer.PrivateKeyFile),
+                    appSettings.ResolvePath(Defs.Packages.Data, appSettings.IdServer.PrivateKeyFile),
                     appSettings.IdServer.PrivateKeyDebugPassword,
                     X509KeyStorageFlags.MachineKeySet);
             }
