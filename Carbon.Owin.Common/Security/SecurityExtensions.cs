@@ -30,7 +30,7 @@ namespace Carbon.Owin.Common.Security
             {                
                 IssuerName = "https://ppanda",
                 Authority = "https://ppanda/resources",
-                SigningCertificate = new X509Certificate2(appSettings.ResolvePath(appSettings.IdClient.PublicKeyFile)),
+                SigningCertificate = new X509Certificate2(appSettings.ResolvePath(Defs.Packages.Data, appSettings.IdClient.PublicKeyFile)),
                 TokenProvider = new MixedOAuthBearerAuthenticationProvider()
             });
             app.Use<UserIdentificationMiddleware>();

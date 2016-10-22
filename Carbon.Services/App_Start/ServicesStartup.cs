@@ -74,15 +74,15 @@ namespace Carbon.Services
             });            
 
             var dataProvider = container.Resolve<DataProvider>();
-            SetupFileSystem(app, dataProvider, "/target", @"app\target");            
-            SetupFileSystem(app, dataProvider, "/fonts", @"app\fonts");
+            SetupFileSystem(app, dataProvider, "/target", "target");
+            SetupFileSystem(app, dataProvider, "/fonts", @"target\fonts");
 
             app.UseWebApi(HtmlWebApiConfig.Register());
         }
 
         private static void SetupFileSystem(IAppBuilder app, DataProvider dataProvider, string pathString, string physicalPath)
         {
-            var resolvedPath = dataProvider.ResolvePath(physicalPath);
+            var resolvedPath = dataProvider.ResolvePath(Defs.Packages.Client, physicalPath);
             if (Directory.Exists(resolvedPath))
             {
                 app.UseStaticFiles(new StaticFileOptions

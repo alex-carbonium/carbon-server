@@ -13,19 +13,19 @@ namespace Carbon.Fabric.Common
             _context = context;
         }
 
-        public override string ResolvePath(string file)
+        public override string ResolvePath(string packageName, string file)
         {            
-            return Path.Combine(GetPackage().Path, file);
+            return Path.Combine(GetPackage(packageName).Path, file);
         }
 
-        public override string GetPackageVersion()
+        public override string GetPackageVersion(string name)
         {
-            return GetPackage().Description.Version;
+            return GetPackage(name).Description.Version;
         }
 
-        private DataPackage GetPackage()
+        private DataPackage GetPackage(string name)
         {
-            return _context.CodePackageActivationContext.GetDataPackageObject("Data");
+            return _context.CodePackageActivationContext.GetDataPackageObject(name);
         }        
     }
 }

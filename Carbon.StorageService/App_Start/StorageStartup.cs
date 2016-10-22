@@ -109,7 +109,7 @@ namespace Carbon.StorageService
         private static void InitializeFontManager(IDependencyContainer container, AppSettings appSettings)
         {
             var fontManager = container.Resolve<FontManager>();
-            var txt = System.IO.File.ReadAllText(appSettings.ResolvePath("systemFonts.json"));
+            var txt = System.IO.File.ReadAllText(appSettings.ResolvePath(Defs.Packages.Data, "systemFonts.json"));
             var fonts = JObject.Parse(txt);
             fontManager.Initialize(fonts);
         }

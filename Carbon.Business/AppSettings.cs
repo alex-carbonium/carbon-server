@@ -26,9 +26,9 @@ namespace Carbon.Business
             return _configuration.GetString(section, parameter);
         }
 
-        public string GetDataPackageVersion()
+        public string GetDataPackageVersion(string name)
         {
-            return _dataProvider.GetPackageVersion();
+            return _dataProvider.GetPackageVersion(name);
         }
 
         public virtual string RoleName => _configuration.GetString("General", "RoleName");
@@ -41,9 +41,9 @@ namespace Carbon.Business
         public virtual IdClientConfig IdClient { get; }
         public virtual AzureConfig Azure { get; }
 
-        public string ResolvePath(string path)
+        public string ResolvePath(string packageName, string path)
         {
-            return _dataProvider.ResolvePath(path);
+            return _dataProvider.ResolvePath(packageName, path);
         }
 
         public class SubscriptionConfiguration
