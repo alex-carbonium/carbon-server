@@ -22,7 +22,7 @@ namespace Carbon.Business.Domain.DataTree
         {
             switch (property)
             {
-                case "type":
+                case "t":
                     Type = ReadString(reader);
                     return true;
                 case "props": 
@@ -50,7 +50,7 @@ namespace Carbon.Business.Domain.DataTree
 
         protected override void WriteProperties(JsonWriter writer)
         {
-            writer.WritePropertyName("type");
+            writer.WritePropertyName("t");
             writer.WriteValue(Type);
 
             writer.WritePropertyName("props");
