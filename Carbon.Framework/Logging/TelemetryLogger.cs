@@ -106,7 +106,9 @@ namespace Carbon.Framework.Logging
         {
             if (level == TraceEventType.Warning || level == TraceEventType.Error || level == TraceEventType.Critical)
             {
-                System.Diagnostics.Debug.WriteLine(message != null ? string.Format(message, parameters ?? new object[0]) : exception?.ToString());
+                System.Diagnostics.Debug.WriteLine(message != null && parameters != null && parameters.Length > 0 
+                    ? string.Format(message, parameters) 
+                    : message ?? exception?.ToString());
             }
 
             if (context != null)
