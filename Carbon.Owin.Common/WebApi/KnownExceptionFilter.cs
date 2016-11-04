@@ -3,8 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http.Filters;
+using Carbon.Business.Exceptions;
 using Newtonsoft.Json.Linq;
-using Carbon.Framework;
 
 namespace Carbon.Owin.Common.WebApi
 {
@@ -15,28 +15,28 @@ namespace Carbon.Owin.Common.WebApi
         public string RedirectUrl { get; set; }
         public Action<Exception, JObject> AddContent { get; set; }
 
-        public KnownExceptionFilter(Type exceptionType)
-        {                  
-            ExceptionType = exceptionType;
-        }
-
         public override void OnException(HttpActionExecutedContext actionContext)
         {
             if (actionContext == null)
             {
-                throw new ArgumentNullException("actionContext");
-            }
-
-            if (actionContext.Response != null && (int)actionContext.Response.StatusCode == Defs.Web.HTTP_AJAX_ERROR_CODE)
-            {
-                return;
-            }
+                throw new ArgumentNullException(nameof(actionContext));
+            }            
 
             var exception = actionContext.Exception;
+            var aggregate = exception as AggregateException;
+            if (aggregate?.InnerExceptions.Count == 1)
+            {
+                exception = aggregate.InnerExceptions[0];
+            }            
 
             // If this is not an HTTP 500 (for example, if somebody throws an HTTP 404 from an action method),
             // ignore it.
             if (new HttpException(null, exception).GetHttpCode() != 500)
+            {
+                return;
+            }
+
+            if (CheckCommonExceptions(actionContext, exception))
             {
                 return;
             }
@@ -46,21 +46,27 @@ namespace Carbon.Owin.Common.WebApi
                 return;
             }
 
-            var message = !string.IsNullOrEmpty(Message) ? Message : exception.Message;
-            actionContext.Response = new HttpResponseMessage((HttpStatusCode)Defs.Web.HTTP_AJAX_ERROR_CODE);            
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                ReasonPhrase = exception.Message
+            };
+#if DEBUG
+            actionContext.Response.Content = new StringContent(exception.ToString());
+#endif
+        }
 
-            var content = new JObject();
-            content["errorMessage"] = message;
-            content["errorType"] = exception.GetType().Name;
-            if (AddContent != null)
+        private static bool CheckCommonExceptions(HttpActionExecutedContext actionContext, Exception exception)
+        {
+            if (exception is InsufficientPermissionsException)
             {
-                AddContent(exception, content);
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden)
+                {
+                    ReasonPhrase = "You do not have permissions for this action"
+                };
+                return true;
             }
-            if (!string.IsNullOrEmpty(RedirectUrl))
-            {
-                actionContext.Response.Headers.Location = new Uri(RedirectUrl, UriKind.RelativeOrAbsolute);
-            }
-            actionContext.Response.Content = new StringContent(content.ToString());
+
+            return false;
         }
     }
 }

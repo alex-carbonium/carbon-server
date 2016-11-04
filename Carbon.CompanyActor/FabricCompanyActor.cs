@@ -35,9 +35,9 @@ namespace Carbon.CompanyActor
             return Impl.GetProjectPermission(userId, projectId);
         }
 
-        public Task<List<ProjectFolder>> GetDashboard()
+        public Task<List<ProjectFolder>> GetDashboard(string userId)
         {
-            return Impl.GetDashboard();
+            return Impl.GetDashboard(userId);
         }
 
         public Task<string> GetCompanyName()
@@ -50,9 +50,9 @@ namespace Carbon.CompanyActor
             return Impl.ShareProject(userId, projectId, permission);
         }
 
-        public Task ChangeProjectName(string projectId, string newName)
+        public Task ChangeProjectName(string userId, string projectId, string newName)
         {
-            return Impl.ChangeProjectName(projectId, newName);
+            return Impl.ChangeProjectName(userId, projectId, newName);
         }        
 
         public Task ChangeCompanyName(string newName)
@@ -60,9 +60,9 @@ namespace Carbon.CompanyActor
             return Impl.ChangeCompanyName(newName);
         }
 
-        public Task RegisterKnownEmail(string email)
+        public Task RegisterKnownEmail(string userId, string email)
         {
-            return Impl.RegisterKnownEmail(email);
+            return Impl.RegisterKnownEmail(userId, email);
         }
 
         public Task RegisterExternalAcl(ExternalAcl acl)
@@ -80,34 +80,34 @@ namespace Carbon.CompanyActor
             return Impl.ResolveExternalCompanyId(companyName);
         }
 
-        public Task<string> GetProjectMirrorCode(string projectId)
+        public Task<string> GetProjectMirrorCode(string userId, string projectId)
         {
-            return Impl.GetProjectMirrorCode(projectId);
+            return Impl.GetProjectMirrorCode(userId, projectId);
         }
 
-        public Task<string> SetProjectMirrorCode(string projectId, string code)
+        public Task<string> SetProjectMirrorCode(string userId, string projectId, string code)
         {
-            return Impl.SetProjectMirrorCode(projectId, code);
+            return Impl.SetProjectMirrorCode(userId, projectId, code);
         }
 
-        public Task<List<CompanyFileInfo>> GetFiles()
+        public Task<List<CompanyFileInfo>> GetFiles(string userId)
         {
-            return Impl.GetFiles();
+            return Impl.GetFiles(userId);
         }
 
-        public Task<CompanyFileInfo> GetFile(string name)
+        public Task<CompanyFileInfo> GetFile(string userId, string name)
         {
-            return Impl.GetFile(name);
+            return Impl.GetFile(userId, name);
         }
 
-        public Task RegisterFile(CompanyFileInfo file)
+        public Task RegisterFile(string userId, CompanyFileInfo file)
         {
-            return Impl.RegisterFile(file);
+            return Impl.RegisterFile(userId, file);
         }
 
-        public Task DeleteFile(string name)
+        public Task DeleteFile(string userId, string name)
         {
-            return Impl.DeleteFile(name);
+            return Impl.DeleteFile(userId, name);
         }
 
         public Task UpdateExternalResourceName(string companyName, ResourceType resourceType, string oldName, string newName)

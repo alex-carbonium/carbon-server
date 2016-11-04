@@ -32,21 +32,21 @@ namespace Carbon.Services.Controllers
             {
                 return BadRequest();
             }
-            var token = await _sharingService.Invite(companyId, projectId, permission);
+            var token = await _sharingService.Invite(GetUserId(), companyId, projectId, permission);
             return Ok(new { Code = token.RowKey });
         }
 
         [HttpGet, Route("mirrorCode")]
         public async Task<IHttpActionResult> GetMirroringCode(string companyId, string projectId, bool enable)
         {
-            var token = await _sharingService.GenerateMirroringToken(companyId, projectId, enable);
+            var token = await _sharingService.GenerateMirroringToken(GetUserId(), companyId, projectId, enable);
             return Ok(new { Code = token });
         }
 
         [HttpPost, Route("disableMirroring")]
         public async Task<IHttpActionResult> DisableMirroring(string companyId, string projectId)
         {
-            await _sharingService.DisableMirroring(companyId, projectId);
+            await _sharingService.DisableMirroring(GetUserId(), companyId, projectId);
             return Ok(new { });
         }
 
@@ -58,7 +58,7 @@ namespace Carbon.Services.Controllers
             {
                 return BadRequest();
             }
-            await _sharingService.Invite(companyId, projectId, permission, email);
+            await _sharingService.Invite(GetUserId(), companyId, projectId, permission, email);
             return Ok();
         }
 

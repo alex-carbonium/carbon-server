@@ -21,7 +21,7 @@ namespace Carbon.Services.Controllers
             {
                 var content = await Request.Content.ReadAsStringAsync();
                 message.Content = new StringContent(content, Defs.Encoding);
-                message.Content.Headers.ContentType = Request.Content.Headers.ContentType;
+                message.Content.Headers.ContentType = Request.Content.Headers.ContentType;                
             }
             //iconfinder does not like some of the headers
             //foreach (var header in Request.Headers)
@@ -31,8 +31,7 @@ namespace Carbon.Services.Controllers
             
             var response =  await _httpClient.Value.SendAsync(message);
             var proxied = new HttpResponseMessage(response.StatusCode);
-            proxied.Content = new StringContent(await response.Content.ReadAsStringAsync());
-            proxied.Content.Headers.ContentType = response.Content.Headers.ContentType;
+            proxied.Content = response.Content;
             return proxied;
         }
     }

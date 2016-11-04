@@ -1,8 +1,10 @@
 using System;
+using System.Runtime.Serialization;
 using Carbon.Business.Domain;
 
 namespace Carbon.Business.Exceptions
 {
+    [Serializable]
     public class InsufficientPermissionsException : Exception
     {
         public InsufficientPermissionsException(Permission requested)
@@ -12,6 +14,12 @@ namespace Carbon.Business.Exceptions
         public InsufficientPermissionsException(Permission requested, Permission granted)
             : base($"Requested {requested}, granted {granted}")
         {            
-        }        
+        }
+
+        // Constructor needed for serialization 
+        protected InsufficientPermissionsException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {            
+        }
     }
 }

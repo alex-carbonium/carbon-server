@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Carbon.Business.Exceptions;
 using Carbon.Business.Services;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
@@ -107,9 +108,11 @@ namespace Carbon.Business.Domain
             return acl?.Permission ?? (int)Permission.None;
         }
 
-        public async Task<List<ProjectFolder>> GetDashboard()
+        public async Task<List<ProjectFolder>> GetDashboard(string userId)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Read);
+
             var sharedFolder = new ProjectFolder
             {
                 Id = "shared"
@@ -156,12 +159,14 @@ namespace Carbon.Business.Domain
             return externalAcl;
         }
 
-        public async Task ChangeProjectName(string projectId, string newName)
+        public async Task ChangeProjectName(string userId, string projectId, string newName)
         {
             var company = await GetCompany();
-            var project = FindProject(company, projectId);            
+            var project = FindProject(company, projectId);                        
             if (project != null)
             {
+                ValidateProjectPermission(company, project, userId, Permission.Write);
+
                 var externalTasks = new List<Task>();
                 var externalAcls = company.Acls.Where(x => x.Entry.ResourceType == ResourceType.Project && x.Entry.ResourceId == projectId);
                 foreach (var acl in externalAcls)
@@ -199,9 +204,10 @@ namespace Carbon.Business.Domain
             }
         }
 
-        public async Task RegisterKnownEmail(string email)
+        public async Task RegisterKnownEmail(string userId, string email)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Write);
             var user = company.Users.SingleOrDefault(x => x.Email == email);
             if (user == null)
             {
@@ -249,17 +255,19 @@ namespace Carbon.Business.Domain
             await SaveCompany(company);
         }
 
-        public async Task<string> GetProjectMirrorCode(string projectId)
+        public async Task<string> GetProjectMirrorCode(string userId, string projectId)
         {
-            var company = await GetCompany();
+            var company = await GetCompany();            
             var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
             return project.MirroringCode;
         }
 
-        public async Task<string> SetProjectMirrorCode(string projectId, string code)
+        public async Task<string> SetProjectMirrorCode(string userId, string projectId, string code)
         {
             var company = await GetCompany();
             var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
             var oldCode = project.MirroringCode;
             project.MirroringCode = code;
             await SaveCompany(company);
@@ -267,29 +275,33 @@ namespace Carbon.Business.Domain
             return oldCode;
         }
 
-        public async Task<List<CompanyFileInfo>> GetFiles()
+        public async Task<List<CompanyFileInfo>> GetFiles(string userId)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Read);
             return company.Files.ToList();
         }
 
-        public async Task<CompanyFileInfo> GetFile(string name)
+        public async Task<CompanyFileInfo> GetFile(string userId, string name)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Read);
             var file = company.Files.SingleOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return file;
         }
 
-        public async Task RegisterFile(CompanyFileInfo file)
+        public async Task RegisterFile(string userId, CompanyFileInfo file)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Write);
             company.AddOrReplaceFile(file);
             await SaveCompany(company);
         }
 
-        public async Task DeleteFile(string name)
+        public async Task DeleteFile(string userId, string name)
         {
             var company = await GetCompany();
+            ValidateCompanyPermission(company, userId, Permission.Write);
             company.RemoveFile(name);
             await SaveCompany(company);
         }
@@ -306,6 +318,37 @@ namespace Carbon.Business.Domain
         protected IActorStateManager GetStateManager()
         {
             return StateManager;            
+        }
+
+        private void ValidateCompanyPermission(Company company, string userId, Permission requested)
+        {
+            if (userId == CompanyId)
+            {
+                return;
+            }
+
+            var acl = company.Acls.SingleOrDefault(x => x.Entry.ResourceType == ResourceType.Company
+                                                     && x.Entry.Sid == userId
+                                                     && x.Entry.ResourceId == CompanyId);
+            if (acl?.Allows(requested) == false)
+            {
+                throw new InsufficientPermissionsException(requested);
+            }
+        }
+        private void ValidateProjectPermission(Company company, Project project, string userId, Permission requested)
+        {
+            if (userId == CompanyId)
+            {
+                return;
+            }
+
+            var acl = company.Acls.SingleOrDefault(x => x.Entry.ResourceType == ResourceType.Project
+                                                     && x.Entry.Sid == userId
+                                                     && x.Entry.ResourceId == project.Id);
+            if (acl?.Allows(requested) == false)
+            {
+                throw new InsufficientPermissionsException(requested);
+            }
         }
 
         private static Project FindProject(Company company, string projectId)

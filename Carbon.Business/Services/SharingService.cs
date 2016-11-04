@@ -32,13 +32,13 @@ namespace Carbon.Business.Services
             _sharedPageRepository = sharedPageRepository;
         }
 
-        public async Task<ShareToken> Invite(string companyId, string projectId, Permission permission, string email = null)
+        public async Task<ShareToken> Invite(string userId, string companyId, string projectId, Permission permission, string email = null)
         {
             var token = await GenerateShareToken(companyId, projectId, permission, email);
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
             if (!string.IsNullOrEmpty(email))
             {
-                await actor.RegisterKnownEmail(email);
+                await actor.RegisterKnownEmail(userId, email);
                 //TODO: send mail
             }
             return token;
@@ -76,11 +76,11 @@ namespace Carbon.Business.Services
             return token;
         }
 
-        public async Task DisableMirroring(string companyId, string projectId)
+        public async Task DisableMirroring(string userId, string companyId, string projectId)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
 
-            var oldCode = await actor.SetProjectMirrorCode(projectId, null);
+            var oldCode = await actor.SetProjectMirrorCode(userId, projectId, null);
 
             if (string.IsNullOrEmpty(oldCode))
             {
@@ -94,11 +94,11 @@ namespace Carbon.Business.Services
             }
         }
 
-        public async Task<string> GenerateMirroringToken(string companyId, string projectId, bool enable)
+        public async Task<string> GenerateMirroringToken(string userId, string companyId, string projectId, bool enable)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
 
-            var code = await actor.GetProjectMirrorCode(projectId);
+            var code = await actor.GetProjectMirrorCode(userId, projectId);
             if (code != null)
             {
                 return code;
@@ -137,7 +137,7 @@ namespace Carbon.Business.Services
                 throw new Exception("Could not generate share code");
             }
 
-            await actor.SetProjectMirrorCode(projectId, token.RowKey);
+            await actor.SetProjectMirrorCode(userId, projectId, token.RowKey);
 
             return token.RowKey;
         }
@@ -256,7 +256,7 @@ namespace Carbon.Business.Services
             {
                 return (await _sharedPageRepository.FindAllByAsync(new FindByPartition<SharedPage>(userId))).Where(p =>
                 (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
-                || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)); ;
+                || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
             }
         }
     }
