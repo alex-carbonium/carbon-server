@@ -46,6 +46,8 @@ namespace Carbon.Owin.Common.WebApi
             }            
 
             config.Services.Add(typeof(IExceptionLogger), new WebApiExceptionLogger());
+
+            config.Filters.Add(new KnownExceptionFilter());
                                        
             return config;
         }

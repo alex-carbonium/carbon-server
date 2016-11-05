@@ -19,7 +19,7 @@ namespace Carbon.Services.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get(string companyId)
         {
-            var dashboard = await GetActor(companyId).GetDashboard();
+            var dashboard = await GetActor(companyId).GetDashboard(GetUserId());
             return Ok(new { Folders = dashboard });
         }
 

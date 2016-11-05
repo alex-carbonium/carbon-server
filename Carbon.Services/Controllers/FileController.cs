@@ -50,7 +50,7 @@ namespace Carbon.Services.Controllers
         private async Task<IEnumerable> CompanyImages(string companyId)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
-            var files = await actor.GetFiles();
+            var files = await actor.GetFiles(GetUserId());
 
             return files.OrderByDescending(x => x.ModifiedDateTime).Select(x => ToMetadata(companyId, x));
         }        
@@ -175,13 +175,14 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("delete")]
         public async Task<IHttpActionResult> Delete(string companyId, string name)
         {
+            var userId = GetUserId();
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
-            var file = await actor.GetFile(name);
+            var file = await actor.GetFile(userId, name);
 
             if (file != null)
             {
                 await Task.WhenAll(
-                    actor.DeleteFile(name),
+                    actor.DeleteFile(userId, name),
                     _fileRepository.DeleteAsync(file.Id),
                     _fileRepository.DeleteAsync(ThumbUrl(file.Id)));
             }
@@ -191,8 +192,9 @@ namespace Carbon.Services.Controllers
 
         private async Task<CompanyFileInfo> SaveCompanyImage(string companyId, string name, Stream stream)
         {
+            var userId = GetUserId();
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
-            var existingTask = actor.GetFile(name);
+            var existingTask = actor.GetFile(userId, name);
 
             try
             {                
@@ -237,7 +239,7 @@ namespace Carbon.Services.Controllers
                     metadata["thumbHeight"] = thumbSize.Height;
                     companyFileInfo.UpdateMetadata(metadata);
 
-                    await Task.WhenAll(actor.RegisterFile(companyFileInfo), fileInsertTask, previewInsertTask);
+                    await Task.WhenAll(actor.RegisterFile(userId, companyFileInfo), fileInsertTask, previewInsertTask);
 
                     return companyFileInfo;
                 }
