@@ -44,7 +44,8 @@ namespace Carbon.Services.Controllers
         private string FullFileUrl(string url)
         {
             var storageUri = AppSettings.GetString("Endpoints", "File");
-            return new Uri(storageUri, UriKind.Absolute).AddPath(url).AbsoluteUri;
+            var uri = new Uri(storageUri, UriKind.Absolute).AddPath(url);            
+            return uri.AbsoluteUri.Substring(uri.Scheme.Length + 1);
         }
 
         private async Task<IEnumerable> CompanyImages(string companyId)
