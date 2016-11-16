@@ -211,7 +211,7 @@ namespace Carbon.Services.Controllers
                     companyFile.ContentStream = stream;
                     var fileInsertTask = _fileRepository.InsertAsync(companyFile);
 
-                    var thumbSize = MediaUtil.FitSize(image.Size, new Size(256, 256));
+                    var thumbSize = MediaUtil.FitSize(image.Size, new Size(640, 640));
 
                     var previewFile = new CompanyFile();
                     previewFile.Id = ThumbUrl(companyFile.Id);
