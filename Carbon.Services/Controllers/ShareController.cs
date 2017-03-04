@@ -75,17 +75,15 @@ namespace Carbon.Services.Controllers
         }
 
         [HttpPost, Route("publishPage")]
-
-        public async Task<IHttpActionResult> PublishPage(string name, string description, string tags, string pageData, string previewPicture, bool isPublic)
+        public async Task<IHttpActionResult> PublishPage(PublishPageModel model)
         {
             var userId = GetUserId();
             
-            var page = await _sharingService.PublishPage(userId, name, description, tags, pageData, previewPicture, isPublic ? PublishScope.Public : PublishScope.Company);
+            var page = await _sharingService.PublishPage(userId, model.Name, model.Description, model.Tags, model.PageData, model.PreviewPicture, model.IsPublic ? PublishScope.Public : PublishScope.Company);
             return Ok(new {data=page});
         }
 
         [HttpGet, Route("resources")]
-
         public async Task<IHttpActionResult> AvailiableResource(string search)
         {
             var userId = GetUserId();
@@ -98,5 +96,15 @@ namespace Carbon.Services.Controllers
                 publicResources = await publicResources
             });
         }
-    }
+
+        public class PublishPageModel
+        {
+            public string Name { get; set;  }
+            public string Description { get; set; }
+            public string Tags { get; set; }
+            public string PageData { get; set; }
+            public string PreviewPicture { get; set; }
+            public bool IsPublic { get; set; }
+        }
+    }    
 }

@@ -81,11 +81,6 @@ namespace Carbon.Business.Domain
             get { return GetProp("resources"); }
             set { SetProp("resources", value); }
         }
-        public ProjectModelStatistics Statistics
-        {
-            get { return GetProp("statistics"); }
-            set { SetProp("statistics", value); }
-        }
 
         public string EditVersion
         {
