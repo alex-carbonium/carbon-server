@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Carbon.Business</RootNamespace>
     <AssemblyName>Carbon.Business</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -168,7 +168,6 @@
     <Compile Include="Domain\UniquePropertyComparer.cs" />
     <Compile Include="Exceptions\InsertConflictException.cs" />
     <Compile Include="JsonObject.cs" />
-    <Compile Include="Domain\ProjectModelStatistics.cs" />
     <Compile Include="IPipe.cs" />
     <Compile Include="CloudDomain\ProjectSnapshot.cs" />
     <Compile Include="CloudDomain\ProjectLog.cs" />
@@ -200,7 +199,6 @@
     <Compile Include="Domain\Permission.cs" />
     <Compile Include="Domain\DeviceType.cs" />
     <Compile Include="Domain\ProjectFolder.cs" />
-    <Compile Include="Domain\ProjectModelStatisticsVisitor.cs" />
     <Compile Include="Domain\DataTree\DataTreeVisitor.cs" />
     <Compile Include="Domain\PromoCode.cs" />
     <Compile Include="Domain\Statistics\ProjectInfo.cs" />

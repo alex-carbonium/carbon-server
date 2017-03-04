@@ -315,9 +315,7 @@ namespace Carbon.Business.Services
         private void ApplyPrimitives(DataNode model, List<DataNodeBasePrimitive> primitives)
         {
             var primitiveVisitor = new PrimitiveVisitor(primitives);
-            var statisticsVisitor = new ProjectModelStatisticsVisitor(_fontManager);
-            model.Visit(new CompositeDataTreeVisitor(primitiveVisitor, statisticsVisitor));
-            model.SetProp("statistics", statisticsVisitor.Statistics);
+            model.Visit(primitiveVisitor);            
         }
 
         private IList<ProjectLog> BuildTail(string projectId, string fromVersion, IList<ProjectLog> primitives)
