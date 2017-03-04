@@ -11,6 +11,7 @@ namespace Carbon.Business.Sync
         DataNodeSetProps = 4,
         DataNodeChangePosition = 5,
         DataNodePatchProps = 6,
+        Selection = 7,
 
         ProjectNameChange = 10,
 
@@ -30,15 +31,10 @@ namespace Carbon.Business.Sync
         {
             switch (type)
             {
-                case PrimitiveType.DataNodeAdd:
-                case PrimitiveType.DataNodeRemove:
-                case PrimitiveType.DataNodeChange:
-                case PrimitiveType.DataNodeChangePosition:
-                case PrimitiveType.DataNodeSetProps:
-                case PrimitiveType.DataNodePatchProps:                
-                    return true;
-                default:
+                case PrimitiveType.ProjectNameChange:
                     return false;
+                default:
+                    return true;
             }
         }
 
@@ -50,7 +46,9 @@ namespace Carbon.Business.Sync
                 case PrimitiveType.DataNodeRemove:
                 case PrimitiveType.DataNodeChange:
                 case PrimitiveType.DataNodeChangePosition:
-                case PrimitiveType.DataNodeSetProps:                
+                case PrimitiveType.DataNodeSetProps:
+                case PrimitiveType.DataNodePatchProps:
+                case PrimitiveType.Selection:
                     return Permission.Write;
                 default:
                     return Permission.Owner;
