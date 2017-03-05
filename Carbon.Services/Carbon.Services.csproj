@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\DiscoverController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\FileController.cs" />

@@ -37,6 +37,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bogus, Version=11.0.2.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.11.0.2\lib\net40\Bogus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -232,6 +235,7 @@
     <Compile Include="Services\ActiveProjectTrackingService.cs" />
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\CloudProjectModelRepository.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\HtmlService.cs" />
     <Compile Include="Services\IActiveProjectActor.cs" />
     <Compile Include="Services\IActorFabric.cs" />

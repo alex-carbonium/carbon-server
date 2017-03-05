@@ -45,7 +45,12 @@ namespace Carbon.StorageService.SignalR
                     PrimitiveStrings = primitiveArray
                 };
 
+                var hadNoId = string.IsNullOrEmpty(modelId);
                 var model = await _projectModelService.ChangeProjectModel(Scope, change);
+                if (hadNoId || returnModel)
+                {
+                    await Groups.Add(Context.ConnectionId, "Project_" + model.Id);
+                }
 
                 if (change.PrimitiveStrings != null && change.PrimitiveStrings.Count > 0)
                 {
@@ -55,7 +60,6 @@ namespace Carbon.StorageService.SignalR
 
                 if (returnModel)
                 {
-                    await Groups.Add(Context.ConnectionId, "Project_" + model.Id);
                     return await model.WriteAsync();
                 }
                 return JsonConvert.SerializeObject(new
