@@ -158,6 +158,7 @@
     <Content Include="PackageRoot\Data\idsrv-debug.cer" />
     <Content Include="PackageRoot\Data\idsrv-debug.pfx" />
     <Content Include="PackageRoot\Data\idsrv-release.cer" />
+    <Content Include="PackageRoot\Data\systemFonts.json" />
     <None Include="PackageRoot\ServiceManifest.xml" />
     <None Include="packages.config" />
   </ItemGroup>

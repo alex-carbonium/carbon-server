@@ -7,14 +7,14 @@ using Carbon.Business.Services;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Carbon.Business.Domain
-{    
+{
     public class CompanyActor : ICompanyActor
     {
         private static class Keys
         {
             public const string Company = "company";
             public const string Counter = "counter";
-        }        
+        }
 
         private enum Countable
         {
@@ -30,13 +30,13 @@ namespace Carbon.Business.Domain
         {
             StateManager = stateManager;
             ActorFabric = actorFabric;
-            CompanyId = companyId;            
+            CompanyId = companyId;
         }
 
         public async Task Activate()
-        {            
+        {
             var company = new Company
-            {                
+            {
                 RootFolder = new ProjectFolder { Id = "my" }
             };
 
@@ -55,11 +55,11 @@ namespace Carbon.Business.Domain
             var company = await GetCompany();
             var counter = await StateManager.GetStateAsync<Dictionary<Countable, int>>(Keys.Counter);
 
-            var folder = company.RootFolder; //find folder here 
+            var folder = company.RootFolder; //find folder here
 
             List<Acl> folderAcls = null;
             if (userId != CompanyId)
-            {                                
+            {
                 folderAcls = company.Acls
                     .Where(x => x.Entry.ResourceType == ResourceType.Folder && x.Entry.ResourceId == folder.Id)
                     .ToList();
@@ -69,12 +69,12 @@ namespace Carbon.Business.Domain
                 {
                     return null;
                 }
-            }                        
+            }
 
             var projectId = ++counter[Countable.Project];
             var project = new Project
-            {               
-                Id = projectId.ToString(),                
+            {
+                Id = projectId.ToString(),
                 Name = "My awesome app"
             };
 
@@ -84,14 +84,14 @@ namespace Carbon.Business.Domain
                 {
                     company.AddOrReplaceAcl(Acl.CreateForProject(acl.Entry.Sid, project.Id, acl.Permission));
                 }
-            }            
+            }
             folder.Projects.Add(project);
 
             await StateManager.SetStateAsync(Keys.Company, company);
             await StateManager.SetStateAsync(Keys.Counter, counter);
 
             return project;
-        }                     
+        }
 
         public async Task<int> GetProjectPermission(string userId, string projectId)
         {
@@ -100,7 +100,7 @@ namespace Carbon.Business.Domain
                 return (int)Permission.Owner;
             }
 
-            var company = await StateManager.GetStateAsync<Company>(Keys.Company);            
+            var company = await StateManager.GetStateAsync<Company>(Keys.Company);
             var acl = company.Acls.SingleOrDefault(x => x.Entry.ResourceType == ResourceType.Project
                                                         && x.Entry.Sid == userId
                                                         && x.Entry.ResourceId == projectId);
@@ -128,7 +128,7 @@ namespace Carbon.Business.Domain
                     CompanyName = acl.CompanyName
                 };
                 sharedFolder.Projects.Add(project);
-            }            
+            }
 
             return new List<ProjectFolder> {company.RootFolder, sharedFolder};
         }
@@ -162,7 +162,7 @@ namespace Carbon.Business.Domain
         public async Task ChangeProjectName(string userId, string projectId, string newName)
         {
             var company = await GetCompany();
-            var project = FindProject(company, projectId);                        
+            var project = FindProject(company, projectId);
             if (project != null)
             {
                 ValidateProjectPermission(company, project, userId, Permission.Write);
@@ -257,7 +257,7 @@ namespace Carbon.Business.Domain
 
         public async Task<string> GetProjectMirrorCode(string userId, string projectId)
         {
-            var company = await GetCompany();            
+            var company = await GetCompany();
             var project = FindProject(company, projectId);
             ValidateProjectPermission(company, project, userId, Permission.Write);
             return project.MirroringCode;
@@ -317,7 +317,7 @@ namespace Carbon.Business.Domain
 
         protected IActorStateManager GetStateManager()
         {
-            return StateManager;            
+            return StateManager;
         }
 
         private void ValidateCompanyPermission(Company company, string userId, Permission requested)

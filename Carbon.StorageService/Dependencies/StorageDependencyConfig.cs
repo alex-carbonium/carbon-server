@@ -31,12 +31,13 @@ namespace Carbon.StorageService.Dependencies
         public static IDependencyContainer CreateContainer(IKernel kernel, Action<IDependencyContainer> addons = null)
         {
             var container = new NinjectDependencyContainer(kernel);
-            container                
+            container
                 .RegisterTypeSingleton<AppSettings, AppSettings>()
-                .RegisterType<ProjectModelService, ProjectModelService>()                                                
-                .RegisterTypePerWebRequest<IIdentityContext, IdentityContext>()                                
-                .RegisterTypeSingleton<ILogService, TelemetryLogService>()
-                .RegisterTypeSingleton<FontManager, FontManager>();
+                .RegisterType<ProjectModelService, ProjectModelService>()
+                .RegisterTypeSingleton<PermissionService, PermissionService>()
+                .RegisterTypeSingleton<ActiveProjectTrackingService, ActiveProjectTrackingService>()
+                .RegisterTypePerWebRequest<IIdentityContext, IdentityContext>()
+                .RegisterTypeSingleton<ILogService, TelemetryLogService>();
 
             addons?.Invoke(container);
 

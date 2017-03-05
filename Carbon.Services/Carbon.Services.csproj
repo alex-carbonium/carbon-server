@@ -204,12 +204,16 @@
     <Compile Include="App_Start\ServicesStartup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DiscoverController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\FontsController.cs" />
     <Compile Include="Controllers\IdentityServerExtensionsController.cs" />
     <Compile Include="Controllers\PingController.cs" />
+    <Compile Include="Controllers\ProjectDataController.cs" />
     <Compile Include="Controllers\ProxyController.cs" />
     <Compile Include="IdentityServer\ApplicationUserValidator.cs" />
     <Compile Include="ResourceCache.cs" />

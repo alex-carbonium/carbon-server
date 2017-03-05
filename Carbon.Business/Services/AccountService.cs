@@ -67,7 +67,7 @@ namespace Carbon.Business.Services
                     {
                         return name;
                     }
-                }                
+                }
             }
 
             for (var i = 0; i < 50; ++i)

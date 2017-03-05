@@ -5,7 +5,7 @@ namespace Carbon.Business.CloudDomain
     public class ProjectState : TableEntity
     {
         public ProjectState()
-        {            
+        {
         }
         public ProjectState(string userId, string projectId)
         {

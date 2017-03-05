@@ -1,18 +1,18 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "EnvironmentName": {
-            "value": "qa1"
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "EnvironmentName": {
+      "value": "qa1"
+    },
+    "sqlAdminLoginPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
         },
-        "sqlAdminLoginPassword": {
-            "reference": {
-                "keyVault": {
-                    "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
-                },
-                "secretName": "sqlAdminPassword"
-            }
+        "secretName": "sqlAdminPassword"
+      }
 
-        }
     }
+  }
 }

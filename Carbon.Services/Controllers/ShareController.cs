@@ -78,7 +78,7 @@ namespace Carbon.Services.Controllers
         public async Task<IHttpActionResult> PublishPage(PublishPageModel model)
         {
             var userId = GetUserId();
-            
+
             var page = await _sharingService.PublishPage(userId, model.Name, model.Description, model.Tags, model.PageData, model.PreviewPicture, model.IsPublic ? PublishScope.Public : PublishScope.Company);
             return Ok(new {data=page});
         }
@@ -106,5 +106,5 @@ namespace Carbon.Services.Controllers
             public string PreviewPicture { get; set; }
             public bool IsPublic { get; set; }
         }
-    }    
+    }
 }

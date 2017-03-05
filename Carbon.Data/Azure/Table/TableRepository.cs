@@ -25,9 +25,9 @@ namespace Carbon.Data.Azure.Table
         public string TestNameSuffix { get; set; }
 
         public override IQueryable<T> FindAll(bool cache = false)
-        {            
+        {
             return CreateQuery();
-        }        
+        }
 
         public override IQueryable<T> FindAllBy(ISpecification<T> specification)
         {
@@ -68,7 +68,7 @@ namespace Carbon.Data.Azure.Table
         public override T FindFirstOnly()
         {
             return CreateQuery().FirstOrDefault();
-        }        
+        }
 
         public override bool ExistsBy(ISpecification<T> specification)
         {
@@ -99,8 +99,8 @@ namespace Carbon.Data.Azure.Table
             }
             if (operation.Count > 0)
             {
-                GetOrCreateTable().ExecuteBatch(operation);    
-            }            
+                GetOrCreateTable().ExecuteBatch(operation);
+            }
         }
 
         public override void Update(T entity)
@@ -140,7 +140,7 @@ namespace Carbon.Data.Azure.Table
             }
             if (operation.Count > 0)
             {
-                GetOrCreateTable().ExecuteBatch(operation);    
+                GetOrCreateTable().ExecuteBatch(operation);
             }
         }
 
@@ -164,7 +164,7 @@ namespace Carbon.Data.Azure.Table
         }
 
         private CloudTable GetOrCreateTable()
-        {            
+        {
             return _tables.GetOrAdd(typeof(T), t =>
             {
                 var name = t.Name;
@@ -183,7 +183,7 @@ namespace Carbon.Data.Azure.Table
                     {
                         throw;
                     }
-                       
+
                 }
                 return table;
             });

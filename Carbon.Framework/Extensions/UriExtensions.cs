@@ -40,13 +40,13 @@ namespace Carbon.Framework.Extensions
                 if (kv.Length == 2)
                 {
                     res[Uri.UnescapeDataString(kv[0])] = Uri.UnescapeDataString(kv[1]);
-                }                
+                }
             }
             return res;
         }
-        
+
         public static Uri AppendQuery(this Uri uri, IDictionary<string, string> query)
-        {                        
+        {
             var q = new StringBuilder();
             var url = uri.ToString();
             var addSeparator = false;
@@ -55,13 +55,13 @@ namespace Carbon.Framework.Extensions
             {
                 q.Append("?");
             }
-            else 
+            else
             {
                 addSeparator = questionIndex != url.Length - 1;
             }
-            foreach (var kv in query)                 
+            foreach (var kv in query)
             {
-                if (addSeparator) 
+                if (addSeparator)
                 {
                     q.Append("&");
                 }
@@ -71,7 +71,7 @@ namespace Carbon.Framework.Extensions
             return new Uri(url + q, UriKind.RelativeOrAbsolute);
         }
 
-        public static Uri TrimQuery(this Uri uri, Dictionary<string, string> filter = null) 
+        public static Uri TrimQuery(this Uri uri, Dictionary<string, string> filter = null)
         {
             var s = uri.ToString();
             var q = s.IndexOf("?");

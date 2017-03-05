@@ -21,7 +21,7 @@ using Carbon.Owin.Common.WebApi;
 using File = Carbon.Business.CloudDomain.File;
 
 namespace Carbon.Services.Controllers
-{    
+{
     [RoutePrefix("file")]
     public class FileController : AuthorizedApiController
     {
@@ -44,7 +44,7 @@ namespace Carbon.Services.Controllers
         private string FullFileUrl(string url)
         {
             var storageUri = AppSettings.GetString("Endpoints", "File");
-            var uri = new Uri(storageUri, UriKind.Absolute).AddPath(url);            
+            var uri = new Uri(storageUri, UriKind.Absolute).AddPath(url);
             return uri.AbsoluteUri.Substring(uri.Scheme.Length + 1);
         }
 
@@ -54,20 +54,20 @@ namespace Carbon.Services.Controllers
             var files = await actor.GetFiles(GetUserId());
 
             return files.OrderByDescending(x => x.ModifiedDateTime).Select(x => ToMetadata(companyId, x));
-        }        
+        }
 
         [HttpGet, Route("images")]
         public async Task<IHttpActionResult> Images(string companyId)
-        {            
+        {
             return Ok(new { Images = await CompanyImages(companyId) });
         }
 
         private string ThumbUrl(string url)
-        {            
+        {
             var fileName = Path.GetFileNameWithoutExtension(url);
             var ext = Path.GetExtension(url);
             return url.Substring(0, url.LastIndexOf("/") + 1) + fileName + "_preview" + ext;
-        }  
+        }
 
 //        [HttpPost]
 //        public virtual ActionResult UploadExportedImage(long folderId, string encodedImage)
@@ -85,25 +85,25 @@ namespace Carbon.Services.Controllers
 //                    adapter = "filesystem",
 //                    status = true,
 //                    userIcons = CompanyImages(folderId),
-//                    uploadedFileSrc = FullFileUrl(companyFileInfo.Url)                    
+//                    uploadedFileSrc = FullFileUrl(companyFileInfo.Url)
 //                });
 //            }
 //
 //            return Json(new
 //            {
 //                adapter = "filesystem",
-//                status = false,                
+//                status = false,
 //                error = DictionaryValidator.Errors.ElementAt(0)
 //            });
 //        }
 
         [HttpPost, Route("upload")]
         public async Task<IHttpActionResult> Upload()
-        {            
+        {
             if (!Request.Content.IsMimeMultipartContent())
             {
                 return BadRequest("Wrong mime type");
-            }            
+            }
 
             var multipart = await Request.Content.ReadAsMultipartAsync();
             if (multipart.Contents.Count == 0)
@@ -117,9 +117,9 @@ namespace Carbon.Services.Controllers
             var tasks = new List<Task<CompanyFileInfo>>();
             foreach (var part in multipart.Contents.Skip(1))
             {
-                tasks.Add(this.SaveCompanyImage(companyId, 
-                    part.Headers.ContentDisposition.FileName.Unquote(), 
-                    await part.ReadAsStreamAsync()));    
+                tasks.Add(this.SaveCompanyImage(companyId,
+                    part.Headers.ContentDisposition.FileName.Unquote(),
+                    await part.ReadAsStreamAsync()));
             }
             await Task.WhenAll(tasks);
 
@@ -198,12 +198,12 @@ namespace Carbon.Services.Controllers
             var existingTask = actor.GetFile(userId, name);
 
             try
-            {                
+            {
                 using (var image = Image.FromStream(stream))
                 {
                     await existingTask;
                     var existing = existingTask.Result;
-                    
+
                     var fileId = existing?.Id ?? Guid.NewGuid().ToString("N");
                     var companyFile = new CompanyFile(companyId, fileId + ".png");
                     companyFile.AutoDetectContentType();
@@ -229,7 +229,7 @@ namespace Carbon.Services.Controllers
 
                     var companyFileInfo = existing ?? new CompanyFileInfo();
                     companyFileInfo.Id = fileId;
-                    companyFileInfo.Name = name;                    
+                    companyFileInfo.Name = name;
                     companyFileInfo.Size = stream.Length;
                     companyFileInfo.ModifiedDateTime = DateTime.UtcNow;
 
@@ -247,10 +247,10 @@ namespace Carbon.Services.Controllers
             }
             catch (Exception ex)
             {
-                LogService.GetLogger(this).Warning("Cannot save user image. {0}", ex.ToString());                
-                return null;                  
-            }                           
-        }        
+                LogService.GetLogger(this).Warning("Cannot save user image. {0}", ex.ToString());
+                return null;
+            }
+        }
 
         private object ToMetadata(string companyId, CompanyFileInfo x)
         {

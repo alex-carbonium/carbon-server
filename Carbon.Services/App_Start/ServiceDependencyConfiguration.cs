@@ -14,7 +14,7 @@ using Carbon.Owin.Common.Security;
 using Carbon.Services.IdentityServer;
 
 namespace Carbon.Services
-{    
+{
     public class ServiceDependencyConfiguration
     {
         public static IDependencyContainer Configure(Action<IDependencyContainer> addons)
@@ -39,10 +39,12 @@ namespace Carbon.Services
         public static IDependencyContainer CreateContainer(IKernel kernel, Action<IDependencyContainer> addons = null)
         {
             var container = new NinjectDependencyContainer(kernel);
-            container                
+            container
                 .RegisterTypeSingleton<AppSettings, AppSettings>()
-                //.RegisterTypePerWebRequest<IValidator, DictionaryValidator>()                
+                //.RegisterTypePerWebRequest<IValidator, DictionaryValidator>()
                 .RegisterTypeSingleton<ProjectModelService, ProjectModelService>()
+                .RegisterTypeSingleton<PermissionService, PermissionService>()
+                .RegisterTypeSingleton<ActiveProjectTrackingService, ActiveProjectTrackingService>()
                 .RegisterTypeSingleton<SharingService, SharingService>()
                 .RegisterTypeSingleton<AccountService, AccountService>()
                 .RegisterTypeSingleton<IRepository<ShareToken>, TableRepository<ShareToken>>()
@@ -51,10 +53,11 @@ namespace Carbon.Services
                 .RegisterTypeSingleton<IRepository<CompanyFile>, BlobRepository<CompanyFile>>()
                 .RegisterTypeSingleton<ILogService, TelemetryLogService>()
                 .RegisterTypeSingleton<ResourceCache, ResourceCache>()
+                .RegisterTypeSingleton<FontManager, FontManager>()
 
                 .RegisterTypePerWebRequest<ApplicationDbContext, ApplicationDbContext>()
-                .RegisterTypePerWebRequest<ApplicationUserManager, ApplicationUserManager>()                                
-                .RegisterTypePerWebRequest<ApplicationRoleManager, ApplicationRoleManager>()                                                
+                .RegisterTypePerWebRequest<ApplicationUserManager, ApplicationUserManager>()
+                .RegisterTypePerWebRequest<ApplicationRoleManager, ApplicationRoleManager>()
                 .RegisterTypePerWebRequest<IIdentityContext, IdentityContext>();
 
             addons?.Invoke(container);

@@ -21,7 +21,7 @@ namespace Carbon.Business.CloudDomain
         public List<string> Primitives { get; set; }
         public string FromVersion { get; set; }
         public string ToVersion { get; set; }
-        public string UserId { get; set; }                                              
+        public string UserId { get; set; }
 
         public DateTimeOffset GetDateTime()
         {
@@ -42,13 +42,13 @@ namespace Carbon.Business.CloudDomain
         public static string GenerateKey(DateTimeOffset time, bool makeUnique = false)
         {
             return string.Format("{0:D21}_{1:D3}", time.UtcTicks, makeUnique ? _keyRandomizer.Next(0, 999) : 0);
-        }        
+        }
 
         void IPipe<string>.Read(IEnumerable<string> buffers)
         {
             var i = 0;
             foreach (var buffer in buffers)
-            {                
+            {
                 if (i == 0)
                 {
                     UserId = buffer;
@@ -74,7 +74,7 @@ namespace Carbon.Business.CloudDomain
         }
 
         IEnumerable<string> IPipe<string>.Write()
-        {            
+        {
             yield return UserId;
             yield return FromVersion;
             yield return ToVersion;
@@ -89,7 +89,7 @@ namespace Carbon.Business.CloudDomain
 
         public void GetStatistics(out int count, out int max, out int total)
         {
-            count = 3;            
+            count = 3;
             max = 0; //does not matter if there are no primitives
             total = 0;
 

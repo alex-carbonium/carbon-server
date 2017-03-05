@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Web.Cors;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
-using Newtonsoft.Json.Linq;
 using Owin;
 using Carbon.Business;
-using Carbon.Business.Domain;
 using Carbon.Data.Azure.Scheduler;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Util;
@@ -30,7 +27,7 @@ namespace Carbon.StorageService
 
         public StorageStartup()
         {
-            
+
         }
         public StorageStartup(Action<IDependencyContainer> addons)
         {
@@ -49,7 +46,7 @@ namespace Carbon.StorageService
 
         private void Configure(IAppBuilder app, string basePath = "")
         {
-            var container = NinjectConfig.Configure(_addons);            
+            var container = NinjectConfig.Configure(_addons);
 
             var logService = container.Resolve<ILogService>();
             var appSettings = container.Resolve<AppSettings>();
@@ -69,11 +66,11 @@ namespace Carbon.StorageService
             }
             else
             {
-                app.UseLogAdapter(container.Resolve<ILogService>());                
+                app.UseLogAdapter(container.Resolve<ILogService>());
                 DataLayerConfig.ConfigureStandalone(container, appSettings);
             }
 
-            app.UseAccessToken(appSettings);            
+            app.UseAccessToken(appSettings);
 
             app.Map("/signalr", signalr =>
             {
@@ -81,7 +78,7 @@ namespace Carbon.StorageService
                 {
                     AllowAnyHeader = true,
                     AllowAnyMethod = false,
-                    AllowAnyOrigin = false,                    
+                    AllowAnyOrigin = false,
                     Methods = { "GET", "POST", "OPTIONS"}
                 };
                 foreach (var origing in AllowedOrigins.All)
@@ -94,24 +91,14 @@ namespace Carbon.StorageService
                 };
                 signalr.UseCors(corsOptions);
                 signalr.RunSignalR(SignalrConfig.Configure(logService, container, appSettings));
-            });            
+            });
             app.Map("/api", apiApp =>
             {
-                apiApp.UseWebApi(CommonWebApiConfig.Register(typeof (StorageStartup).Assembly, basePath + "/api"));                
+                apiApp.UseWebApi(CommonWebApiConfig.Register(typeof (StorageStartup).Assembly, basePath + "/api"));
 
             });
 
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-            InitializeFontManager(container, appSettings);
-        }
-
-        private static void InitializeFontManager(IDependencyContainer container, AppSettings appSettings)
-        {
-            var fontManager = container.Resolve<FontManager>();
-            var txt = System.IO.File.ReadAllText(appSettings.ResolvePath(Defs.Packages.Data, "systemFonts.json"));
-            var fonts = JObject.Parse(txt);
-            fontManager.Initialize(fonts);
         }
     }
 }

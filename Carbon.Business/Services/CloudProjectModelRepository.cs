@@ -35,8 +35,8 @@ namespace Carbon.Business.Services
 
         public CloudProjectModelRepository(
             ILogService logService,
-            IRepository<ProjectSnapshot> snapshotRepository, 
-            IRepository<ProjectLog> primitivesRepository, 
+            IRepository<ProjectSnapshot> snapshotRepository,
+            IRepository<ProjectLog> primitivesRepository,
             IRepository<ProjectState> realtimeInfoRepository,
             FontManager fontManager)
         {
@@ -45,7 +45,7 @@ namespace Carbon.Business.Services
             _primitivesRepository = primitivesRepository;
             _realtimeInfoRepository = realtimeInfoRepository;
             _fontManager = fontManager;
-        }        
+        }
 
         public override IQueryable<ProjectModel> FindAll(bool cache)
         {
@@ -68,7 +68,7 @@ namespace Carbon.Business.Services
             var realtimeInfo = _realtimeInfoRepository.FindSingleBy(versionSpec);
             return FindById(key, realtimeInfo);
         }
-        public override async Task<ProjectModel> FindByIdAsync(dynamic key, bool lockForUpdate = false)        
+        public override async Task<ProjectModel> FindByIdAsync(dynamic key, bool lockForUpdate = false)
         {
             var versionSpec = new FindByRowKey<ProjectState>(key.CompanyId.ToString(), key.ProjectId.ToString());
             var realtimeInfo = await _realtimeInfoRepository.FindSingleByAsync(versionSpec);
@@ -76,13 +76,13 @@ namespace Carbon.Business.Services
         }
 
         private ProjectModel FindById(dynamic key, ProjectState state)
-        {            
+        {
             if (state == null)
             {
                 return null;
             }
             string projectId = key.ProjectId;
-            string companyId = key.CompanyId;            
+            string companyId = key.CompanyId;
             var model = ProjectModel.CreateLazy(companyId, projectId, LoadModel);
             model.State = state;
             model.EditVersion = state.EditVersion;
@@ -110,7 +110,7 @@ namespace Carbon.Business.Services
             if (model.GetProp("modelVersion") == null)
             {
                 model.SetProp("modelVersion", ModelMigrator.MaxVersion);
-            }            
+            }
 
             var version = string.IsNullOrEmpty(model.EditVersion) ? Guid.NewGuid().ToString() : model.EditVersion;
             var dateTime = DateTimeOffset.UtcNow;
@@ -121,7 +121,7 @@ namespace Carbon.Business.Services
                 snapshot.ContentStream = stream;
                 snapshot.EditVersion = version;
                 await _snapshotRepository.InsertAsync(snapshot);
-            }            
+            }
 
             var state = new ProjectState(model.CompanyId, model.Id);
             state.EditVersion = version;
@@ -135,11 +135,11 @@ namespace Carbon.Business.Services
         {
             throw new NotSupportedException("Use async version");
         }
-        
+
         public override async Task UpdateAsync(ProjectModel model)
-        {            
+        {
             var saved = false;
-            var change = model.Change;            
+            var change = model.Change;
             var realtimeInfo = model.State;
             var originalModel = model;
             var fromVersion = realtimeInfo.EditVersion;
@@ -158,13 +158,13 @@ namespace Carbon.Business.Services
                     realtimeInfo.EditVersion = toVersion;
                     realtimeInfo.TimesSaved += 1;
                     await _realtimeInfoRepository.UpdateAsync(realtimeInfo);
-                    saved = true;                    
+                    saved = true;
                 }
                 catch (UpdateConflictException)
-                {                                        
+                {
                     model = FindById(new {CompanyId = model.CompanyId, ProjectId = model.Id});
                     realtimeInfo = model.State;
-                    tooManyConflicts = ++attempt == MaxUpdateConflicts;                    
+                    tooManyConflicts = ++attempt == MaxUpdateConflicts;
                 }
             } while (!saved && !tooManyConflicts);
 
@@ -174,9 +174,9 @@ namespace Carbon.Business.Services
             }
 
             originalModel.PreviousEditVersion = fromVersion;
-            originalModel.EditVersion = realtimeInfo.EditVersion;            
+            originalModel.EditVersion = realtimeInfo.EditVersion;
             originalModel.State = realtimeInfo;
-            
+
             await _primitivesRepository.InsertAsync(new ProjectLog(model.CompanyId, model.Id)
             {
                 Primitives = change.PrimitiveStrings,
@@ -192,11 +192,11 @@ namespace Carbon.Business.Services
         }
 
         public override void Delete(ProjectModel model)
-        {            
+        {
         }
 
         public override async Task DeleteAsync(ProjectModel model)
-        {            
+        {
             await _snapshotRepository.DeleteAsync(ProjectSnapshot.LatestId(model.CompanyId, model.Id));
 
             dynamic realtimeInfoKey = new ExpandoObject();
@@ -236,13 +236,13 @@ namespace Carbon.Business.Services
                 var rowKey = ProjectLog.GenerateKey(latestSnapshot.DateTime.Add(-PrimitiveKeyTolerance));
                 var forwardSpec = new FindByRowKeyRange<ProjectLog>(partitionKey, fromKey: rowKey);
                 batchPrimitives = (await _primitivesRepository.FindAllByAsync(forwardSpec)).ToList();
-            }            
+            }
 
             var tail = BuildTail(projectId, latestSnapshot.EditVersion, batchPrimitives);
             var updateSnapshot = false;
 
             if (tail.Count > 0)
-            {                
+            {
                 var primitives = new List<DataNodeBasePrimitive>();
 
                 foreach (var batchEntity in tail)
@@ -258,12 +258,12 @@ namespace Carbon.Business.Services
                         c["projectId"] = projectId;
                     });
                 }
-                
-                ApplyPrimitives(model, primitives);                
+
+                ApplyPrimitives(model, primitives);
                 model.EditVersion = tail.Last().ToVersion;
 
-                updateSnapshot = true;                                
-            }            
+                updateSnapshot = true;
+            }
 
             updateSnapshot = ModelMigrator.Run(model, _logService) || updateSnapshot;
 
@@ -278,8 +278,8 @@ namespace Carbon.Business.Services
                         latestSnapshot.DateTime = tail.Last().GetDateTime();
                     }
                     await _snapshotRepository.UpdateAsync(latestSnapshot);
-                }                
-            }            
+                }
+            }
         }
 
         private bool RemoveDuplicatePrimitives(List<DataNodeBasePrimitive> primitives)
@@ -302,7 +302,7 @@ namespace Carbon.Business.Services
                 }
             }
             if (toRemove != null)
-            {                
+            {
                 foreach (var json in toRemove)
                 {
                     primitives.Remove(json);
@@ -315,7 +315,7 @@ namespace Carbon.Business.Services
         private void ApplyPrimitives(DataNode model, List<DataNodeBasePrimitive> primitives)
         {
             var primitiveVisitor = new PrimitiveVisitor(primitives);
-            model.Visit(primitiveVisitor);            
+            model.Visit(primitiveVisitor);
         }
 
         private IList<ProjectLog> BuildTail(string projectId, string fromVersion, IList<ProjectLog> primitives)
@@ -323,7 +323,7 @@ namespace Carbon.Business.Services
             var result = new List<ProjectLog>();
             var index = 0;
             var currentVersion = fromVersion;
-            
+
             //build forward
             while (primitives.Count > 0 && index < primitives.Count)
             {
@@ -359,8 +359,8 @@ namespace Carbon.Business.Services
                     {
                         ++index;
                     }
-                }   
-            }            
+                }
+            }
 
             if (primitives.Count > 0)
             {
@@ -376,6 +376,6 @@ namespace Carbon.Business.Services
             }
 
             return result;
-        }        
+        }
     }
 }
