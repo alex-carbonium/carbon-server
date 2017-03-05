@@ -28,6 +28,11 @@ namespace Carbon.Business.Services
 
         public async Task<int> GetConnectionPort(string userId, string companyId, string projectId)
         {
+            if (string.IsNullOrEmpty(projectId))
+            {
+                return GetPortFromMachineName(Environment.MachineName);
+            }
+
             var permission = await _permissionService.GetProjectPermission(userId, companyId, projectId);
             if (!permission.HasFlag(Permission.Read))
             {
@@ -35,26 +40,7 @@ namespace Carbon.Business.Services
             }
 
             var activeProject = await MarkActiveProject(companyId, projectId);
-
-#if DEBUG
-            return Defs.Azure.StoragePortStart;
-#else
-            if (activeProject.MachineName.Length < 3)
-            {
-                _logger.Fatal("Unexpected machine name: " + activeProject.MachineName);
-                return Defs.Azure.StoragePortStart;
-            }
-
-            var lastDigits = activeProject.MachineName.Substring(activeProject.MachineName.Length - 3);
-            int port;
-            if (!int.TryParse(lastDigits, out port))
-            {
-                _logger.Fatal("Unexpected machine name: " + activeProject.MachineName);
-                return Defs.Azure.StoragePortStart;
-            }
-
-            return Defs.Azure.StoragePortStart + port;
-#endif
+            return GetPortFromMachineName(activeProject.MachineName);
         }
 
         public async Task<ActiveProject> MarkActiveProject(string companyId, string projectId)
@@ -72,6 +58,29 @@ namespace Carbon.Business.Services
                 return await MarkActiveProjectInternal(activeProject.PartitionKey, activeProject.RowKey);
             }
             return activeProject;
+        }
+
+        private int GetPortFromMachineName(string machineName)
+        {
+#if DEBUG
+            return Defs.Azure.StoragePortStart;
+#else
+            if (machineName.Length < 3)
+            {
+                _logger.Fatal("Unexpected machine name: " + machineName);
+                return Defs.Azure.StoragePortStart;
+            }
+
+            var lastDigits = machineName.Substring(machineName.Length - 3);
+            int port;
+            if (!int.TryParse(lastDigits, out port))
+            {
+                _logger.Fatal("Unexpected machine name: " + machineName);
+                return Defs.Azure.StoragePortStart;
+            }
+
+            return Defs.Azure.StoragePortStart + port;
+#endif
         }
 
         private async Task<ActiveProject> MarkActiveProjectInternal(string companyId, string projectId)
