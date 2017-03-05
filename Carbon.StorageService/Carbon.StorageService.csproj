@@ -153,15 +153,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\FontsController.cs" />
     <Compile Include="Controllers\PingController.cs" />
     <Compile Include="SignalR\BaseHub.cs" />
     <Compile Include="Dependencies\NinjectConfig.cs" />
     <Compile Include="SignalR\SignalrConfig.cs" />
     <Compile Include="App_Start\StorageStartup.cs" />
     <Compile Include="Dependencies\StorageDependencyConfig.cs" />
-    <Compile Include="Controllers\ProjectDataController.cs" />
     <Compile Include="SignalR\ModelSyncHub.cs" />
     <Compile Include="SignalR\CustomPipeline.cs" />
     <Compile Include="SignalR\NinjectHubActivator.cs" />

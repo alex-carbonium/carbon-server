@@ -23,7 +23,7 @@ namespace Carbon.Owin.Common.Data
         }
 
         public static void ConfigureStandalone(IDependencyContainer container, AppSettings appSettings)
-        {            
+        {
             //var connectionString = GetConnectionString(appSettings);
             //var codeVersion = Defs.Config.VERSION;
             //NHibernateConfig.ConfigureAndMigrate(connectionString, container, codeVersion);
@@ -37,7 +37,7 @@ namespace Carbon.Owin.Common.Data
         public static void RegisterImplementation(IDependencyContainer container)
         {
             var appSettings = container.Resolve<AppSettings>();
-            var storageConnectionString = appSettings.GetConnectionString("nosql"); 
+            var storageConnectionString = appSettings.GetConnectionString("nosql");
             var storageAccount = storageConnectionString != null ? CloudStorageAccount.Parse(storageConnectionString) : CloudStorageAccount.DevelopmentStorageAccount;
             var azureTableClient = storageAccount.CreateCloudTableClient();
             var azureQueueClient = storageAccount.CreateCloudQueueClient();
@@ -45,7 +45,7 @@ namespace Carbon.Owin.Common.Data
 
             container
                 .RegisterTypePerWebRequest<ICloudUnitOfWork, AzureUnitOfWork>()
-                .RegisterTypePerWebRequest<IUnitOfWork, CompositeUnitOfWork>()                
+                .RegisterTypePerWebRequest<IUnitOfWork, CompositeUnitOfWork>()
                 //.RegisterTypePerWebRequest<ICampaignRepository, CampaignRepository>()
                 //.RegisterTypeSingleton<IMailService, MailService>()
                 .RegisterTypePerWebRequest<CampaignService, CampaignService>()
@@ -58,8 +58,9 @@ namespace Carbon.Owin.Common.Data
                 .RegisterTypeSingleton<IRepository<ProjectSnapshot>, BlobRepository<ProjectSnapshot>>()
                 .RegisterTypeSingleton<IRepository<ProjectLog>, FatEntityRepository<ProjectLog>>()
                 .RegisterTypeSingleton<IRepository<ProjectState>, TableRepository<ProjectState>>()
-                .RegisterTypeSingleton<IRepository<CompanyNameRegistry>, TableRepository<CompanyNameRegistry>>()                
-                
+                .RegisterTypeSingleton<IRepository<ActiveProject>, TableRepository<ActiveProject>>()
+                .RegisterTypeSingleton<IRepository<CompanyNameRegistry>, TableRepository<CompanyNameRegistry>>()
+
                 .RegisterInstance(storageAccount)
                 .RegisterInstance(azureQueueClient)
                 .RegisterInstance(azureBlobClient)

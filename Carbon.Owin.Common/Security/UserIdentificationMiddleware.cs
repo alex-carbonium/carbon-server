@@ -15,9 +15,9 @@ namespace Carbon.Owin.Common.Security
         public override async Task Invoke(IOwinContext context)
         {
             var identityContext = context.GetScopedContainer().Resolve<IIdentityContext>();
-            identityContext.Principal = context.Request.User;            
+            identityContext.Principal = context.Request.User;
             identityContext.SessionId = context.Request.Headers["X-SessionId"] ?? context.Request.Query["sessionId"];
-            await Next.Invoke(context);            
+            await Next.Invoke(context);
         }
     }
 }

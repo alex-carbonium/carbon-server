@@ -1,154 +1,154 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "CodeName": {
-            "type": "string",
-            "defaultValue": "carbon"
-        },
-        "EnvironmentName": {
-            "type": "string"
-        },        
-        "sqlAdminLogin": {
-            "type": "string",
-            "defaultValue": "frink",
-            "minLength": 1
-        },
-        "sqlAdminLoginPassword": {
-            "type": "securestring"
-        },
-        "dbCollation": {
-            "type": "string",
-            "minLength": 1,
-            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
-        },
-        "dbEdition": {
-            "type": "string",
-            "defaultValue": "Basic",
-            "allowedValues": [
-                "Basic",
-                "Standard",
-                "Premium"
-            ]
-        },
-        "dbRequestedServiceObjectiveName": {
-            "type": "string",
-            "defaultValue": "Basic",
-            "allowedValues": [
-                "Basic",
-                "S0",
-                "S1",
-                "S2",
-                "P1",
-                "P2",
-                "P3"
-            ],
-            "metadata": {
-                "description": "Describes the performance level for Edition"
-            }
-        },
-        "storageType": {
-            "type": "string",
-            "defaultValue": "Standard_LRS",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ]
-        }
-
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "CodeName": {
+      "type": "string",
+      "defaultValue": "carbon"
     },
-
-    "variables": {
-        "sqlName": "[concat(parameters('CodeName'), 'sql', parameters('EnvironmentName'))]",
-        "dbName": "[concat(parameters('CodeName'), 'db-', parameters('EnvironmentName'))]",
-        "storageName": "[concat(parameters('CodeName'), 'storage', parameters('EnvironmentName'))]"        
+    "EnvironmentName": {
+      "type": "string"
     },
-    "resources": [
-        {
-            "name": "[variables('sqlName')]",
-            "type": "Microsoft.Sql/servers",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2014-04-01-preview",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "SQL"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('sqlAdminLogin')]",
-                "administratorLoginPassword": "[parameters('sqlAdminLoginPassword')]"
-            },
-            "resources": [
-                {
-                    "name": "AllowAllWindowsAzureIps",
-                    "type": "firewallrules",
-                    "location": "[resourceGroup().location]",
-                    "apiVersion": "2014-04-01-preview",
-                    "dependsOn": [
-                        "[concat('Microsoft.Sql/servers/', variables('sqlName'))]"
-                    ],
-                    "properties": {
-                        "startIpAddress": "0.0.0.0",
-                        "endIpAddress": "255.255.255.255"
-                    }
-                },
-                {
-                    "name": "[variables('dbName')]",
-                    "type": "databases",
-                    "location": "[resourceGroup().location]",
-                    "apiVersion": "2014-04-01-preview",
-                    "dependsOn": [
-                        "[variables('sqlName')]"
-                    ],
-                    "tags": {
-                        "displayName": "Database"
-                    },
-                    "properties": {
-                        "collation": "[parameters('dbCollation')]",
-                        "edition": "[parameters('dbEdition')]",
-                        "maxSizeBytes": "1073741824",
-                        "requestedServiceObjectiveName": "[parameters('dbRequestedServiceObjectiveName')]"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "[variables('storageName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "Storage"
-            },
-            "properties": {
-                "accountType": "[parameters('storageType')]"
-            }
-        }        
-
-    ],
-    "outputs": {
-        "sqlServer": {
-            "type": "string",
-            "value": "[variables('sqlName')]"
-        },
-        "sqlDatabase": {
-            "type": "string",
-            "value": "[variables('dbName')]"
-        },
-        "sqlLogin": {
-            "type": "string",
-            "value": "[parameters('sqlAdminLogin')]"
-        },
-        "sqlPasswordRef": {
-            "type": "string",
-            "value": "sqlAdminPassword"
-        },
-        "nosqlAccount": {
-            "type": "string",
-            "value": "[variables('storageName')]"
-        }
+    "sqlAdminLogin": {
+      "type": "string",
+      "defaultValue": "frink",
+      "minLength": 1
+    },
+    "sqlAdminLoginPassword": {
+      "type": "securestring"
+    },
+    "dbCollation": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "dbEdition": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "Standard",
+        "Premium"
+      ]
+    },
+    "dbRequestedServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "S0",
+        "S1",
+        "S2",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "metadata": {
+        "description": "Describes the performance level for Edition"
+      }
+    },
+    "storageType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
     }
+
+  },
+
+  "variables": {
+    "sqlName": "[concat(parameters('CodeName'), 'sql', parameters('EnvironmentName'))]",
+    "dbName": "[concat(parameters('CodeName'), 'db-', parameters('EnvironmentName'))]",
+    "storageName": "[concat(parameters('CodeName'), 'storage', parameters('EnvironmentName'))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('sqlName')]",
+      "type": "Microsoft.Sql/servers",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-04-01-preview",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "SQL"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlAdminLogin')]",
+        "administratorLoginPassword": "[parameters('sqlAdminLoginPassword')]"
+      },
+      "resources": [
+        {
+          "name": "AllowAllWindowsAzureIps",
+          "type": "firewallrules",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('sqlName'))]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+          }
+        },
+        {
+          "name": "[variables('dbName')]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[variables('sqlName')]"
+          ],
+          "tags": {
+            "displayName": "Database"
+          },
+          "properties": {
+            "collation": "[parameters('dbCollation')]",
+            "edition": "[parameters('dbEdition')]",
+            "maxSizeBytes": "1073741824",
+            "requestedServiceObjectiveName": "[parameters('dbRequestedServiceObjectiveName')]"
+          }
+        }
+      ]
+    },
+    {
+      "name": "[variables('storageName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "Storage"
+      },
+      "properties": {
+        "accountType": "[parameters('storageType')]"
+      }
+    }
+
+  ],
+  "outputs": {
+    "sqlServer": {
+      "type": "string",
+      "value": "[variables('sqlName')]"
+    },
+    "sqlDatabase": {
+      "type": "string",
+      "value": "[variables('dbName')]"
+    },
+    "sqlLogin": {
+      "type": "string",
+      "value": "[parameters('sqlAdminLogin')]"
+    },
+    "sqlPasswordRef": {
+      "type": "string",
+      "value": "sqlAdminPassword"
+    },
+    "nosqlAccount": {
+      "type": "string",
+      "value": "[variables('storageName')]"
+    }
+  }
 }

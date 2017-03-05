@@ -22,12 +22,14 @@ namespace Carbon.Business
             static Config()
             {
                 JsonSerializerSettings = new JsonSerializerSettings();
-                JsonSerializerSettings.Converters.Add(new IsoDateTimeConverter());            
-            }            
+                JsonSerializerSettings.Converters.Add(new IsoDateTimeConverter());
+            }
         }
 
         public static class Azure
         {
+            public const int StoragePortStart = 9100;
+
 #if DEBUG
             public const int TableBatchSize = 1;
             public const int DocumentDbBatchSize = 5;
@@ -35,7 +37,7 @@ namespace Carbon.Business
             public const int TableBatchSize = 100;
             public const int DocumentDbBatchSize = 100;
 #endif
-        }        
+        }
 
         public static class IdentityServer
         {
@@ -49,13 +51,6 @@ namespace Carbon.Business
         {
             public const string Client = "Client";
             public const string Data = "Data";
-        }
-
-        public enum AutoSaveIntervals
-        {
-            Manual = 0,
-            AutoFrequent = 4,
-            AutoSeldom = 60
         }
     }
 }

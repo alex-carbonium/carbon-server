@@ -28,7 +28,7 @@ namespace Carbon.Business.Domain
             {
                 CheckInitialized();
                 return _metadata.Value<JArray>("collection");
-            }            
+            }
         }
         public JArray Popular
         {
@@ -50,7 +50,7 @@ namespace Carbon.Business.Domain
                 .Select(x => collection.SingleOrDefault(y => y["name"].Equals(x)))
                 .Where(x => x != null);
 
-            Popular = new JArray(popular);                        
+            Popular = new JArray(popular);
         }
     }
 }

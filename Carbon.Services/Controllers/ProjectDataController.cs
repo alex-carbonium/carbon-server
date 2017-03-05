@@ -2,17 +2,17 @@
 using Carbon.Owin.Common.Security;
 using Carbon.Owin.Common.WebApi;
 
-namespace Carbon.StorageService.Controllers
-{    
+namespace Carbon.Services.Controllers
+{
     public class ProjectDataController : AuthorizedApiController
     {
-        private readonly ProjectModelService _projectModelService;        
+        private readonly ProjectModelService _projectModelService;
 
-        public ProjectDataController(ProjectModelService projectModelService)             
+        public ProjectDataController(ProjectModelService projectModelService)
         {
             _projectModelService = projectModelService;
         }
-        
+
 
         //[HttpGet]
         //public async Task<HttpResponseMessage> ExportPackage(long id)
@@ -40,8 +40,8 @@ namespace Carbon.StorageService.Controllers
 
         //        foreach (var file in provider.Contents)
         //        {
-        //            var fileName = file.Headers.ContentDisposition.FileName.Trim('\"');                    
-                    
+        //            var fileName = file.Headers.ContentDisposition.FileName.Trim('\"');
+
         //            if (Path.GetExtension(fileName) == ".zip")
         //            {
         //                await _designerService.ImportProjectPackage(user, await file.ReadAsStreamAsync());
@@ -53,7 +53,7 @@ namespace Carbon.StorageService.Controllers
         //                    await _designerService.ImportProject(user, reader.ReadToEnd());
         //                }
         //            }
-        //        }                                                                
+        //        }
         //    }
         //    catch (Exception e)
         //    {
@@ -62,7 +62,7 @@ namespace Carbon.StorageService.Controllers
         //    }
 
         //    return Html("<script>window.parent.postMessage(JSON.stringify({success: true}), '*')</script>");
-        //}        
+        //}
 
         //[HttpPost]
         //public virtual async Task<IHttpActionResult> Duplicate(long id)

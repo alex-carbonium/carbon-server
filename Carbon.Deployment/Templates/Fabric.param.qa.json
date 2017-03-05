@@ -1,41 +1,41 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "EnvironmentName": {
-            "value": "qa2"
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "EnvironmentName": {
+      "value": "qa2"
+    },
+    "nt0capacity": {
+      "value": 3
+    },
+    "vmNodeType0Size": {
+      "value": "Standard_A1"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
         },
-        "nt0capacity": {
-            "value": 3
-        },
-        "vmNodeType0Size": {
-            "value": "Standard_A1"
-        },
-        "adminPassword": {
-            "reference": {
-                "keyVault": {
-                    "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
-                },
-                "secretName": "rdpAdminPassword"
-            }
-        },
-        "sourceVaultValue": {
-            "value": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
-        },
-        "clusterCertificateUrl": {
-            "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{ClusterCertificateName}/{ClusterCertificateVersion}"
-        },
-        "clusterCertificateThumbprint": {
-            "value": "{ClusterCertificateThumbprint}"
-        },
-        "idSrvCertificateUrl": {
-            "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{IdSrvCertificateName}/{IdSrvCertificateVersion}"
-        },
-        "encryptionCertificateUrl": {
-            "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{EncryptCertificateName}/{EncryptCertificateVersion}"
-        },
-        "sslCertificateUrl": {
-            "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{SslCertificateName}/{SslCertificateVersion}"
-        }
+        "secretName": "rdpAdminPassword"
+      }
+    },
+    "sourceVaultValue": {
+      "value": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
+    },
+    "clusterCertificateUrl": {
+      "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{ClusterCertificateName}/{ClusterCertificateVersion}"
+    },
+    "clusterCertificateThumbprint": {
+      "value": "{ClusterCertificateThumbprint}"
+    },
+    "idSrvCertificateUrl": {
+      "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{IdSrvCertificateName}/{IdSrvCertificateVersion}"
+    },
+    "encryptionCertificateUrl": {
+      "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{EncryptCertificateName}/{EncryptCertificateVersion}"
+    },
+    "sslCertificateUrl": {
+      "value": "https://{keyVaultName}.vault.azure.net:443/secrets/{SslCertificateName}/{SslCertificateVersion}"
     }
+  }
 }

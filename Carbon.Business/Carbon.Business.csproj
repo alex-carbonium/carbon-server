@@ -143,6 +143,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="CloudDomain\ActiveProject.cs" />
     <Compile Include="CloudDomain\CompanyFile.cs" />
     <Compile Include="CloudDomain\FeatureSubscription.cs" />
     <Compile Include="CloudDomain\Html\FileModel.cs" />
@@ -228,15 +229,18 @@
     <Compile Include="ModelMigrations\ModelMigrationAttribute.cs" />
     <Compile Include="ModelMigrations\ModelMigrator.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\ActiveProjectTrackingService.cs" />
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\CloudProjectModelRepository.cs" />
     <Compile Include="Services\HtmlService.cs" />
+    <Compile Include="Services\IActiveProjectActor.cs" />
     <Compile Include="Services\IActorFabric.cs" />
     <Compile Include="Services\ICampaignRepository.cs" />
     <Compile Include="Services\ICompanyActor.cs" />
     <Compile Include="Services\IFileWatcherService.cs" />
     <Compile Include="Services\IMailService.cs" />
     <Compile Include="Services\IProjectRendersService.cs" />
+    <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Services\ProjectModelService.cs" />
     <Compile Include="Services\ICommentsService.cs" />
     <Compile Include="Services\CampaignService.cs" />

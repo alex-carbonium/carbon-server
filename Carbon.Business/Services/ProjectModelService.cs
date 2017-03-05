@@ -13,35 +13,41 @@ using Carbon.Business.Logging;
 namespace Carbon.Business.Services
 {
     public class ProjectModelService
-    {                
-        private readonly IRepository<ProjectModel> _projectModelRepository;        
+    {
+        private readonly IRepository<ProjectModel> _projectModelRepository;
         private readonly ILogService _logService;
-        private readonly IActorFabric _actorFabric;        
+        private readonly IActorFabric _actorFabric;
+        private readonly PermissionService _permissionService;
+        private readonly ActiveProjectTrackingService _trackingService;
 
         public ProjectModelService(
             IRepository<ProjectModel> projectModelRepository,
             ILogService logService,
-            IActorFabric actorFabric)
+            IActorFabric actorFabric,
+            PermissionService permissionService,
+            ActiveProjectTrackingService trackingService)
         {
             _projectModelRepository = projectModelRepository;
             _logService = logService;
-            _actorFabric = actorFabric;            
-        }                        
+            _actorFabric = actorFabric;
+            _permissionService = permissionService;
+            _trackingService = trackingService;
+        }
 
         public async Task<ProjectModel> ChangeProjectModel(IDependencyContainer scope, ProjectModelChange change)
         {
             Task<Permission> permissionTask;
             Task<ProjectModel> modelTask;
-            
+
             if (string.IsNullOrEmpty(change.ModelId))
-            {                
+            {
                 modelTask = CreateProjectAndModel(change.UserId, change.CompanyId);
                 permissionTask = Task.FromResult(Permission.Write);
             }
             else
             {
-                permissionTask = GetProjectPermission(change.UserId, change.CompanyId, change.ModelId);
-                modelTask = FindProjectModel(change.CompanyId, change.ModelId);                
+                permissionTask = _permissionService.GetProjectPermission(change.UserId, change.CompanyId, change.ModelId);
+                modelTask = FindProjectModel(change.CompanyId, change.ModelId);
             }
 
             var primitivesList = change.EnsurePrimitivesParsed();
@@ -50,14 +56,14 @@ namespace Carbon.Business.Services
             var model = modelTask.Result;
 
             if (primitivesList.Count > 0)
-            {                
-                var context = new Lazy<PrimitiveContext>(() => PrimitiveContext.Create(scope));                
+            {
+                var context = new Lazy<PrimitiveContext>(() => PrimitiveContext.Create(scope));
                 PrimitiveHandler.ApplyImmediate(primitivesList, model, () => context.Value);
 
                 model.Change = change;
-                var originalVersion = model.EditVersion;                
+                var originalVersion = model.EditVersion;
                 await UpdateProjectModel(model, permissionTask.Result);
-                var fromVersion = model.PreviousEditVersion;                
+                var fromVersion = model.PreviousEditVersion;
 
                 if (originalVersion != fromVersion)
                 {
@@ -67,7 +73,7 @@ namespace Carbon.Business.Services
                         c["originalVersion"] = originalVersion;
                         c["fromVersion"] = fromVersion;
                     });
-                }                                
+                }
             }
             else if (!permissionTask.Result.HasFlag(Permission.Read))
             {
@@ -107,21 +113,16 @@ namespace Carbon.Business.Services
                 throw new InsufficientPermissionsException(requestedPermission, permission);
             }
             await _projectModelRepository.UpdateAsync(projectModel);
-        }
-
-        public async Task<Permission> GetProjectPermission(string userId, string companyId, string projectId)
-        {
-            var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
-            return (Permission)await actor.GetProjectPermission(userId, projectId);
+            await _trackingService.MarkActiveProject(projectModel.CompanyId, projectModel.Id);
         }
 
         private static dynamic GetProjectModelKey(string companyId, string projectId)
-        {                        
-            dynamic key = new ExpandoObject();            
+        {
+            dynamic key = new ExpandoObject();
             key.CompanyId = companyId;
             key.ProjectId = projectId;
             return key;
-        }                                        
+        }
 
         //public AccessibleProject FindProjectByShareCode(User user, string shareCode)
         //{
@@ -152,7 +153,7 @@ namespace Carbon.Business.Services
         //}
 
         public void DeleteProject(User user, Project project)
-        {            
+        {
 //            _security.AssertProjectPermission(project, user, Permission.DeleteProject);
 //            var comments = _unitOfWork.FindAllBy(Comment.FindByProjectSpec(project.Id));
 //            _unitOfWork.DeleteAll(comments);
@@ -184,10 +185,10 @@ namespace Carbon.Business.Services
         //            {
         //                writer.Write(projectFile);
         //                writer.Flush();
-        //            }                    
+        //            }
         //        }
         //        return stream.ToArray();
-        //    }            
+        //    }
         //}
 
 //        public async Task<ProjectModel> ImportProject(User user, string data)
@@ -202,14 +203,14 @@ namespace Carbon.Business.Services
 //                                 };
 //
 //            var model = await SaveProjectModel(user, descriptor);
-//            
+//
 //            _unitOfWork.Update(model.Project);
 //
 //            return model;
 //        }
 
         //public async Task<ProjectModel> ImportProjectPackage(User user, Stream stream)
-        //{            
+        //{
         //    ProjectModel projectModel = null;
         //    using (var package = Package.Open(stream))
         //    {
@@ -220,7 +221,7 @@ namespace Carbon.Business.Services
         //            {
         //                using (var streamReader = new StreamReader(part.GetStream(), Encoding))
         //                {
-        //                    var content = streamReader.ReadToEnd();                            
+        //                    var content = streamReader.ReadToEnd();
         //                    projectModel = await ImportProject(user, content);
         //                }
         //            }
@@ -233,7 +234,7 @@ namespace Carbon.Business.Services
         //    }
 
         //    return projectModel;
-        //}        
+        //}
 
         //public async Task<ProjectModel> DuplicateProject(User user, long projectId, long? folderId = null)
         //{
@@ -247,12 +248,12 @@ namespace Carbon.Business.Services
         //    }
 
         //    var clonedData = await DuplicateProject(user, meta);
-        //    clonedData.Project.Name = meta.Name;            
+        //    clonedData.Project.Name = meta.Name;
         //    clonedData.Project.Shareability = ProjectShareability.None;
 
         //    return clonedData;
         //}
-        
+
         //public ProjectFolder AddNewFolder(User user, long parentId, string name)
         //{
         //    var parentFolder = _unitOfWork.FindById<ProjectFolder>(parentId);

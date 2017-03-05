@@ -5,7 +5,7 @@ namespace Carbon.Business.Domain
     public class CompanyNameRegistry : TableEntity
     {
         public CompanyNameRegistry()
-        {            
+        {
         }
         public CompanyNameRegistry(string name)
         {

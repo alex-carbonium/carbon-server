@@ -1,36 +1,36 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "EnvironmentName": {
-            "value": "qa"
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "EnvironmentName": {
+      "value": "qa"
+    },
+    "AppSettings": {
+      "value": {
+        "ServicesEndpoint": "//carbon-services-qa.azurewebsites.net",
+        "CdnEndpoint": "carboncdnqa.azureedge.net",
+        "Environment": "qa-frontend"
+      }
+    },
+    "nt0capacity": {
+      "value": 1
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/ac722980-24b7-4f7d-8306-11abad234de5/resourceGroups/carbon-common/providers/Microsoft.KeyVault/vaults/carbon-vault"
         },
-        "AppSettings": {
-            "value": {
-                "ServicesEndpoint": "//carbon-services-qa.azurewebsites.net",
-                "CdnEndpoint": "carboncdnqa.azureedge.net",
-                "Environment": "qa-frontend"
-            }
-        },
-        "nt0capacity": {
-            "value": 1
-        },
-        "adminPassword": {
-            "reference": {
-                "keyVault": {
-                    "id": "/subscriptions/ac722980-24b7-4f7d-8306-11abad234de5/resourceGroups/carbon-common/providers/Microsoft.KeyVault/vaults/carbon-vault"
-                },
-                "secretName": "rdpAdminPassword"
-            }
-        },
-        "sourceVaultValue": {
-            "value": "/subscriptions/ac722980-24b7-4f7d-8306-11abad234de5/resourceGroups/carbon-common/providers/Microsoft.KeyVault/vaults/carbon-vault"
-        },
-        "certificateUrlValue": {
-            "value": "https://carbon-vault.vault.azure.net:443/secrets/fabric-prod/025032e0ed324be3a591100ff6678cb7"
-        },
-        "certificateThumbprint": {
-            "value": "F9AB9285CCDC04C5F958B90D609893272E575426"
-        }
+        "secretName": "rdpAdminPassword"
+      }
+    },
+    "sourceVaultValue": {
+      "value": "/subscriptions/ac722980-24b7-4f7d-8306-11abad234de5/resourceGroups/carbon-common/providers/Microsoft.KeyVault/vaults/carbon-vault"
+    },
+    "certificateUrlValue": {
+      "value": "https://carbon-vault.vault.azure.net:443/secrets/fabric-prod/025032e0ed324be3a591100ff6678cb7"
+    },
+    "certificateThumbprint": {
+      "value": "F9AB9285CCDC04C5F958B90D609893272E575426"
     }
+  }
 }

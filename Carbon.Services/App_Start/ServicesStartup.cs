@@ -14,6 +14,8 @@ using Carbon.Services;
 using Carbon.Services.IdentityServer;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
+using Carbon.Business.Domain;
+using Newtonsoft.Json.Linq;
 
 [assembly: OwinStartup(typeof(ServicesStartup))]
 
@@ -42,7 +44,7 @@ namespace Carbon.Services
 
             app.UseTelemetry(appSettings);
             app.Use(typeof(NinjectMiddleware), container);
-            
+
             app.Map("/idsrv", idsrv =>
             {
                 //temp middleware to set acs headers which identityserver does not expose
@@ -56,26 +58,28 @@ namespace Carbon.Services
                     await next.Invoke();
                 });
 
-                IdentityServerConfig.Configure(idsrv, container, appSettings);                
-                
+                IdentityServerConfig.Configure(idsrv, container, appSettings);
+
                 //userId needs to run on idsrv path to get auth cookie for token renewal
                 idsrv.Map("/ext", ext =>
                 {
-                    ext.UseAccessToken(appSettings);                    
+                    ext.UseAccessToken(appSettings);
                     ext.UseWebApi(IdentityWebApiConfig.Register());
                 });
             });
-            
+
             //app.Map("/storage", storage => new StorageStartup().ConfigureAsEmbedded(storage, "/storage"));
             app.Map("/api", api =>
-            {                
-                api.UseAccessToken(appSettings);                
+            {
+                api.UseAccessToken(appSettings);
                 api.UseWebApi(CommonWebApiConfig.Register(typeof(ServicesStartup).Assembly, "/api"));
-            });            
+            });
 
             var dataProvider = container.Resolve<DataProvider>();
             SetupFileSystem(app, dataProvider, "/target", "target");
             SetupFileSystem(app, dataProvider, "/fonts", @"target\fonts");
+
+            InitializeFontManager(container, appSettings);
 
             app.UseWebApi(HtmlWebApiConfig.Register());
         }
@@ -90,7 +94,15 @@ namespace Carbon.Services
                     RequestPath = new PathString(pathString),
                     FileSystem = new PhysicalFileSystem(resolvedPath)
                 });
-            }            
+            }
+        }
+
+        private static void InitializeFontManager(IDependencyContainer container, AppSettings appSettings)
+        {
+            var fontManager = container.Resolve<FontManager>();
+            var txt = File.ReadAllText(appSettings.ResolvePath(Defs.Packages.Data, "systemFonts.json"));
+            var fonts = JObject.Parse(txt);
+            fontManager.Initialize(fonts);
         }
     }
 }

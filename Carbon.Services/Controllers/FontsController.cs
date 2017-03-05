@@ -5,13 +5,13 @@ using Newtonsoft.Json.Linq;
 using Carbon.Business.Domain;
 using Carbon.Owin.Common.WebApi;
 
-namespace Carbon.StorageService.Controllers
+namespace Carbon.Services.Controllers
 {
     [RoutePrefix("fonts")]
     public class FontsController : BaseApiController
     {
         private const int PageSize = 50;
-        private readonly FontManager _fontManager;                
+        private readonly FontManager _fontManager;
 
         public FontsController(FontManager fontManager)
         {
@@ -37,7 +37,7 @@ namespace Carbon.StorageService.Controllers
 
         [Route("search"), HttpGet]
         public dynamic Search(string query, int pageNumber = 1)
-        {                        
+        {
             var result = new JObject();
             var fonts = _fontManager.Collection
                 .Where(x => x.Value<string>("name").IndexOf(query, StringComparison.OrdinalIgnoreCase) != -1)
@@ -45,10 +45,10 @@ namespace Carbon.StorageService.Controllers
             result["fonts"] = new JArray(fonts.Skip((pageNumber - 1) * PageSize).Take(PageSize));
             result["pageCount"] = (int)Math.Ceiling((decimal)fonts.Count/PageSize);
             return result;
-        }       
+        }
 
         private int GetTotalPages()
-        {            
+        {
             return (int)Math.Ceiling((decimal)_fontManager.Collection.Count / PageSize) + 1;
         }
     }
