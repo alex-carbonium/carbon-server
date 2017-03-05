@@ -21,21 +21,21 @@ namespace Carbon.Test.Unit.Business
         private const string OwnerId = "owner";
         private const string GuestId = "guest";
 
-        private ProjectModelService _designerService;        
+        private ProjectModelService _designerService;
 
         [TestInitialize]
         public override void Setup()
         {
-            base.Setup();            
-    
-            _designerService = Scope.Resolve<ProjectModelService>();            
+            base.Setup();
+
+            _designerService = Scope.Resolve<ProjectModelService>();
         }
 
         [TestMethod]
         public async Task SimpleSaveAndRetrieve()
         {
             //arrange
-            var model = new ProjectModel();            
+            var model = new ProjectModel();
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
 
             //act
@@ -44,14 +44,14 @@ namespace Carbon.Test.Unit.Business
 
             //assert
             Assert.IsFalse(persisted.Loaded, "Model must be lazy loaded");
-            await persisted.EnsureLoaded();            
-            Assert.AreEqual(1, persisted.Children.Count, "Model loaded incorrectly");            
+            await persisted.EnsureLoaded();
+            Assert.AreEqual(1, persisted.Children.Count, "Model loaded incorrectly");
             Assert.IsTrue(persisted.Loaded, "Model must be loaded");
-            
+
             var latestSnapshot = SnapshotRepository.FindById(ProjectSnapshot.LatestId(model.CompanyId, model.Id));
             var realtimeInfo = RealtimeRepository.Store[0];
 
-            Assert.IsNotNull(latestSnapshot, "Latest snapshot must be created");            
+            Assert.IsNotNull(latestSnapshot, "Latest snapshot must be created");
             Assert.AreEqual(realtimeInfo.EditVersion, latestSnapshot.EditVersion, "Wrong edit version");
             Assert.AreEqual(persisted.EditVersion, latestSnapshot.EditVersion, "Wrong model edit version");
             Assert.AreEqual(latestSnapshot.EditVersion, latestSnapshot.EditVersion, "Wrong snapshot version");
@@ -62,7 +62,7 @@ namespace Carbon.Test.Unit.Business
         //[TestMethod]
         //public async Task SavingShouldPreserveWithSpecificModelVersionIfSet()
         //{
-        //    //arrange            
+        //    //arrange
         //    var model = new ProjectModel();
         //    AddChanges(model, PrimitiveStubs.AppPropertyChanged("modelVersion", "1"));
 
@@ -79,14 +79,14 @@ namespace Carbon.Test.Unit.Business
         [TestMethod]
         public async Task SaveThenUpdateWithPrimitivesThenRetrieve()
         {
-            //arrange            
+            //arrange
             var model = new ProjectModel();
             AddChanges(model, PrimitiveStubs.PageAdd("PageId1"));
 
-            model = await _designerService.ChangeProjectModel(Scope, model.Change);            
+            model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
-            var persisted = await _designerService.ChangeProjectModel(Scope, AddChanges(model));            
+            //act
+            var persisted = await _designerService.ChangeProjectModel(Scope, AddChanges(model));
 
             AddChanges(persisted, PrimitiveStubs.PageAdd("PageId2"));
             await _designerService.UpdateProjectModel(persisted, Permission.Write);
@@ -105,12 +105,12 @@ namespace Carbon.Test.Unit.Business
         [TestMethod]
         public async Task UnrelatedPrimitivesShouldBeIgnored()
         {
-            //arrange            
-            var model = new ProjectModel();           
+            //arrange
+            var model = new ProjectModel();
 
             model = await _designerService.ChangeProjectModel(Scope, AddChanges(model));
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, AddChanges(model));
 
             AddChanges(persisted, new RawPrimitive { Type = PrimitiveType.Error });
@@ -132,7 +132,7 @@ namespace Carbon.Test.Unit.Business
 
             //act && assert
             var change = CreateChange(model, GuestId);
-            await _designerService.ChangeProjectModel(Scope, change);                                    
+            await _designerService.ChangeProjectModel(Scope, change);
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace Carbon.Test.Unit.Business
 
             await ActorFabricStub.GetProxy<ICompanyActor>(OwnerId).ShareProject(GuestId, model.Id, (int)Permission.Write);
 
-            //act                        
+            //act
             var change = CreateChange(model, GuestId);
             var persisted = await _designerService.ChangeProjectModel(Scope, change);
             change = CreateChange(persisted, GuestId, OwnerId, PrimitiveStubs.PageAdd("PageId2"));
@@ -160,12 +160,12 @@ namespace Carbon.Test.Unit.Business
         [TestMethod]
         public async Task PrimitivesCanBeInTheWrongOrder()
         {
-            //arrange            
+            //arrange
             var model = new ProjectModel();
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId2") });
@@ -194,7 +194,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId2") });
@@ -222,7 +222,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId2") });
             await _designerService.UpdateProjectModel(persisted, Permission.Write);
@@ -257,7 +257,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId2") });
@@ -276,7 +276,7 @@ namespace Carbon.Test.Unit.Business
             persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
             await persisted.EnsureLoaded();
 
-            //assert            
+            //assert
             Assert.AreEqual("new name 2", persisted.FindPageById("PageId2").GetProp("name"), "Primitives should be 'glued' together even if version does not match");
             Logger.VerifyWarningWithContext("Could not build tail");
         }
@@ -289,7 +289,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model, PrimitiveStubs.PageAdd("PageId1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act                        
+            //act
             for (var i = 0; i < CloudProjectModelRepository.SnapshotFlushInterval; ++i)
             {
                 var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
@@ -301,7 +301,7 @@ namespace Carbon.Test.Unit.Business
             model = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
             await model.EnsureLoaded();
 
-            //assert            
+            //assert
             var lastSnapshot = SnapshotRepository.FindAll().Last();
             var lastBatch = PrimitivesRepository.FindAll().Last();
             Assert.AreEqual(lastBatch.ToVersion, lastSnapshot.EditVersion, "Wrong version of latest snapshot");
@@ -320,7 +320,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model, PrimitiveStubs.PageAdd("Page1"));
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId2") });
@@ -332,7 +332,7 @@ namespace Carbon.Test.Unit.Business
             var found1 = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
             var found2 = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
-            //assert                        
+            //assert
             await found1.EnsureLoaded();
             await found2.EnsureLoaded();
 
@@ -350,10 +350,10 @@ namespace Carbon.Test.Unit.Business
         public async Task SavingRealtimeInfoMayFailWithUpdateConflict()
         {
             //arrange
-            var model = new ProjectModel();            
+            var model = new ProjectModel();
             model = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId1") });
 
@@ -379,7 +379,7 @@ namespace Carbon.Test.Unit.Business
             await _designerService.UpdateProjectModel(persisted, Permission.Write);
             var toVersion = persisted.EditVersion;
 
-            //assert                                    
+            //assert
             Assert.AreNotEqual(fromVersion, toVersion, "Model must be updated with a new version");
             Assert.AreEqual(conflictedEditVersion, persisted.PreviousEditVersion, "Previous edit version must be correctly in case of conflict");
 
@@ -397,7 +397,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model);
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             var persisted = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             AddChanges(persisted, new[] { PrimitiveStubs.PageAdd("PageId1") });
@@ -430,7 +430,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model);
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             model = await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             var pageAdd = PrimitiveStubs.PageAdd("Page1");
@@ -456,7 +456,7 @@ namespace Carbon.Test.Unit.Business
             AddChanges(model);
             model = await _designerService.ChangeProjectModel(Scope, model.Change);
 
-            //act            
+            //act
             await _designerService.ChangeProjectModel(Scope, CreateChange(model));
 
             var snapshot = await SnapshotRepository.FindByIdAsync(ProjectSnapshot.LatestId(model.CompanyId, model.Id));
@@ -483,7 +483,7 @@ namespace Carbon.Test.Unit.Business
             var model1 = new ProjectModel();
             model1.Change = CreateChange(model1, OwnerId, OwnerId, PrimitiveStubs.PageAdd("1"));
             model1 = await _designerService.ChangeProjectModel(Scope, model1.Change);
-                     
+
             var model2 = new ProjectModel();
             model2.Change = CreateChange(model2, GuestId, GuestId, PrimitiveStubs.AppPropertyChanged("name", "newName"));
             model2 = await _designerService.ChangeProjectModel(Scope, model2.Change);
@@ -497,7 +497,7 @@ namespace Carbon.Test.Unit.Business
             model2 = await _designerService.ChangeProjectModel(Scope, model2.Change);
             await model2.EnsureLoaded();
 
-            Assert.AreEqual(model1.Id, model2.Id);            
+            Assert.AreEqual(model1.Id, model2.Id);
             Assert.AreEqual(1, model1.Children?.Count);
             Assert.AreEqual(null, model2.Children);
 
