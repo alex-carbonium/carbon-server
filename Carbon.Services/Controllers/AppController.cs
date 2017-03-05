@@ -12,16 +12,16 @@ namespace Carbon.Services.Controllers
         {
             _resourceCache = resourceCache;
         }
-        
+
         [HttpGet]
         public HttpResponseMessage Index()
         {
             return Response(@"target\index.html");
-        }        
+        }
 
         private HttpResponseMessage Response(string file)
         {
-            var content = _resourceCache.GetHtmlFile(file);            
+            var content = _resourceCache.GetHtmlFile(file);
             var response = new HttpResponseMessage();
             response.Content = new StringContent(content);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");

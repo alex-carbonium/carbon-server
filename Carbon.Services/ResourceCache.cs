@@ -7,7 +7,7 @@ namespace Carbon.Services
     public class ResourceCache
     {
         private readonly AppSettings _appSettings;
-        private readonly DataProvider _dataProvider;        
+        private readonly DataProvider _dataProvider;
         private readonly ConcurrentDictionary<string, string> _content = new ConcurrentDictionary<string, string>();
 
         public ResourceCache(AppSettings appSettings, DataProvider dataProvider)

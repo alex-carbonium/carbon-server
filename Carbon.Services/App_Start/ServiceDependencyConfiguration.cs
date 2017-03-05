@@ -47,6 +47,7 @@ namespace Carbon.Services
                 .RegisterTypeSingleton<ActiveProjectTrackingService, ActiveProjectTrackingService>()
                 .RegisterTypeSingleton<SharingService, SharingService>()
                 .RegisterTypeSingleton<AccountService, AccountService>()
+                .RegisterTypeSingleton<DataService, DataService>()
                 .RegisterTypeSingleton<IRepository<ShareToken>, TableRepository<ShareToken>>()
                 .RegisterTypeSingleton<IRepository<SharedPage>, TableRepository<SharedPage>>()
                 .RegisterTypeSingleton<IRepository<FeatureSubscription>, TableRepository<FeatureSubscription>>()
