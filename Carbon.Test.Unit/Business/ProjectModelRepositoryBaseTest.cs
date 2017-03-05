@@ -17,11 +17,13 @@ namespace Carbon.Test.Unit.Business
             base.Setup();
 
             RealtimeRepository = SetupInMemoryRepository<ProjectState>();
-            SnapshotRepository = new ProjectSnaphotRepositoryStub();            
-            PrimitivesRepository = SetupInMemoryRepository<ProjectLog>();            
+            SnapshotRepository = new ProjectSnaphotRepositoryStub();
+            PrimitivesRepository = SetupInMemoryRepository<ProjectLog>();
 
             Container.RegisterInstance<IRepository<ProjectSnapshot>>(SnapshotRepository);
-            Container.RegisterInstance<FontManager>(new TestFontManager());                                   
+            Container.RegisterInstance<FontManager>(new TestFontManager());
+
+            SetupInMemoryRepository<ActiveProject>();
         }
 
         protected InMemoryRepository<T> SetupInMemoryRepository<T>()
