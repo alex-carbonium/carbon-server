@@ -12,6 +12,7 @@ namespace Carbon.Business.Sync
         DataNodeChangePosition = 5,
         DataNodePatchProps = 6,
         Selection = 7,
+        View = 8,
 
         ProjectNameChange = 10,
 
@@ -49,6 +50,7 @@ namespace Carbon.Business.Sync
                 case PrimitiveType.DataNodeSetProps:
                 case PrimitiveType.DataNodePatchProps:
                 case PrimitiveType.Selection:
+                case PrimitiveType.View:
                     return Permission.Write;
                 default:
                     return Permission.Owner;
