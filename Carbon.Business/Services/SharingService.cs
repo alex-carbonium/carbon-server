@@ -34,7 +34,7 @@ namespace Carbon.Business.Services
 
         public async Task<ShareToken> Invite(string userId, string companyId, string projectId, Permission permission, string email = null)
         {
-            var token = await GenerateShareToken(companyId, projectId, permission, email);
+            var token = await GenerateShareToken(companyId, userId, projectId, permission, email);
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
             if (!string.IsNullOrEmpty(email))
             {
@@ -44,7 +44,7 @@ namespace Carbon.Business.Services
             return token;
         }
 
-        private async Task<ShareToken> GenerateShareToken(string companyId, string projectId, Permission permission, string email = null)
+        private async Task<ShareToken> GenerateShareToken(string companyId, string userId, string projectId, Permission permission, string email = null)
         {
             ShareToken token = null;
             for (var i = 0; i < 10; ++i)
@@ -54,7 +54,8 @@ namespace Carbon.Business.Services
                     CompanyId = companyId,
                     ProjectId = projectId,
                     Permission = (int)permission,
-                    Email = email
+                    Email = email,
+                    CreatedByUserId = userId
                 };
                 token.SetCode(GenerateShareCode());
 
@@ -117,7 +118,8 @@ namespace Carbon.Business.Services
                 {
                     CompanyId = companyId,
                     ProjectId = projectId,
-                    Permission = (int)Permission.Read
+                    Permission = (int)Permission.Read,
+                    CreatedByUserId = userId
                 };
                 token.SetCode(GenerateShareCode());
 
@@ -158,7 +160,13 @@ namespace Carbon.Business.Services
             return new string(result.ToArray());
         }
 
-        public async Task<ExternalAcl> UseCode(string userId, string code)
+        private static Project FindProject(Company company, string projectId)
+        {
+            //find in folders here
+            return company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
+        }
+
+        public async Task<(ExternalAcl acl, string userId)?> UseCode(string requestingUserId, string code)
         {
             var token = await _shareTokenRepository.FindSingleByAsync(new FindByRowKey<ShareToken>(code, code));
             if (token == null)
@@ -169,13 +177,13 @@ namespace Carbon.Business.Services
             var actor = _actorFabric.GetProxy<ICompanyActor>(token.CompanyId);
             var permission = token.Permission;
 
-            var aclTask = actor.ShareProject(userId, token.ProjectId, permission);
+            var aclTask = actor.ShareProject(requestingUserId, token.ProjectId, permission);
 
             ++token.TimesUsed;
             var updateToken = _shareTokenRepository.UpdateAsync(token);
 
             await Task.WhenAll(aclTask, updateToken);
-            return aclTask.Result;
+            return (aclTask.Result, token.CreatedByUserId);
         }
 
         private async Task<string> SaveImage(string id, string dataUrl)

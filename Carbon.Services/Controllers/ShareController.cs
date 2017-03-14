@@ -65,13 +65,14 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("use")]
         public async Task<IHttpActionResult> Use(string code)
         {
-            var acl = await _sharingService.UseCode(GetUserId(), code);
-            if (acl == null)
+            var result = await _sharingService.UseCode(GetUserId(), code);
+            if (!result.HasValue)
             {
                 return Forbidden();
             }
+            (var acl, var userId) = result.Value;
 
-            return Ok(new { acl.CompanyName, ProjectId = acl.Entry.ResourceId, CompanyId = acl.Entry.Sid });
+            return Ok(new { acl.CompanyName, ProjectId = acl.Entry.ResourceId, UserId = userId, CompanyId = acl.Entry.Sid });
         }
 
         [HttpPost, Route("publishPage")]

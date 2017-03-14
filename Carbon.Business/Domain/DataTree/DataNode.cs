@@ -7,16 +7,16 @@ using Newtonsoft.Json;
 namespace Carbon.Business.Domain.DataTree
 {
     public class DataNode : JsonObject
-    {        
+    {
         private DataNode()
-        {                        
+        {
         }
         public DataNode(string id, string type)
-        {            
+        {
             Props = new Dictionary<string, dynamic>();
             Type = type;
             Id = id;
-        }                                        
+        }
 
         protected override bool ReadProperty(string property, JsonReader reader)
         {
@@ -25,7 +25,7 @@ namespace Carbon.Business.Domain.DataTree
                 case "t":
                     Type = ReadString(reader);
                     return true;
-                case "props": 
+                case "props":
                     Props = ReadProps(reader);
                     return true;
                 case "children":
@@ -33,11 +33,11 @@ namespace Carbon.Business.Domain.DataTree
 
                     ReadAssert(reader, JsonToken.PropertyName);
                     ReadAssert(reader, JsonToken.StartArray);
-                    
+
                     while (reader.TokenType == JsonToken.StartObject)
                     {
                         var child = Create(reader);
-                        Children.Add(child);                        
+                        Children.Add(child);
                     }
 
                     ReadAssert(reader, JsonToken.EndArray);
@@ -61,7 +61,7 @@ namespace Carbon.Business.Domain.DataTree
                 writer.WritePropertyName("children");
                 writer.WriteStartArray();
                 foreach (var child in Children)
-                {                                        
+                {
                     child.Write(writer);
                 }
                 writer.WriteEndArray();
@@ -78,13 +78,13 @@ namespace Carbon.Business.Domain.DataTree
 
         public Dictionary<string, dynamic> Props { get; set; }
 
-        public IList<DataNode> Children { get; set; }        
-       
+        public IList<DataNode> Children { get; set; }
+
         public dynamic GetProp(string name)
         {
             dynamic value;
             Props.TryGetValue(name, out value);
-            return value;            
+            return value;
         }
 
         public DataNode SetProp(string name, dynamic value)
@@ -93,24 +93,24 @@ namespace Carbon.Business.Domain.DataTree
             return this;
         }
         public void SetProps(IDictionary<string, dynamic> changes)
-        {            
+        {
             foreach (var change in changes)
             {
                 Props[change.Key] = change.Value;
-            }            
+            }
         }
 
         public bool IsPrimitiveRoot()
         {
-            return Type == NodeType.ArtboardPage 
-                || Type == NodeType.Artboard 
-                || Type == NodeType.StateBoard 
+            return Type == NodeType.ArtboardPage
+                || Type == NodeType.Artboard
+                || Type == NodeType.StateBoard
                 || Type == NodeType.Page;
         }
 
         public DataNode AddChild(string id, string type)
         {
-            var node = new DataNode(id, type);            
+            var node = new DataNode(id, type);
             EnsureChildren();
             Children.Add(node);
             return node;
@@ -190,21 +190,30 @@ namespace Carbon.Business.Domain.DataTree
                             break;
                         }
                         ++i;
-                    }                    
+                    }
                     break;
-                case PatchType.Change:                    
-                    foreach (var arrayItem in array)
+                case PatchType.Change:
+                    if (array == null)
                     {
-                        if (item.id == arrayItem.id)
+                        array = new ArrayList();
+                        SetProp(propName, array);
+                        array.Add(item);
+                    }
+                    else
+                    {
+                        foreach (var arrayItem in array)
                         {
-                            array[i] = item;
-                            break;
+                            if (item.id == arrayItem.id)
+                            {
+                                array[i] = item;
+                                break;
+                            }
+                            ++i;
                         }
-                        ++i;
-                    }                    
+                    }
                     break;
-            }            
-        }        
+            }
+        }
 
         private void EnsureChildren()
         {

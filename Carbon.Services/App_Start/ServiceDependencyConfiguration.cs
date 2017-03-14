@@ -15,7 +15,7 @@ using Carbon.Services.IdentityServer;
 
 namespace Carbon.Services
 {
-    public class ServiceDependencyConfiguration
+    public static class ServiceDependencyConfiguration
     {
         public static IDependencyContainer Configure(Action<IDependencyContainer> addons)
         {
