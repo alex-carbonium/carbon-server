@@ -16,5 +16,6 @@ namespace Carbon.Business.CloudDomain
         public int Permission { get; set; }
         public string Email { get; set; }
         public int TimesUsed { get; set; }
+        public string CreatedByUserId { get; set; }
     }
 }

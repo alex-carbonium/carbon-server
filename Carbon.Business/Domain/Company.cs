@@ -12,7 +12,7 @@ namespace Carbon.Business.Domain
         private readonly HashSet<CompanyFileInfo> _files = new HashSet<CompanyFileInfo>(CompanyFileInfo.UniqueComparer);
 
         public Company()
-        {            
+        {
             //Users = new List<User>();
             //Invitations = new List<CompanyInvitation>();
             //Bills = new List<Bill>();

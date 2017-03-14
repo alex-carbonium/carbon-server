@@ -133,7 +133,7 @@ namespace Carbon.Business.Domain
             return new List<ProjectFolder> {company.RootFolder, sharedFolder};
         }
 
-        public async Task<ExternalAcl> ShareProject(string userId, string projectId, int permission)
+        public async Task<ExternalAcl> ShareProject(string toUserId, string projectId, int permission)
         {
             var company = await GetCompany();
             var project = FindProject(company, projectId);
@@ -142,10 +142,10 @@ namespace Carbon.Business.Domain
                 return null;
             }
 
-            var acl = Acl.CreateForProject(userId, projectId, permission);
+            var acl = Acl.CreateForProject(toUserId, projectId, permission);
             company.AddOrReplaceAcl(acl);
 
-            var externalAcl = await SendExternalAcl(userId, projectId, company.Name, project.Name);
+            var externalAcl = await SendExternalAcl(toUserId, projectId, company.Name, project.Name);
             await SaveCompany(company);
             return externalAcl;
         }
@@ -260,7 +260,7 @@ namespace Carbon.Business.Domain
             var company = await GetCompany();
             var project = FindProject(company, projectId);
             ValidateProjectPermission(company, project, userId, Permission.Write);
-            return project.MirroringCode;
+            return project.MirroringCodes.FirstOrDefault(c=>c.UserId == userId)?.Id;
         }
 
         public async Task<string> SetProjectMirrorCode(string userId, string projectId, string code)
@@ -268,8 +268,16 @@ namespace Carbon.Business.Domain
             var company = await GetCompany();
             var project = FindProject(company, projectId);
             ValidateProjectPermission(company, project, userId, Permission.Write);
-            var oldCode = project.MirroringCode;
-            project.MirroringCode = code;
+            var oldCode = project.MirroringCodes.FirstOrDefault(c=>c.UserId == userId)?.Id;
+            if (code == null)
+            {
+                var codeToDelete = project.MirroringCodes.FirstOrDefault(c => c.UserId == userId);
+                project.MirroringCodes.Remove(codeToDelete);
+            }
+            else
+            {
+                project.MirroringCodes.Add(new MirroringCode { Id = code, UserId = userId });
+            }
             await SaveCompany(company);
 
             return oldCode;
