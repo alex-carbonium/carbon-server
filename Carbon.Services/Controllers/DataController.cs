@@ -13,7 +13,7 @@ namespace Carbon.Services.Controllers
             _dataService = dataService;
         }
 
-        [Route("generate"), HttpPost]
+        [Route("generate"), HttpGet]
         public IHttpActionResult Generate(string fields, int rows)
         {
             return Ok(_dataService.Generate(fields, rows));

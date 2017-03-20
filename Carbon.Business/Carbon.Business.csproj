@@ -160,6 +160,7 @@
     <Compile Include="CloudSpecifications\FindByExpression.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="Services\DataRandomizer.cs" />
     <Compile Include="Domain\CompanyActor.cs" />
     <Compile Include="Domain\CompanyNameRegistry.cs" />
     <Compile Include="Domain\DataTree\CompositeDataTreeVisitor.cs" />
