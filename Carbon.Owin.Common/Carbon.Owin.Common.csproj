@@ -184,6 +184,7 @@
     <Compile Include="Security\IdentityContext.cs" />
     <Compile Include="Security\MixedOAuthBearerAuthenticationProvider.cs" />
     <Compile Include="Security\UserIdentificationMiddleware.cs" />
+    <Compile Include="WebApi\ActionResponse.cs" />
     <Compile Include="WebApi\AuthorizedApiController.cs" />
     <Compile Include="WebApi\BaseApiController.cs" />
     <Compile Include="WebApi\CommonWebApiConfig.cs" />

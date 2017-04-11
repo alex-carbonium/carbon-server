@@ -13,12 +13,12 @@ namespace Carbon.Framework.Logging
 
         public TelemetryLogger(string name)
         {
-            Name = name;            
+            Name = name;
         }
 
         private static TelemetryClient CrateClient()
-        {            
-            return new TelemetryClient(TelemetryConfiguration.Active);            
+        {
+            return new TelemetryClient(TelemetryConfiguration.Active);
         }
 
         public override void Debug(string message, params object[] parameters)
@@ -54,12 +54,12 @@ namespace Carbon.Framework.Logging
 
         public override void Error(string message, IDictionary<string, string> context)
         {
-            Log(TraceEventType.Error, message, context: context);    
+            Log(TraceEventType.Error, message, context: context);
         }
 
         public override void Error(string message, Exception ex, IDictionary<string, string> context)
         {
-            Log(TraceEventType.Error, message, exception: ex, context: context);    
+            Log(TraceEventType.Error, message, exception: ex, context: context);
         }
 
         public override void Error(Exception ex, IDictionary<string, string> context)
@@ -84,7 +84,7 @@ namespace Carbon.Framework.Logging
 
         public override void Fatal(string message, IDictionary<string, string> context)
         {
-            Log(TraceEventType.Critical, message, context: context);    
+            Log(TraceEventType.Critical, message, context: context);
         }
 
         public override void Trace(string message)
@@ -106,8 +106,8 @@ namespace Carbon.Framework.Logging
         {
             if (level == TraceEventType.Warning || level == TraceEventType.Error || level == TraceEventType.Critical)
             {
-                System.Diagnostics.Debug.WriteLine(message != null && parameters != null && parameters.Length > 0 
-                    ? string.Format(message, parameters) 
+                System.Diagnostics.Debug.WriteLine(message != null && parameters != null && parameters.Length > 0
+                    ? string.Format(message, parameters)
                     : message ?? exception?.ToString());
             }
 
@@ -122,18 +122,18 @@ namespace Carbon.Framework.Logging
                 context["logLevel"] = level.ToString();
             }
             if (exception != null)
-            {                
-                _client.Value.TrackException(exception, context);                
+            {
+                _client.Value.TrackException(exception, context);
             }
             else
             {
                 var formattedMessage = parameters != null && parameters.Length > 0 ? string.Format(message, parameters) : message;
                 _client.Value.TrackTrace(formattedMessage, context);
-            }            
+            }
         }
 
         public override void Event(string name, IDictionary<string, string> properties)
-        {                    
+        {
             _client.Value.TrackEvent(name, properties);
         }
 

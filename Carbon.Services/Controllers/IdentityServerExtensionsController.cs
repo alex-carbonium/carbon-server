@@ -34,25 +34,25 @@ namespace Carbon.Services.Controllers
 
         [HttpPost, AllowAnonymous]
         public IHttpActionResult Logout()
-        {            
+        {
             Request.GetOwinContext().Authentication.SignOut(Constants.PrimaryAuthenticationType);
             return Success();
         }
 
         private void IssueAuthenticationCookie(string userId)
         {
-            var options = IdentityServerConfig.Options;                        
+            var options = IdentityServerConfig.Options;
             var props = new AuthenticationProperties();
 
             var expires = DateTime.UtcNow.Add(options.AuthenticationOptions.CookieOptions.RememberMeDuration);
             props.ExpiresUtc = expires;
-                        
+
             var authenticationMethod = Constants.AuthenticationMethods.Password;
 
             var user = IdentityServerPrincipal.Create(userId, userId, authenticationMethod);
             var identity = user.Identities.First();
-            
-            Request.GetOwinContext().Authentication.SignIn(props, identity);            
+
+            Request.GetOwinContext().Authentication.SignIn(props, identity);
         }
     }
 }

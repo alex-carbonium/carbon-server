@@ -38,11 +38,11 @@ namespace IdentityServer3.AspNetIdentity
         protected readonly Microsoft.AspNet.Identity.UserManager<TUser, TKey> userManager;
 
         protected readonly Func<string, TKey> ConvertSubjectToKey;
-        
+
         public AspNetIdentityUserService(Microsoft.AspNet.Identity.UserManager<TUser, TKey> userManager, Func<string, TKey> parseSubject = null)
         {
             if (userManager == null) throw new ArgumentNullException("userManager");
-            
+
             this.userManager = userManager;
 
             if (parseSubject != null)
@@ -94,7 +94,7 @@ namespace IdentityServer3.AspNetIdentity
             if (!Guid.TryParse(sub, out key)) return Guid.Empty;
             return key;
         }
-        
+
         public override async Task GetProfileDataAsync(ProfileDataRequestContext ctx)
         {
             var subject = ctx.Subject;
@@ -114,7 +114,7 @@ namespace IdentityServer3.AspNetIdentity
             {
                 claims = claims.Where(x => requestedClaimTypes.Contains(x.Type));
             }
-            
+
             ctx.IssuedClaims = claims;
         }
 
@@ -176,7 +176,7 @@ namespace IdentityServer3.AspNetIdentity
             if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Name);
             if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
             if (nameClaim != null) return nameClaim.Value;
-            
+
             return user.UserName;
         }
 
@@ -206,6 +206,7 @@ namespace IdentityServer3.AspNetIdentity
                     if (userManager.SupportsUserLockout &&
                         await userManager.IsLockedOutAsync(user.Id))
                     {
+                        ctx.AuthenticateResult = new AuthenticateResult("@lockedOut");
                         return;
                     }
 
@@ -222,13 +223,18 @@ namespace IdentityServer3.AspNetIdentity
                             var claims = await GetClaimsForAuthenticateResult(user);
                             result = new AuthenticateResult(user.Id.ToString(), await GetDisplayNameForAccountAsync(user.Id), claims);
                         }
-                        
+
                         ctx.AuthenticateResult = result;
                     }
                     else if (userManager.SupportsUserLockout)
                     {
+                        ctx.AuthenticateResult = new AuthenticateResult("@wrongPassword");
                         await userManager.AccessFailedAsync(user.Id);
                     }
+                }
+                else
+                {
+                    ctx.AuthenticateResult = new AuthenticateResult("@wrongEmail");
                 }
             }
         }
@@ -322,10 +328,10 @@ namespace IdentityServer3.AspNetIdentity
             var claims = await GetClaimsForAuthenticateResult(user);
 
             return new AuthenticateResult(
-                userID.ToString(), 
+                userID.ToString(),
                 await GetDisplayNameForAccountAsync(userID),
                 claims,
-                authenticationMethod: Constants.AuthenticationMethods.External, 
+                authenticationMethod: Constants.AuthenticationMethods.External,
                 identityProvider: provider);
         }
 
@@ -406,7 +412,7 @@ namespace IdentityServer3.AspNetIdentity
                     }
                 }
             }
-            
+
             return claims;
         }
 
