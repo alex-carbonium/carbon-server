@@ -6,6 +6,8 @@ using Carbon.Business.Domain;
 using Carbon.Business.Logging;
 using Carbon.Business.Services;
 using Carbon.Framework.Logging;
+using Carbon.Business.Exceptions;
+using Microsoft.AspNet.SignalR;
 
 namespace Carbon.StorageService.SignalR
 {
@@ -47,6 +49,11 @@ namespace Carbon.StorageService.SignalR
 
                 var hadNoId = string.IsNullOrEmpty(modelId);
                 var model = await _projectModelService.ChangeProjectModel(Scope, change);
+                if (model == null)
+                {
+                    throw new HubException("appNotFound");
+                }
+
                 if (hadNoId || returnModel)
                 {
                     await Groups.Add(Context.ConnectionId, "Project_" + model.Id);
