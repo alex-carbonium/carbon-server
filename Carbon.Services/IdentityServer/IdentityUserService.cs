@@ -16,20 +16,20 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace Carbon.Services.IdentityServer
 {
     public class IdentityUserService : AspNetIdentityUserService<ApplicationUser,string>
-    {        
+    {
         //private readonly IDependencyContainer _container;
         //private readonly ILogService _logService;
 
         public static IUserService Create(AppSettings appSettings)
         {
-            var context = new ApplicationDbContext(appSettings);            
+            var context = new ApplicationDbContext(appSettings);
             var userManager = new ApplicationUserManager(context);
             return new IdentityUserService(userManager);
-        }        
+        }
 
-        public IdentityUserService(UserManager<ApplicationUser, string> userManager) 
+        public IdentityUserService(UserManager<ApplicationUser, string> userManager)
             : base(userManager)
-        {            
+        {
 //            _container = container;
 //            _logService = logService;
         }
@@ -42,14 +42,14 @@ namespace Carbon.Services.IdentityServer
                 //var uow = scope.Resolve<IUnitOfWork>();
 
                 if (ctx.UserName == "trial" && ctx.Password == "trial")
-                {                                        
+                {
                     ctx.AuthenticateResult = AuthenticateNewGuestUser();
                     //uow.Commit();
                 }
                 else
                 {
                     await base.AuthenticateLocalAsync(ctx);
-                }                
+                }
             }
         }
 
@@ -137,16 +137,16 @@ namespace Carbon.Services.IdentityServer
                 //return Task.FromResult(result);
                 return null;
             }
-        }        
+        }
 
         private AuthenticateResult AuthenticateNewGuestUser()
         {
-            var id = Guid.NewGuid().ToString("N");            
+            var id = Guid.NewGuid().ToString("N");
             return new AuthenticateResult(id, id, new List<Claim>
             {
                 new Claim(Framework.Defs.ClaimTypes.Subject, id)
             });
-        }        
+        }
 
         private string GetFirstClaim(IEnumerable<Claim> claims, params string[] names)
         {
@@ -156,10 +156,10 @@ namespace Carbon.Services.IdentityServer
                 if (claim != null)
                 {
                     return claim.Value;
-                }                
+                }
             }
             //_logService.GetLogger(this).Warning("Could not find claims " + string.Join(",", names) + " among " + claims.Aggregate(string.Empty, (current, c) => current + c.Type + ","));
             return null;
-        }        
+        }
     }
 }

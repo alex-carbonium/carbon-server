@@ -66,11 +66,13 @@ namespace Carbon.Services.Controllers
         public async Task<IHttpActionResult> Use(string code)
         {
             var result = await _sharingService.UseCode(GetUserId(), code);
-            if (!result.HasValue)
+            if (result == null)
             {
                 return Forbidden();
             }
-            (var acl, var userId) = result.Value;
+
+            var acl = result.Item1;
+            var userId = result.Item2;
 
             return Ok(new { acl.CompanyName, ProjectId = acl.Entry.ResourceId, UserId = userId, CompanyId = acl.Entry.Sid });
         }

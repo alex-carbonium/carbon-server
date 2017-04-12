@@ -166,7 +166,7 @@ namespace Carbon.Business.Services
             return company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
         }
 
-        public async Task<(ExternalAcl acl, string userId)?> UseCode(string requestingUserId, string code)
+        public async Task<Tuple<ExternalAcl, string>> UseCode(string requestingUserId, string code)
         {
             var token = await _shareTokenRepository.FindSingleByAsync(new FindByRowKey<ShareToken>(code, code));
             if (token == null)
@@ -183,7 +183,7 @@ namespace Carbon.Business.Services
             var updateToken = _shareTokenRepository.UpdateAsync(token);
 
             await Task.WhenAll(aclTask, updateToken);
-            return (aclTask.Result, token.CreatedByUserId);
+            return Tuple.Create(aclTask.Result, token.CreatedByUserId);
         }
 
         private async Task<string> SaveImage(string id, string dataUrl)
@@ -227,7 +227,7 @@ namespace Carbon.Business.Services
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
             var id = Guid.NewGuid().ToString();
-            
+
             var imageUri = SaveImage(id, previewPicture);
             var dataUri = SaveData(id, data);
 
@@ -255,7 +255,7 @@ namespace Carbon.Business.Services
         {
             search = search ?? "";
             if (scope == PublishScope.Public)
-            {                
+            {
                 return (await _sharedPageRepository.FindAllByAsync(new FindByPartition<SharedPage>(PublicScopePartition))).Where(p=>
                 (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase)!=-1)
                 || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));

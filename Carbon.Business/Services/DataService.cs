@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Bogus.DataSets;
+using Bogus;
 
 namespace Carbon.Business.Services
 {
     public class DataService
     {
-        private readonly BogusDataSet _dataSet = new BogusDataSet();
+        private readonly BogusDataSet _defaultDataSet = new BogusDataSet();
         private readonly Dictionary<DataField, Func<BogusDataSet, DataContext, string>> _generators;
 
         public DataService()
@@ -27,7 +27,7 @@ namespace Carbon.Business.Services
                 var examples = new List<string>(2);
                 for (int i = 0; i < 2; i++)
                 {
-                    examples.Add(_generators[field](_dataSet, context));
+                    examples.Add(_generators[field](_defaultDataSet, context));
                 }
                 result.Add(field.ToString(), examples);
             }
@@ -35,45 +35,62 @@ namespace Carbon.Business.Services
             return result;
         }
 
-        public List<List<string>> Generate(string fieldsString, int rows)
+        public List<Dictionary<DataField, string>> Generate(string fieldsString, int rows)
         {
+            var dataSet = _defaultDataSet;
+            //if (!string.IsNullOrEmpty(seed))
+            //{
+            //    dataSet = new BogusDataSet(seed.GetHashCode());
+            //}
+
             var fields = fieldsString.Split(',');
             var dataFields = new List<DataField>(fields.Length);
             foreach (var field in fields)
             {
                 DataField dataField;
-                if (Enum.TryParse(field, out dataField))
+                if (Enum.TryParse(field, true, out dataField))
                 {
                     dataFields.Add(dataField);
                 }
             }
 
             var context = new DataContext();
-            var result = new List<List<string>>();
+            var result = new List<Dictionary<DataField, string>>();
             for (int i = 0; i < rows; i++)
             {
-                result.Add(GenerateRow(dataFields, context));
+                result.Add(GenerateRow(dataFields, dataSet, context));
             }
 
             return result;
         }
 
-        private List<string> GenerateRow(ICollection<DataField> fields, DataContext context)
+        private Dictionary<DataField, string> GenerateRow(ICollection<DataField> fields, BogusDataSet dataSet, DataContext context)
         {
-            var result = new List<string>();
+            var result = new Dictionary<DataField, string>();
 
             if (fields.Contains(DataField.FirstName))
             {
-                context.FirstName = _generators[DataField.FirstName](_dataSet, context);
+                context.FirstName = _generators[DataField.FirstName](dataSet, context);
             }
             if (fields.Contains(DataField.LastName))
             {
-                context.LastName = _generators[DataField.LastName](_dataSet, context);
+                context.LastName = _generators[DataField.LastName](dataSet, context);
             }
 
             foreach (var field in fields)
             {
-                result.Add(_generators[field](_dataSet, context));
+                if (field == DataField.FirstName)
+                {
+                    result.Add(field, context.FirstName);
+                }
+                else if (field == DataField.LastName)
+                {
+                    result.Add(field, context.LastName);
+                }
+                else
+                {
+                    result.Add(field, _generators[field](dataSet, context));
+                }
             }
 
             return result;
@@ -85,6 +102,7 @@ namespace Carbon.Business.Services
             {
                 { DataField.FirstName, (d, c) => d.Name.FirstName() },
                 { DataField.LastName, (d, c) => d.Name.LastName() },
+                { DataField.FullName, (d, c) => (c.FirstName ?? d.Name.FirstName()) + " " + (c.LastName ?? d.Name.LastName()) },
                 { DataField.NamePrefix, (d, c) => d.Name.Prefix() },
                 { DataField.NameSuffix, (d, c) => d.Name.Suffix() },
 
@@ -196,6 +214,7 @@ namespace Carbon.Business.Services
     {
         FirstName,
         LastName,
+        FullName,
         NamePrefix,
         NameSuffix,
         JobArea,
@@ -267,6 +286,8 @@ namespace Carbon.Business.Services
 
     public class BogusDataSet
     {
+        private List<DataSet> _dataSets;
+
         public Internet Internet { get; }
         public Name Name { get; }
         public Date Date { get; }
@@ -278,18 +299,48 @@ namespace Carbon.Business.Services
         public PhoneNumbers PhoneNumbers { get; }
         public Lorem Lorem { get; }
 
-        public BogusDataSet(string locale = "en")
+        public BogusDataSet(int seed = 0, string locale = "en")
         {
+            _dataSets = new List<DataSet>();
+
             Internet = new Internet(locale);
+            _dataSets.Add(Internet);
+
             Name = new Name(locale);
+            _dataSets.Add(Name);
+
             Address = new Address(locale);
+            _dataSets.Add(Address);
+
             Date = new Date(locale);
+            _dataSets.Add(Date);
+
             Finance = new Finance();
+            _dataSets.Add(Finance);
+
             Commerce = new Commerce(locale);
+            _dataSets.Add(Commerce);
+
             Company = new Company(locale);
+            _dataSets.Add(Company);
+
             System = new Bogus.DataSets.System(locale);
+            _dataSets.Add(System);
+
             PhoneNumbers = new PhoneNumbers(locale);
+            _dataSets.Add(PhoneNumbers);
+
             Lorem = new Lorem(locale);
+            _dataSets.Add(Lorem);
+
+            if (seed != 0)
+            {
+                var randomizer = new DataRandomizer(new Random(seed));
+                foreach(var ds in _dataSets)
+                {
+                    ds.Random = randomizer;
+                }
+            }
         }
 
         public string Ago(DataContext context)

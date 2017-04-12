@@ -17,7 +17,7 @@ namespace Carbon.Owin.Common.WebApi
     {
         public IUnitOfWork UnitOfWork => Scope.Resolve<IUnitOfWork>();
         public ILogService LogService => Scope.Resolve<ILogService>();
-        public AppSettings AppSettings => Scope.Resolve<AppSettings>();        
+        public AppSettings AppSettings => Scope.Resolve<AppSettings>();
         public IDependencyContainer Scope => Request.GetOwinContext().GetScopedContainer();
 
         protected HttpResponseMessage File(Stream stream)
@@ -61,22 +61,24 @@ namespace Carbon.Owin.Common.WebApi
 
         public IHttpActionResult Success()
         {
-            return Ok(new {Result = true});
+            return Ok(ActionResponse.Success);
         }
 
         public IHttpActionResult Error(string key, string message)
         {
-            return Content(HttpStatusCodeExt.UnprocessableEntity, new {Key = key, Error = message});
+            return Content(HttpStatusCodeExt.UnprocessableEntity,
+                new ActionResponse(false, new Dictionary<string, string> { { key, message } }));
         }
 
         public IHttpActionResult Error(string key, IEnumerable<string> errors)
         {
-            return Content(HttpStatusCodeExt.UnprocessableEntity, new {Key = key, Errors = errors });
+            return Content(HttpStatusCodeExt.UnprocessableEntity,
+                new ActionResponse(false, new Dictionary<string, string> { { key, string.Join("\n", errors) } }));
         }
 
-        public IHttpActionResult Error(IEnumerable<string> errors)
+        public IHttpActionResult Error(IDictionary<string, string> errors)
         {
-            return Content(HttpStatusCodeExt.UnprocessableEntity, new { Errors = errors });
+            return Content(HttpStatusCodeExt.UnprocessableEntity, new ActionResponse(false, errors));
         }
     }
 }

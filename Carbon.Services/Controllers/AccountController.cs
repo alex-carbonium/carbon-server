@@ -27,6 +27,29 @@ namespace Carbon.Services.Controllers
             public string Password { get; set; }
         }
 
+        public class EmailValidationModel
+        {
+            public string Email { get; set; }
+        }
+
+        [HttpPost, Route("validateEmail")]
+        public async Task<IHttpActionResult> ValidateEmail(EmailValidationModel model)
+        {
+            var existing = await _userManager.FindByIdAsync(GetUserId());
+            if (existing != null)
+            {
+                return Success();
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                return Error(nameof(model.Email), "A user with this email is already registered");
+            }
+
+            return Success();
+        }
+
         [HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {
@@ -43,13 +66,13 @@ namespace Carbon.Services.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                 {
-                    return Error(result.Errors);
+                    return Error(nameof(model.Email), result.Errors);
                 }
-            }            
+            }
 
             var companyName = await _accountService.RegisterCompanyName(model.Username, model.Email);
             var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
-            await actor.ChangeCompanyName(companyName);            
+            await actor.ChangeCompanyName(companyName);
 
             return Success();
         }
