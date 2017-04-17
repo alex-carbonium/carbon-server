@@ -9,7 +9,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 namespace Carbon.Services.FabricHost
 {
     /// <summary>
-    /// The FabricRuntime creates an instance of this class for each service type instance. 
+    /// The FabricRuntime creates an instance of this class for each service type instance.
     /// </summary>
     internal sealed class ServicesFabricHost : StatelessService
     {
@@ -38,7 +38,7 @@ namespace Carbon.Services.FabricHost
                 container.RegisterInstance<DataProvider>(new FabricDataProvider(Context));
                 container.RegisterInstance<IActorFabric>(ActorFabric.Default);
             });
-           
+
             return new[]
             {
                 new ServiceInstanceListener(serviceContext => new BaseCommunicationListener(start.Configuration, serviceContext, ServiceEventSource.Current, configuration.GetString("Endpoints", "Listen")))

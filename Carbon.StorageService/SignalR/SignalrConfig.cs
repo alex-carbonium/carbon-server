@@ -11,15 +11,15 @@ namespace Carbon.StorageService.SignalR
         public static HubConfiguration Configure(ILogService logService, IDependencyContainer container, AppSettings appSettings)
         {
             GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new NinjectHubActivator(container));
-            
+
             GlobalHost.HubPipeline.AddModule(new CustomPipeline(logService));
             GlobalHost.Configuration.MaxIncomingWebSocketMessageSize = 10*1024*1024;
 
             var config = new HubConfiguration()
-            {                                                                
+            {
 #if DEBUG
                 EnableDetailedErrors = true
-#endif                
+#endif
             };
 
             return config;

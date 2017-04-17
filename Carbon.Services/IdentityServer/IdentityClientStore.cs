@@ -10,7 +10,7 @@ using IdentityServer3.Core.Services.InMemory;
 namespace Carbon.Services.IdentityServer
 {
     public class IdentityClientStore : InMemoryClientStore
-    {        
+    {
         private static readonly TimeSpan AccessTokenLifeTime = TimeSpan.FromHours(2);
 
         public static List<Client> All()
@@ -25,7 +25,7 @@ namespace Carbon.Services.IdentityServer
                     Flow = Flows.Implicit,
                     RequireConsent = false,
                     AllowAccessToAllScopes = true,
-                                        
+
                     AccessTokenLifetime = (int) AccessTokenLifeTime.TotalSeconds
                 },
 

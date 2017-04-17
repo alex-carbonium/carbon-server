@@ -18,21 +18,21 @@ using CookieOptions = IdentityServer3.Core.Configuration.CookieOptions;
 namespace Carbon.Services.IdentityServer
 {
     public static class IdentityServerConfig
-    {        
+    {
         public static X509Certificate2 SigningCertificate { get; private set; }
         public static X509Certificate2 ProtectionCertificate { get; private set; }
         public static IdentityServerOptions Options { get; private set; }
 
         public static void Configure(IAppBuilder app, IDependencyContainer container, AppSettings appSettings)
-        {            
-            var logService = container.Resolve<ILogService>();            
-            
-            var factory = new IdentityServerServiceFactory();            
+        {
+            var logService = container.Resolve<ILogService>();
+
+            var factory = new IdentityServerServiceFactory();
             factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
-            factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());            
+            factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
             factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings));
             //factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
-            
+
             factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
 
             LogProvider.SetCurrentLogProvider(new LogProviderAdapter(logService));
@@ -51,28 +51,28 @@ namespace Carbon.Services.IdentityServer
             }
 
             Options = new IdentityServerOptions
-            {                
-                IssuerUri = "https://ppanda",            
-                SiteName = "ppanda",                
+            {
+                IssuerUri = "https://ppanda",
+                SiteName = "ppanda",
                 RequireSsl = false,
                 SigningCertificate = SigningCertificate,
-                Factory = factory,                
+                Factory = factory,
                 DataProtector = new X509CertificateDataProtector(ProtectionCertificate),
                 //AdditionalIdentityProviderConfiguration = (idsrvApp, signInAsType) => ConfigureSocialIdentityProviders(idsrvApp, signInAsType, container.Resolve<AppSettings>()),
                 CspOptions = new CspOptions { Enabled = false },
                 AuthenticationOptions = new AuthenticationOptions
-                {                                        
+                {
                     CookieOptions = new CookieOptions
-                    {                        
+                    {
                         SlidingExpiration = true,
                         ExpireTimeSpan = TimeSpan.FromDays(7),
                         SecureMode = CookieSecureMode.SameAsRequest,
-                        IsPersistent = true                        
+                        IsPersistent = true
                     }
                 }
             };
 
-            app.UseIdentityServer(Options);            
+            app.UseIdentityServer(Options);
         }
 
         public static X509Certificate2 FindCertificate(string certificateThumbprint)
@@ -81,9 +81,9 @@ namespace Carbon.Services.IdentityServer
             store.Open(OpenFlags.ReadOnly);
             var cert = store.Certificates.OfType<X509Certificate2>()
                 .Single(x => x.Thumbprint == certificateThumbprint);
-            store.Close();            
+            store.Close();
             return cert;
-        }        
+        }
 
         //public static void ConfigureSocialIdentityProviders(IAppBuilder app, string signInAsType, AppSettings appSettings)
         //{
@@ -102,7 +102,7 @@ namespace Carbon.Services.IdentityServer
         //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Facebook),
         //        SignInAsAuthenticationType = signInAsType,
         //        AppId = appSettings.facebookAppID.ToString(),
-        //        AppSecret = appSettings.facebookAppSecret                
+        //        AppSecret = appSettings.facebookAppSecret
         //    };
         //    fb.Scope.Add("email");
         //    app.UseFacebookAuthentication(fb);
