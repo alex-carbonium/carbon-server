@@ -23,15 +23,15 @@ namespace Carbon.StorageService
 {
     public class StorageStartup
     {
-        private readonly Action<IDependencyContainer> _addons;
+        public IDependencyContainer Container { get; private set; }
 
-        public StorageStartup()
+        public StorageStartup() : this(null)
         {
 
         }
         public StorageStartup(Action<IDependencyContainer> addons)
         {
-            _addons = addons;
+            Container = NinjectConfig.Configure(addons);
         }
 
         public void Configuration(IAppBuilder app)
@@ -46,28 +46,22 @@ namespace Carbon.StorageService
 
         private void Configure(IAppBuilder app, string basePath = "")
         {
-            var container = NinjectConfig.Configure(_addons);
+            var logService = Container.Resolve<ILogService>();
+            var appSettings = Container.Resolve<AppSettings>();
 
-            var logService = container.Resolve<ILogService>();
-            var appSettings = container.Resolve<AppSettings>();
+            app.Use(typeof (NinjectMiddleware), Container);
 
-            logService.SetGlobalContextProperty("build", Defs.Config.VERSION.ToString());
-
-            app.UseTelemetry(appSettings);
-
-            app.Use(typeof (NinjectMiddleware), container);
-
-            JobSchedulingConfig.Register(container);
+            JobSchedulingConfig.Register(Container);
 
             //embedded
             if (!string.IsNullOrEmpty(basePath))
             {
-                DataLayerConfig.ConfigureEmbedded(container);
+                DataLayerConfig.ConfigureEmbedded(Container);
             }
             else
             {
-                app.UseLogAdapter(container.Resolve<ILogService>());
-                DataLayerConfig.ConfigureStandalone(container, appSettings);
+                app.UseLogAdapter(Container.Resolve<ILogService>());
+                DataLayerConfig.ConfigureStandalone(Container, appSettings);
             }
 
             app.UseAccessToken(appSettings);
@@ -90,7 +84,7 @@ namespace Carbon.StorageService
                     PolicyProvider = new CorsPolicyProvider { PolicyResolver = context => System.Threading.Tasks.Task.FromResult(corsPolicy) }
                 };
                 signalr.UseCors(corsOptions);
-                signalr.RunSignalR(SignalrConfig.Configure(logService, container, appSettings));
+                signalr.RunSignalR(SignalrConfig.Configure(logService, Container, appSettings));
             });
             app.Map("/api", apiApp =>
             {

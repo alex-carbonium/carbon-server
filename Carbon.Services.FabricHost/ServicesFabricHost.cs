@@ -5,6 +5,9 @@ using Carbon.Business.Services;
 using Carbon.Fabric.Common;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Carbon.Fabric.Common.Logging;
+using Carbon.Framework.Logging;
+using Carbon.Framework.Util;
 
 namespace Carbon.Services.FabricHost
 {
@@ -16,6 +19,7 @@ namespace Carbon.Services.FabricHost
         public ServicesFabricHost(StatelessServiceContext context)
             : base(context)
         {
+
             context.CodePackageActivationContext.DataPackageModifiedEvent += OnDataPackageModified;
         }
 
@@ -34,14 +38,16 @@ namespace Carbon.Services.FabricHost
             var configuration = new FabricConfiguration(Context);
             var start = new ServicesStartup(container =>
             {
+                container.RegisterInstance<ServiceContext>(Context);
                 container.RegisterInstance<Configuration>(configuration);
-                container.RegisterInstance<DataProvider>(new FabricDataProvider(Context));
+                container.RegisterTypeSingleton<DataProvider, FabricDataProvider>();
+                container.RegisterTypeSingleton<ILogService, EventSourceLogService>();
                 container.RegisterInstance<IActorFabric>(ActorFabric.Default);
             });
 
             return new[]
             {
-                new ServiceInstanceListener(serviceContext => new BaseCommunicationListener(start.Configuration, serviceContext, ServiceEventSource.Current, configuration.GetString("Endpoints", "Listen")))
+                new ServiceInstanceListener(serviceContext => new BaseCommunicationListener(start.Configuration, serviceContext, configuration.GetString("Endpoints", "Listen"), start.Container.BeginScope()))
             };
         }
     }

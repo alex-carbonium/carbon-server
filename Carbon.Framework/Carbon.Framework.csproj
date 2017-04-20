@@ -43,10 +43,6 @@
       <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0-beta1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -155,13 +151,12 @@
     <Compile Include="JobScheduling\JobInfo.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\ConsoleLogService.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ILogService.cs" />
-    <Compile Include="Logging\LogExtensions.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\TelemetryLogger.cs" />
-    <Compile Include="Logging\TelemetryLogService.cs" />
+    <Compile Include="Logging\OperationContext.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\IDomainObject.cs" />
+    <Compile Include="ObjectPool.cs" />
     <Compile Include="Repositories\InMemoryRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRepositoryFactory.cs" />

@@ -53,16 +53,17 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {
-            var user = new ApplicationUser
-            {
-                Id = GetUserId(),
-                Email = model.Email,
-                UserName = model.Username
-            };
-
-            var existing = await _userManager.FindByIdAsync(user.Id);
+            var userId = GetUserId();
+            var existing = await _userManager.FindByIdAsync(userId);
             if (existing == null)
             {
+                var user = new ApplicationUser
+                {
+                    Id = userId,
+                    Email = model.Email,
+                    UserName = model.Username
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                 {

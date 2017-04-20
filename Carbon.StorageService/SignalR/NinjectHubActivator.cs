@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR.Hubs;
-using Carbon.Business.Domain;
 using Carbon.Framework.Util;
+using Carbon.Framework.Logging;
 
 namespace Carbon.StorageService.SignalR
 {
@@ -22,14 +22,14 @@ namespace Carbon.StorageService.SignalR
 
                 var hub = (BaseHub)scope.Resolve(descriptor.HubType);
                 hub.Scope = scope;
-                hub.IdentityContext = scope.Resolve<IIdentityContext>();
+                hub.Operation = scope.Resolve<OperationContext>();
                 return hub;
             }
             catch
             {
                 if (scope != null)
                 {
-                    scope.Dispose();                    
+                    scope.Dispose();
                 }
 
                 throw;

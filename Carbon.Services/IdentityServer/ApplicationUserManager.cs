@@ -33,6 +33,6 @@ namespace Carbon.Services.IdentityServer
 
             UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
                 new IdentityDataProtector(IdentityServerConfig.ProtectionCertificate));
-        }        
+        }
     }
 }

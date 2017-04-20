@@ -22,6 +22,9 @@
         <Program>Carbon.CompanyActor.exe</Program>
       </ExeHost>
     </EntryPoint>
+    <EnvironmentVariables>
+      <EnvironmentVariable Name="Carbon_Env" Value=""/>
+    </EnvironmentVariables>
   </CodePackage>
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>

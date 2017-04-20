@@ -5,6 +5,8 @@ using Carbon.Business.Services;
 using Carbon.Fabric.Common;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
+using Carbon.Framework.Logging;
+using Carbon.Fabric.Common.Logging;
 
 namespace Carbon.CompanyActor
 {
@@ -19,7 +21,10 @@ namespace Carbon.CompanyActor
 
         protected override async Task OnActivateAsync()
         {
-            ActorEventSource.Current.ActorMessage(this, "Actor activated.");
+            using (var operation = OperationContext.GetForUser(Id.ToString()))
+            {
+                CommonEventSource.Current.Info("Actor activated: " + Id.ToString(), source: "FabricCompanyActor");
+            }
 
             Impl = new Business.Domain.CompanyActor(Id.GetStringId(), ActorFabric.Default, StateManager);
             await Impl.Activate();
@@ -28,7 +33,7 @@ namespace Carbon.CompanyActor
         public Task<Project> CreateProject(string userId, string folderId)
         {
             return Impl.CreateProject(userId, folderId);
-        }                     
+        }
 
         public Task<int> GetProjectPermission(string userId, string projectId)
         {
@@ -53,7 +58,7 @@ namespace Carbon.CompanyActor
         public Task ChangeProjectName(string userId, string projectId, string newName)
         {
             return Impl.ChangeProjectName(userId, projectId, newName);
-        }        
+        }
 
         public Task ChangeCompanyName(string newName)
         {

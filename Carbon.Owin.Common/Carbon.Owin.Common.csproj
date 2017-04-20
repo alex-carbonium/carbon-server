@@ -43,10 +43,6 @@
       <HintPath>..\packages\IdentityServer3.AccessTokenValidation.2.10.0\lib\net45\IdentityServer3.AccessTokenValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0-beta1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
@@ -174,14 +170,12 @@
     <Compile Include="Data\DataLayerConfig.cs" />
     <Compile Include="Dependencies\NinjectMiddleware.cs" />
     <Compile Include="Dependencies\NinjectOwinExtensions.cs" />
-    <Compile Include="Logging\Telemetry.cs" />
     <Compile Include="Logging\OwinLogFactoryAdapter.cs" />
     <Compile Include="Logging\OwinLoggerAdapter.cs" />
     <Compile Include="Logging\OwinLoggingExtensions.cs" />
-    <Compile Include="Logging\TelemetryInitializer.cs" />
     <Compile Include="Security\AllowedOrigins.cs" />
+    <Compile Include="Security\OperationContextExtensions.cs" />
     <Compile Include="Security\SecurityExtensions.cs" />
-    <Compile Include="Security\IdentityContext.cs" />
     <Compile Include="Security\MixedOAuthBearerAuthenticationProvider.cs" />
     <Compile Include="Security\UserIdentificationMiddleware.cs" />
     <Compile Include="WebApi\ActionResponse.cs" />

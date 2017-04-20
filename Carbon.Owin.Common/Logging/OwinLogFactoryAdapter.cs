@@ -1,13 +1,12 @@
 ﻿using Microsoft.Owin.Logging;
-using Carbon.Framework.Logging;
 
 namespace Carbon.Owin.Common.Logging
 {
     public class OwinLogFactoryAdapter : ILoggerFactory
     {
-        private readonly ILogService _logService;
+        private readonly Framework.Logging.ILogService _logService;
 
-        public OwinLogFactoryAdapter(ILogService logService)
+        public OwinLogFactoryAdapter(Framework.Logging.ILogService logService)
         {
             _logService = logService;
         }

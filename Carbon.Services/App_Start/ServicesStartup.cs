@@ -23,27 +23,25 @@ namespace Carbon.Services
 {
     public class ServicesStartup
     {
-        private readonly Action<IDependencyContainer> _addons;
+        public IDependencyContainer Container { get; private set; }
 
-        public ServicesStartup()
+        public ServicesStartup() : this(null)
         {
 
         }
         public ServicesStartup(Action<IDependencyContainer> addons)
         {
-            _addons = addons;
+            Container = ServiceDependencyConfiguration.Configure(addons);
         }
 
         public void Configuration(IAppBuilder app)
         {
-            var container = ServiceDependencyConfiguration.Configure(_addons);
-            var appSettings = container.Resolve<AppSettings>();
+            var appSettings = Container.Resolve<AppSettings>();
 
-            DataLayerConfig.ConfigureStandalone(container, appSettings);
-            JobSchedulingConfig.Register(container);
+            DataLayerConfig.ConfigureStandalone(Container, appSettings);
+            JobSchedulingConfig.Register(Container);
 
-            app.UseTelemetry(appSettings);
-            app.Use(typeof(NinjectMiddleware), container);
+            app.Use(typeof(NinjectMiddleware), Container);
 
             app.Map("/idsrv", idsrv =>
             {
@@ -58,7 +56,7 @@ namespace Carbon.Services
                     await next.Invoke();
                 });
 
-                IdentityServerConfig.Configure(idsrv, container, appSettings);
+                IdentityServerConfig.Configure(idsrv, Container, appSettings);
 
                 //userId needs to run on idsrv path to get auth cookie for token renewal
                 idsrv.Map("/ext", ext =>
@@ -68,18 +66,17 @@ namespace Carbon.Services
                 });
             });
 
-            //app.Map("/storage", storage => new StorageStartup().ConfigureAsEmbedded(storage, "/storage"));
             app.Map("/api", api =>
             {
                 api.UseAccessToken(appSettings);
                 api.UseWebApi(CommonWebApiConfig.Register(typeof(ServicesStartup).Assembly, "/api"));
             });
 
-            var dataProvider = container.Resolve<DataProvider>();
+            var dataProvider = Container.Resolve<DataProvider>();
             SetupFileSystem(app, dataProvider, "/target", "target");
             SetupFileSystem(app, dataProvider, "/fonts", @"target\fonts");
 
-            InitializeFontManager(container, appSettings);
+            InitializeFontManager(Container, appSettings);
 
             app.UseWebApi(HtmlWebApiConfig.Register());
         }

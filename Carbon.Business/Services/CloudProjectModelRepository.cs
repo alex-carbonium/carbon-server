@@ -13,7 +13,6 @@ using Carbon.Business.Sync;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.Specifications;
-using Carbon.Business.Logging;
 
 namespace Carbon.Business.Services
 {
@@ -253,10 +252,7 @@ namespace Carbon.Business.Services
 
                 if (RemoveDuplicatePrimitives(primitives))
                 {
-                    _logService.GetLogger(this).WarningWithContext("Primitives with duplicate ids", null, c =>
-                    {
-                        c["projectId"] = projectId;
-                    });
+                    _logService.GetLogger().Warning("Primitives with duplicate ids");
                 }
 
                 ApplyPrimitives(model, primitives);
@@ -364,13 +360,7 @@ namespace Carbon.Business.Services
 
             if (primitives.Count > 0)
             {
-                _logService.GetLogger(this).WarningWithContext("Could not build tail", null, c =>
-                {
-                    c["projectId"] = projectId;
-                    c["fromVersion"] = primitives.Last().ToVersion;
-                    c["toVersion"] = fromVersion;
-                    c["tail"] = string.Join(", ", primitives.Select(x => x.ToString()));
-                });
+                _logService.GetLogger().Error($"Could not build tail for project ${projectId}: {fromVersion} -> ${primitives.Last().ToVersion}");
 
                 result.AddRange(BuildTail(projectId, primitives[0].FromVersion, primitives));
             }

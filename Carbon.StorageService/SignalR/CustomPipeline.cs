@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Reflection;
 using Microsoft.AspNet.SignalR.Hubs;
-using Carbon.Business.Logging;
 using Carbon.Framework.Logging;
+using Carbon.Owin.Common.Security;
 
 namespace Carbon.StorageService.SignalR
 {
     public class CustomPipeline : HubPipelineModule
     {
-        private readonly Logger _logger;
+        private readonly ILogger _logger;
 
         public CustomPipeline(ILogService logService)
         {
-            _logger = logService.GetLogger(this);
+            _logger = logService.GetLogger();
         }
 
         protected override bool OnBeforeIncoming(IHubIncomingInvokerContext context)
         {
             var hub = (BaseHub)context.Hub;
-            hub.IdentityContext.Principal = context.Hub.Context.Request.User;
+            hub.Operation.SetUserId(context.Hub.Context.Request.User);
             return base.OnBeforeIncoming(context);
         }
 
@@ -32,8 +32,8 @@ namespace Carbon.StorageService.SignalR
             else if (exception is AggregateException)
             {
                 exception = exception.InnerException;
-            }          
-            _logger.ErrorWithContext(exception, ((BaseHub)invokerContext.Hub).Scope);
+            }
+            _logger.Error(exception, ((BaseHub)invokerContext.Hub).Scope);
         }
     }
 }

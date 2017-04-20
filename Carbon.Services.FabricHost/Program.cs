@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Fabric;
 using System.Threading;
-using System.Threading.Tasks;
 using Carbon.Fabric.Common;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Carbon.Fabric.Common.Logging;
 
 namespace Carbon.Services.FabricHost
 {
@@ -17,22 +15,27 @@ namespace Carbon.Services.FabricHost
         {
             try
             {
-                // The ServiceManifest.XML file defines one or more service type names.
-                // Registering a service maps a service type name to a .NET type.
-                // When Service Fabric creates an instance of this service type,
-                // an instance of the class is created in this host process.
+                AppInsightsConfig.Configure();
 
-                ServiceRuntime.RegisterServiceAsync("Services",
-                    context => new ServicesFabricHost(context)).GetAwaiter().GetResult();
+                using (var diagnosticsPipeline = DiagnosticsPipelineFactory.Create())
+                {
+                    // The ServiceManifest.XML file defines one or more service type names.
+                    // Registering a service maps a service type name to a .NET type.
+                    // When Service Fabric creates an instance of this service type,
+                    // an instance of the class is created in this host process.
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServicesFabricHost).Name);
+                    ServiceRuntime.RegisterServiceAsync("Services",
+                        context => new ServicesFabricHost(context)).GetAwaiter().GetResult();
 
-                // Prevents this host process from terminating so services keeps running.
-                Thread.Sleep(Timeout.Infinite);
+                    CommonEventSource.Current.Info("Service initialized", source: nameof(ServicesFabricHost));
+
+                    // Prevents this host process from terminating so services keeps running.
+                    Thread.Sleep(Timeout.Infinite);
+                }
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                CommonEventSource.Current.Fatal(e, source: nameof(ServicesFabricHost));
                 throw;
             }
         }

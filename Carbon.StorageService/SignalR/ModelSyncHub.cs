@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Carbon.Business.Domain;
-using Carbon.Business.Logging;
 using Carbon.Business.Services;
 using Carbon.Framework.Logging;
-using Carbon.Business.Exceptions;
 using Microsoft.AspNet.SignalR;
 
 namespace Carbon.StorageService.SignalR
@@ -19,7 +17,7 @@ namespace Carbon.StorageService.SignalR
 
         protected virtual string GetUserId()
         {
-            var userId = IdentityContext.GetUserId();
+            var userId = Operation.UserId;
             if (string.IsNullOrEmpty(userId))
             {
                 throw new InvalidOperationException("Unknown user");
@@ -37,6 +35,9 @@ namespace Carbon.StorageService.SignalR
         {
             try
             {
+                Operation.CompanyId = companyId;
+                Operation.ProjectId = modelId;
+
                 var userId = GetUserId();
                 var change = new ProjectModelChange
                 {
@@ -77,13 +78,7 @@ namespace Carbon.StorageService.SignalR
             }
             catch (Exception ex)
             {
-                _logService.GetLogger(this).FatalWithContext("Could not apply primitives", Scope,
-                    c =>
-                    {
-                        //TODO: log primitives in separate entity
-                        c["projectId"] = modelId;
-                        c["exception"] = ex.ToString();
-                    });
+                _logService.GetLogger().Fatal(ex, Scope);
                 throw;
             }
         }
@@ -101,13 +96,7 @@ namespace Carbon.StorageService.SignalR
             }
             catch (Exception ex)
             {
-                _logService.GetLogger(this).FatalWithContext("Could not notify clients", Scope,
-                    c =>
-                    {
-                        //TODO: log primitives in separate entity
-                        c["projectId"] = modelId;
-                        c["exception"] = ex.ToString();
-                    });
+                _logService.GetLogger().Fatal(ex, Scope);
                 throw;
             }
         }

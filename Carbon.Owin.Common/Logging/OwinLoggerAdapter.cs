@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Owin.Logging;
-using Carbon.Framework.Logging;
 
 namespace Carbon.Owin.Common.Logging
 {
     public class OwinLoggerAdapter : ILogger
     {
-        private readonly ILogService _logService;
+        private readonly Framework.Logging.ILogService _logService;
         private readonly string _name;
 
-        public OwinLoggerAdapter(ILogService logService, string name)
+        public OwinLoggerAdapter(Framework.Logging.ILogService logService, string name)
         {
             _logService = logService;
             _name = name;
@@ -18,7 +17,7 @@ namespace Carbon.Owin.Common.Logging
 
         public bool WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
         {
-            var logger = _logService.GetLogger(_name);
+            var logger = _logService.GetLogger();
             var message = formatter(state, exception);
             switch (eventType)
             {

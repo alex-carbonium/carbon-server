@@ -27,7 +27,7 @@ namespace Carbon.Owin.Common.Security
             JwtSecurityTokenHandler.OutboundClaimTypeMap = new Dictionary<string, string>();
 
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
-            {                
+            {
                 IssuerName = "https://ppanda",
                 Authority = "https://ppanda/resources",
                 SigningCertificate = new X509Certificate2(appSettings.ResolvePath(Defs.Packages.Data, appSettings.IdClient.PublicKeyFile)),
@@ -36,6 +36,6 @@ namespace Carbon.Owin.Common.Security
             app.Use<UserIdentificationMiddleware>();
 
             return app;
-        }        
+        }
     }
 }

@@ -31,9 +31,8 @@ namespace Carbon.Business
             return _dataProvider.GetPackageVersion(name);
         }
 
-        public virtual string RoleName => _configuration.GetString("General", "RoleName");
         public virtual string DbProviderName => _configuration.GetString("General", "DbProviderName");
-        public virtual SecureString TestSecret => _configuration.GetSecureString("General", "TestSecret");        
+        public virtual SecureString TestSecret => _configuration.GetSecureString("General", "TestSecret");
 
         public virtual SubscriptionConfiguration Subscription { get; }
         public virtual SurveyConfiguration Survey { get; }
@@ -52,7 +51,7 @@ namespace Carbon.Business
             private readonly string _section;
 
             public SubscriptionConfiguration()
-            {                
+            {
             }
             public SubscriptionConfiguration(Configuration configuration, string section)
             {
@@ -79,7 +78,7 @@ namespace Carbon.Business
                 _section = section;
             }
 
-            public string Id => _configuration.GetString(_section, "Id");            
+            public string Id => _configuration.GetString(_section, "Id");
         }
 
         public class IdServerConfig
@@ -110,7 +109,7 @@ namespace Carbon.Business
                 _section = section;
             }
 
-            public string TelemetryKey => _configuration.GetString(_section, "TelemetryKey");            
+            public string TelemetryKey => _configuration.GetString(_section, "TelemetryKey");
         }
 
         public class IdClientConfig
@@ -124,13 +123,13 @@ namespace Carbon.Business
                 _section = section;
             }
 
-            public string PublicKeyFile => _configuration.GetString(_section, "PublicKeyFile");            
+            public string PublicKeyFile => _configuration.GetString(_section, "PublicKeyFile");
         }
 
         public virtual string GetConnectionString(string name)
         {
             return _configuration.GetString("ConnectionStrings", name);
-        }                        
+        }
 
         public virtual string GetPhysicalPath(string virtualOrPhysicalPath)
         {
@@ -155,10 +154,10 @@ namespace Carbon.Business
                 if (webSlashes)
                 {
                     name = name.Replace("\\", "/");
-                }     
+                }
                 files.Add(name);
             }
             return files;
-        }          
-    }    
+        }
+    }
 }
