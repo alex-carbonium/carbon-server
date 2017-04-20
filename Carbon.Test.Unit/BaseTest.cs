@@ -101,7 +101,7 @@ namespace Carbon.Test.Unit
     {
         public static void VerifyWarningWithContext(this Mock<ILogger> logger, string message)
         {
-            logger.Verify(x => x.Warning(message, It.IsAny<IDependencyContainer>(), It.IsAny<string>()));
+            logger.Verify(x => x.Warning(It.Is<string>(s => s.Contains(message)), It.IsAny<IDependencyContainer>(), It.IsAny<string>()));
         }
         public static void VerifyNoWarning(this Mock<ILogger> logger)
         {

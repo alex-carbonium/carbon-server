@@ -360,7 +360,7 @@ namespace Carbon.Business.Services
 
             if (primitives.Count > 0)
             {
-                _logService.GetLogger().Error($"Could not build tail for project ${projectId}: {fromVersion} -> ${primitives.Last().ToVersion}");
+                _logService.GetLogger().Warning($"Could not build tail for project ${projectId}: {fromVersion} -> ${primitives.Last().ToVersion}");
 
                 result.AddRange(BuildTail(projectId, primitives[0].FromVersion, primitives));
             }
