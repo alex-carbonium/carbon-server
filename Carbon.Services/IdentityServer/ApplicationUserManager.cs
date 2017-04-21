@@ -1,14 +1,21 @@
 using System;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
+using ElCamino.AspNet.Identity.AzureTable;
+using Carbon.Business;
 
 namespace Carbon.Services.IdentityServer
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(ApplicationDbContext context)
-            : base(new UserStore<ApplicationUser>(context))
+        public static async void StartupAsync(AppSettings appSettings)
+        {
+            var azureStore = new UserStore<ApplicationUser>(new ApplicationDbContext(appSettings));
+            await azureStore.CreateTablesIfNotExists();
+        }
+
+        public ApplicationUserManager(ApplicationDbContext dbContext, IUserTokenProvider<ApplicationUser, string> tokenProvider)
+            : base(new UserStore<ApplicationUser>(dbContext))
+
         {
             UserValidator = new ApplicationUserValidator(this)
             {
@@ -31,8 +38,7 @@ namespace Carbon.Services.IdentityServer
             DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
-                new IdentityDataProtector(IdentityServerConfig.ProtectionCertificate));
+            UserTokenProvider = tokenProvider;
         }
     }
 }

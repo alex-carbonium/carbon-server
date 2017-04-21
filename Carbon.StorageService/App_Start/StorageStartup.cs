@@ -53,15 +53,9 @@ namespace Carbon.StorageService
 
             JobSchedulingConfig.Register(Container);
 
-            //embedded
-            if (!string.IsNullOrEmpty(basePath))
-            {
-                DataLayerConfig.ConfigureEmbedded(Container);
-            }
-            else
+            if (string.IsNullOrEmpty(basePath))
             {
                 app.UseLogAdapter(Container.Resolve<ILogService>());
-                DataLayerConfig.ConfigureStandalone(Container, appSettings);
             }
 
             app.UseAccessToken(appSettings);

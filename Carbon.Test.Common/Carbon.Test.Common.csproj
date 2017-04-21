@@ -61,7 +61,6 @@
     </Compile>
     <Compile Include="ConfigurationStub.cs" />
     <Compile Include="DataProviderStub.cs" />
-    <Compile Include="DataSetup.cs" />
     <Compile Include="Defs.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="ProjectModelRepositoryStub.cs" />

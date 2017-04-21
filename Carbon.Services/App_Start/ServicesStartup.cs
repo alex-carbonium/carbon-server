@@ -5,9 +5,7 @@ using Carbon.Data.Azure.Scheduler;
 using Carbon.Framework.Util;
 using Microsoft.Owin;
 using Owin;
-using Carbon.Owin.Common.Data;
 using Carbon.Owin.Common.Dependencies;
-using Carbon.Owin.Common.Logging;
 using Carbon.Owin.Common.Security;
 using Carbon.Owin.Common.WebApi;
 using Carbon.Services;
@@ -38,7 +36,6 @@ namespace Carbon.Services
         {
             var appSettings = Container.Resolve<AppSettings>();
 
-            DataLayerConfig.ConfigureStandalone(Container, appSettings);
             JobSchedulingConfig.Register(Container);
 
             app.Use(typeof(NinjectMiddleware), Container);
@@ -79,6 +76,8 @@ namespace Carbon.Services
             InitializeFontManager(Container, appSettings);
 
             app.UseWebApi(HtmlWebApiConfig.Register());
+
+            ApplicationUserManager.StartupAsync(appSettings);
         }
 
         private static void SetupFileSystem(IAppBuilder app, DataProvider dataProvider, string pathString, string physicalPath)

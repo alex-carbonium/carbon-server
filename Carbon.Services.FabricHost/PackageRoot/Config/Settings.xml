@@ -4,7 +4,6 @@
     <Parameter Name="TestSecret" Value="" MustOverride="true" IsEncrypted="true"/>
   </Section>
   <Section Name="ConnectionStrings">
-    <Parameter Name="sql" Value="" MustOverride="true" IsEncrypted="true" />
     <Parameter Name="nosql" Value="" MustOverride="true" IsEncrypted="true" />
   </Section>
   <Section Name="Endpoints">

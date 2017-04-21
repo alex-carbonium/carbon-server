@@ -46,17 +46,26 @@ namespace Carbon.Services.IdentityServer
             {
                 //other log levels produce too much unnecessary data
                 case LogLevel.Warn:
-                    _logger.Warning(string.Format(messageFunc(), formatParameters));
+                    _logger.Warning(Format(messageFunc, formatParameters));
                     break;
                 case LogLevel.Error:
-                    _logger.Error(string.Format(messageFunc(), formatParameters));
+                    _logger.Error(Format(messageFunc, formatParameters));
                     break;
                 case LogLevel.Fatal:
-                    _logger.Fatal(string.Format(messageFunc(), formatParameters));
+                    _logger.Fatal(Format(messageFunc, formatParameters));
                     break;
             }
 
             return true;
+        }
+
+        private static string Format(Func<string> messageFunc, object[] formatParameters)
+        {
+            if (formatParameters != null && formatParameters.Length > 0)
+            {
+                return string.Format(messageFunc(), formatParameters);
+            }
+            return messageFunc();
         }
     }
 }

@@ -5,13 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Carbon.Business;
 using Carbon.Business.Domain;
-using Carbon.Business.Services;
 using Carbon.Framework.Validation;
-using IdentityServer3.AspNetIdentity;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Carbon.Services.IdentityServer
 {
@@ -20,10 +17,10 @@ namespace Carbon.Services.IdentityServer
         //private readonly IDependencyContainer _container;
         //private readonly ILogService _logService;
 
-        public static IUserService Create(AppSettings appSettings)
+        public static IUserService Create(AppSettings appSettings, IUserTokenProvider<ApplicationUser, string> tokenProvider)
         {
             var context = new ApplicationDbContext(appSettings);
-            var userManager = new ApplicationUserManager(context);
+            var userManager = new ApplicationUserManager(context, tokenProvider);
             return new IdentityUserService(userManager);
         }
 

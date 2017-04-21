@@ -10,6 +10,8 @@ using IdentityServer3.Core.Logging;
 using IdentityServer3.Core.Services;
 using AuthenticationOptions = IdentityServer3.Core.Configuration.AuthenticationOptions;
 using CookieOptions = IdentityServer3.Core.Configuration.CookieOptions;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 //using Microsoft.Owin.Security.Facebook;
 //using Microsoft.Owin.Security.Google;
@@ -27,14 +29,6 @@ namespace Carbon.Services.IdentityServer
         {
             var logService = container.Resolve<ILogService>();
 
-            var factory = new IdentityServerServiceFactory();
-            factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
-            factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
-            factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings));
-            //factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
-
-            factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
-
             LogProvider.SetCurrentLogProvider(new LogProviderAdapter(logService));
 
             ProtectionCertificate = FindCertificate(appSettings.IdServer.ProtectionCertificateThumbprint);
@@ -49,6 +43,16 @@ namespace Carbon.Services.IdentityServer
                     appSettings.IdServer.PrivateKeyDebugPassword,
                     X509KeyStorageFlags.MachineKeySet);
             }
+
+            var tokenProvider = new DataProtectorTokenProvider<ApplicationUser>(new IdentityDataProtector(ProtectionCertificate));
+
+            var factory = new IdentityServerServiceFactory();
+            factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
+            factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
+            factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings, tokenProvider));
+            //factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
+
+            factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
 
             Options = new IdentityServerOptions
             {
@@ -73,6 +77,8 @@ namespace Carbon.Services.IdentityServer
             };
 
             app.UseIdentityServer(Options);
+
+            container.RegisterInstance<IUserTokenProvider<ApplicationUser, string>>(tokenProvider);
         }
 
         public static X509Certificate2 FindCertificate(string certificateThumbprint)

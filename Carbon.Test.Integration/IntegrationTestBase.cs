@@ -10,27 +10,11 @@ using Microsoft.WindowsAzure.Storage;
 
 namespace Carbon.Test.Integration
 {
-    [TestClass]    
+    [TestClass]
     //[DeploymentItem(@"Files\ProjectImages.txt")]
     public class IntegrationTestBase
-    {        
+    {
         private static readonly object _lock = new object();
-        private DataSetup _dataSetup;
-
-        public void SetupCleanTestModelSchema(Assembly modelAssembly)
-        {
-            DataSetup.SetupCleanTestModelSchema(modelAssembly);    
-        }
-
-        public void SetupCleanDomainModelSchema()
-        {
-            DataSetup.SetupCleanDomainModelSchema();    
-        }
-        
-        public virtual IUnitOfWork CreateUnitOfWork()
-        {
-            return DataSetup.CreateUnitOfWork();
-        }
 
         [TestInitialize]
         public virtual void Setup()
@@ -50,25 +34,9 @@ namespace Carbon.Test.Integration
             if (canUseLocal)
             {
                 return CloudStorageAccount.DevelopmentStorageAccount;
-            }            
+            }
 #endif
             return CloudStorageAccount.Parse(Defs.StorageConnectionString);
-        }
-
-        public DataSetup DataSetup
-        {
-            get
-            {
-                if (_dataSetup == null)
-                {
-                    _dataSetup = new DataSetup();
-                }
-                return _dataSetup;
-            }
-        }
-        public TestAppSettings TestAppSettings
-        {
-            get { return DataSetup.TestAppSettings; }
         }
 
         public async Task WaitFor(Func<bool> action, string failureMessage, TimeSpan? timeout = null)
