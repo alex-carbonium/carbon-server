@@ -36,9 +36,6 @@
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>
-    <EnvironmentOverrides CodePackageRef="Code">
-      <EnvironmentVariable Name="Carbon_Env" Value="[Env]" />
-    </EnvironmentOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Carbon.StorageService.FabricHostPkg" ServiceManifestVersion="1.0.0" />
@@ -63,9 +60,6 @@
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>
-    <EnvironmentOverrides CodePackageRef="Code">
-      <EnvironmentVariable Name="Carbon_Env" Value="[Env]" />
-    </EnvironmentOverrides>
     <Policies>
       <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
     </Policies>
@@ -100,9 +94,6 @@
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>
-    <EnvironmentOverrides CodePackageRef="Code">
-      <EnvironmentVariable Name="Carbon_Env" Value="[Env]" />
-    </EnvironmentOverrides>
     <Policies>
       <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
     </Policies>

@@ -19,8 +19,7 @@ namespace Carbon.Services.IdentityServer
 
         public Task<Stream> IndexHtml()
         {
-            var content = _resourceCache.GetHtmlFile(@"target\index.html");
-            return Task.FromResult<Stream>(new MemoryStream(Defs.Encoding.GetBytes(content)));
+            return Task.FromResult<Stream>(new MemoryStream(Defs.Encoding.GetBytes("")));
         }
 
         public Task<Stream> Login(LoginViewModel model, SignInMessage message)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Data;
 
-namespace Carbon.Test.Unit
+namespace Carbon.Console
 {
     public class InMemoryStateManager : IActorStateManager
     {
@@ -100,7 +100,7 @@ namespace Carbon.Test.Unit
 
         public Task ClearCacheAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            Dictionary.Clear();            
+            Dictionary.Clear();
             return Task.FromResult(0);
         }
 

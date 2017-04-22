@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Carbon.Business;
+using System.Collections.Generic;
 using System.Security;
-using Carbon.Business;
 
-namespace Carbon.Test.Common
+namespace Carbon.Console
 {
-    public class ConfigurationStub : Configuration
+    public class InMemoryConfiguration : Configuration
     {
         public Dictionary<string, Dictionary<string, dynamic>> Data { get; }
 
-        public ConfigurationStub()
+        public InMemoryConfiguration()
         {
             Data = new Dictionary<string, Dictionary<string, dynamic>>();
             Add("ConnectionStrings", "nosql", "UseDevelopmentStorage=true");
+
+            Add("IdSrv", "ProtectionCertificateThumbprint", "9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F");
+            Add("IdSrv", "PrivateKeyReleaseThumbprint", string.Empty);
+            Add("IdSrv", "PrivateKeyFile", "idsrv-debug.pfx");
+            Add("IdSrv", "PublicKeyFile", "idsrv-debug.cer");
+            Add("IdSrv", "PrivateKeyDebugPassword", "PandaIsSafe");
         }
 
         public void Add(string section, string parameter, dynamic value)

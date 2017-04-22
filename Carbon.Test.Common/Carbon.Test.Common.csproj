@@ -59,8 +59,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ConfigurationStub.cs" />
-    <Compile Include="DataProviderStub.cs" />
     <Compile Include="Defs.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="ProjectModelRepositoryStub.cs" />
@@ -81,6 +79,10 @@
     <ProjectReference Include="..\Carbon.Business\Carbon.Business.csproj">
       <Project>{61E2BE4E-62ED-493C-B512-44BCE8DF16CB}</Project>
       <Name>Carbon.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Carbon.Console\Carbon.Console.csproj">
+      <Project>{4505c540-5b31-46d7-8b86-199fa0c02f33}</Project>
+      <Name>Carbon.Console</Name>
     </ProjectReference>
     <ProjectReference Include="..\Carbon.Data\Carbon.Data.csproj">
       <Project>{CB1ED58F-38FB-4BAE-98F6-6970DD7A5069}</Project>

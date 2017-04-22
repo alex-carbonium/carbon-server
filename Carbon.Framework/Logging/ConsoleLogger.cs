@@ -42,7 +42,14 @@ namespace Carbon.Framework.Logging
 
         private void Write(string message, params object[] parameters)
         {
-            Console.WriteLine(message, parameters);
+            if (parameters != null && parameters.Length > 0)
+            {
+                Console.WriteLine(message);
+            }
+            else
+            {
+                Console.WriteLine(message);
+            }
         }
         private void Write(Exception ex)
         {

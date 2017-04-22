@@ -12,9 +12,9 @@ using AuthenticationOptions = IdentityServer3.Core.Configuration.AuthenticationO
 using CookieOptions = IdentityServer3.Core.Configuration.CookieOptions;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
-
 //using Microsoft.Owin.Security.Facebook;
-//using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Google;
+using Carbon.Business.Domain;
 //using Microsoft.Owin.Security.Twitter;
 
 namespace Carbon.Services.IdentityServer
@@ -50,7 +50,7 @@ namespace Carbon.Services.IdentityServer
             factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
             factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
             factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings, tokenProvider));
-            //factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
+            factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
 
             factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
 
@@ -62,10 +62,10 @@ namespace Carbon.Services.IdentityServer
                 SigningCertificate = SigningCertificate,
                 Factory = factory,
                 DataProtector = new X509CertificateDataProtector(ProtectionCertificate),
-                //AdditionalIdentityProviderConfiguration = (idsrvApp, signInAsType) => ConfigureSocialIdentityProviders(idsrvApp, signInAsType, container.Resolve<AppSettings>()),
                 CspOptions = new CspOptions { Enabled = false },
                 AuthenticationOptions = new AuthenticationOptions
                 {
+                    IdentityProviders = (idsrvApp, signInAsType) => ConfigureSocialIdentityProviders(idsrvApp, signInAsType, appSettings),
                     CookieOptions = new CookieOptions
                     {
                         SlidingExpiration = true,
@@ -91,37 +91,36 @@ namespace Carbon.Services.IdentityServer
             return cert;
         }
 
-        //public static void ConfigureSocialIdentityProviders(IAppBuilder app, string signInAsType, AppSettings appSettings)
-        //{
-        //    var google = new GoogleOAuth2AuthenticationOptions
-        //    {
-        //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Google),
-        //        SignInAsAuthenticationType = signInAsType,
-        //        ClientId = appSettings.googleClientId,
-        //        ClientSecret= appSettings.googleClientSecret
-        //    };
-        //    google.Scope.Add("email");
-        //    app.UseGoogleAuthentication(google);
+        public static void ConfigureSocialIdentityProviders(IAppBuilder app, string signInAsType, AppSettings appSettings)
+        {
+            var google = new GoogleOAuth2AuthenticationOptions
+            {
+                AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Google),
+                SignInAsAuthenticationType = signInAsType,
+                ClientId = "766646497455-56q8aqr57clr1trokg9jdsjvtp21snd2.apps.googleusercontent.com",
+                ClientSecret = "Dxa229t8IE7gkbexoUGTgEIy"
+            };
+            google.Scope.Add("email");
+            app.UseGoogleAuthentication(google);
 
-        //    var fb = new FacebookAuthenticationOptions
-        //    {
-        //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Facebook),
-        //        SignInAsAuthenticationType = signInAsType,
-        //        AppId = appSettings.facebookAppID.ToString(),
-        //        AppSecret = appSettings.facebookAppSecret
-        //    };
-        //    fb.Scope.Add("email");
-        //    app.UseFacebookAuthentication(fb);
+            //    var fb = new FacebookAuthenticationOptions
+            //    {
+            //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Facebook),
+            //        SignInAsAuthenticationType = signInAsType,
+            //        AppId = appSettings.facebookAppID.ToString(),
+            //        AppSecret = appSettings.facebookAppSecret
+            //    };
+            //    fb.Scope.Add("email");
+            //    app.UseFacebookAuthentication(fb);
 
-        //    var twitter = new TwitterAuthenticationOptions
-        //    {
-        //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Twitter),
-        //        SignInAsAuthenticationType = signInAsType,
-        //        ConsumerKey = appSettings.twitterConsumerKey,
-        //        ConsumerSecret = appSettings.twitterConsumerSecret
-        //    };
-        //    app.UseTwitterAuthentication(twitter);
-        //}
-
+            //    var twitter = new TwitterAuthenticationOptions
+            //    {
+            //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Twitter),
+            //        SignInAsAuthenticationType = signInAsType,
+            //        ConsumerKey = appSettings.twitterConsumerKey,
+            //        ConsumerSecret = appSettings.twitterConsumerSecret
+            //    };
+            //    app.UseTwitterAuthentication(twitter);
+        }
     }
 }

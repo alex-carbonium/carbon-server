@@ -11,7 +11,7 @@
     <Parameter Name="BackupMode" Value="azure" />
   </Section>
   <Section Name="Backup.Azure">
-    <Parameter Name="BackupConnectionString" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="BackupConnectionString" Value="" MustOverride="true" IsEncrypted="true" />
     <Parameter Name="BackupFrequency" Value="04:00:00" />
     <Parameter Name="MaxBackupsToKeep" Value="5" />
   </Section>

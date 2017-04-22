@@ -12,6 +12,7 @@ using Carbon.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Ninject;
+using Carbon.Console;
 
 namespace Carbon.Test.Unit
 {
@@ -36,7 +37,7 @@ namespace Carbon.Test.Unit
         }
         public Mock<ILogService> LogService { get; set; }
         public Mock<ILogger> Logger { get; set; }
-        public ActorFabricStub ActorFabricStub { get; private set; }
+        public InMemoryActorFabric ActorFabricStub { get; private set; }
 
         private Dictionary<string, object> _repositories;
 
@@ -62,11 +63,11 @@ namespace Carbon.Test.Unit
 
             _repositories = new Dictionary<string, object>();
 
-            ActorFabricStub = new ActorFabricStub();
+            ActorFabricStub = new InMemoryActorFabric();
 
             Container = new NinjectDependencyContainer(new StandardKernel());
-            Container.RegisterInstance<Configuration>(new ConfigurationStub());
-            Container.RegisterInstance<DataProvider>(new DataProviderStub());
+            Container.RegisterInstance<Configuration>(new InMemoryConfiguration());
+            Container.RegisterInstance<DataProvider>(new InMemoryDataProvider());
             Container.RegisterInstance<IActorFabric>(ActorFabricStub);
             DataLayerConfig.RegisterImplementation(Container);
 
