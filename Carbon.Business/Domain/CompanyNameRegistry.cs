@@ -7,10 +7,12 @@ namespace Carbon.Business.Domain
         public CompanyNameRegistry()
         {
         }
-        public CompanyNameRegistry(string name)
+        public CompanyNameRegistry(string name, string companyId)
         {
             PartitionKey = name;
             RowKey = name;
+            CompanyId = companyId;
         }
+        public string CompanyId { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 //using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Carbon.Business.Domain;
+using Carbon.Business.Services;
 //using Microsoft.Owin.Security.Twitter;
 
 namespace Carbon.Services.IdentityServer
@@ -49,20 +50,25 @@ namespace Carbon.Services.IdentityServer
             var factory = new IdentityServerServiceFactory();
             factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
             factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
-            factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings, tokenProvider));
-            factory.ViewService = new Registration<IViewService>(new IdentityViewService(container.Resolve<ResourceCache>()));
+            factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings, tokenProvider, container.Resolve<AccountService>()));
+            factory.ViewService = new Registration<IViewService>(new IdentityViewService(logService));
 
             factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
 
             Options = new IdentityServerOptions
             {
                 IssuerUri = "https://ppanda",
-                SiteName = "ppanda",
+                SiteName = "Carbonium",
                 RequireSsl = false,
                 SigningCertificate = SigningCertificate,
                 Factory = factory,
                 DataProtector = new X509CertificateDataProtector(ProtectionCertificate),
                 CspOptions = new CspOptions { Enabled = false },
+                Endpoints = new EndpointOptions
+                {
+                    EnableCheckSessionEndpoint = false,
+                    EnableEndSessionEndpoint = false
+                },
                 AuthenticationOptions = new AuthenticationOptions
                 {
                     IdentityProviders = (idsrvApp, signInAsType) => ConfigureSocialIdentityProviders(idsrvApp, signInAsType, appSettings),
@@ -97,8 +103,8 @@ namespace Carbon.Services.IdentityServer
             {
                 AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Google),
                 SignInAsAuthenticationType = signInAsType,
-                ClientId = "766646497455-56q8aqr57clr1trokg9jdsjvtp21snd2.apps.googleusercontent.com",
-                ClientSecret = "Dxa229t8IE7gkbexoUGTgEIy"
+                ClientId = appSettings.GetString("IdSrv", "GoogleAppId"),
+                ClientSecret = appSettings.GetString("IdSrv", "GoogleAppSecret")
             };
             google.Scope.Add("email");
             app.UseGoogleAuthentication(google);

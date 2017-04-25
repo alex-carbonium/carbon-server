@@ -70,7 +70,7 @@ namespace Carbon.Services
             });
 
             var dataProvider = Container.Resolve<DataProvider>();
-            SetupFileSystem(app, dataProvider, "/target", "target");
+            SetupFileSystem(app, dataProvider, "/target", @"target");
             SetupFileSystem(app, dataProvider, "/fonts", @"target\fonts");
 
             InitializeFontManager(Container, appSettings);

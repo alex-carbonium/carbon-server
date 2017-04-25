@@ -4,49 +4,41 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Carbon.Business;
-using Carbon.Business.Domain;
-using Carbon.Framework.Validation;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using Microsoft.AspNet.Identity;
+using Constants = IdentityServer3.Core.Constants;
+using Carbon.Business.Services;
+using IdentityServer3.Core.Extensions;
 
 namespace Carbon.Services.IdentityServer
 {
     public class IdentityUserService : AspNetIdentityUserService<ApplicationUser,string>
     {
-        //private readonly IDependencyContainer _container;
-        //private readonly ILogService _logService;
-
-        public static IUserService Create(AppSettings appSettings, IUserTokenProvider<ApplicationUser, string> tokenProvider)
+        public static IUserService Create(AppSettings appSettings, IUserTokenProvider<ApplicationUser, string> tokenProvider, AccountService accountService)
         {
             var context = new ApplicationDbContext(appSettings);
             var userManager = new ApplicationUserManager(context, tokenProvider);
-            return new IdentityUserService(userManager);
+            return new IdentityUserService(userManager, accountService);
         }
 
-        public IdentityUserService(UserManager<ApplicationUser, string> userManager)
+        private readonly AccountService _accountService;
+
+        public IdentityUserService(UserManager<ApplicationUser, string> userManager, AccountService accountService)
             : base(userManager)
         {
-//            _container = container;
-//            _logService = logService;
+            _accountService = accountService;
         }
 
         public override async Task AuthenticateLocalAsync(LocalAuthenticationContext ctx)
         {
-            //using (var scope = _container.BeginScope())
+            if (ctx.UserName == "trial" && ctx.Password == "trial")
             {
-                //var userService = scope.Resolve<IUserService>();
-                //var uow = scope.Resolve<IUnitOfWork>();
-
-                if (ctx.UserName == "trial" && ctx.Password == "trial")
-                {
-                    ctx.AuthenticateResult = AuthenticateNewGuestUser();
-                    //uow.Commit();
-                }
-                else
-                {
-                    await base.AuthenticateLocalAsync(ctx);
-                }
+                ctx.AuthenticateResult = AuthenticateNewGuestUser();
+            }
+            else
+            {
+                await base.AuthenticateLocalAsync(ctx);
             }
         }
 
@@ -55,107 +47,101 @@ namespace Carbon.Services.IdentityServer
             return userManager.FindByEmailAsync(email);
         }
 
-        public override Task IsActiveAsync(IsActiveContext ctx)
+        protected override Task<ApplicationUser> InstantiateNewUserFromExternalProviderAsync(string provider, string providerId, IEnumerable<Claim> claims)
         {
-            ctx.IsActive = true;
-            return Task.FromResult(true);
+            var user = CreateUserFromClaims(NewUserId(), claims);
+            return Task.FromResult(user);
         }
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
+        protected override async Task<ApplicationUser> TryGetExistingUserFromExternalProviderClaimsAsync(string provider, IEnumerable<Claim> claims, string tenantId)
         {
-            if (string.IsNullOrEmpty(externalUser.ProviderId))
+            var email = GetFirstClaim(claims, Constants.ClaimTypes.Email);
+            if (!string.IsNullOrEmpty(email))
             {
-                throw new Exception("Unknown user ID from provider " + externalUser.Provider);
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    //TODO: if user is not the same tenant, copy the projects
+                    return user;
+                }
             }
-            RegistrationType registrationType;
-            if (!Enum.TryParse(externalUser.Provider, out registrationType))
+
+            if (!string.IsNullOrEmpty(tenantId))
             {
-                throw new Exception("Unknown provider " + externalUser.Provider);
+                var user = await userManager.FindByIdAsync(tenantId);
+                if (user == null) //guest
+                {
+                    user = CreateUserFromClaims(tenantId, claims);
+                    await Task.WhenAll(
+                        userManager.CreateAsync(user),
+                        _accountService.RegisterCompanyName(tenantId, user.UserName, user.Email));
+                }
+                return user;
             }
 
-            //using (var scope = _container.BeginScope())
+            return null;
+        }
+
+        protected override async Task<AuthenticateResult> AccountCreatedFromExternalProviderAsync(ApplicationUser user, string provider, string providerId, IEnumerable<Claim> claims, bool isNewUser)
+        {
+            if (isNewUser)
             {
-//                var userService = scope.Resolve<IUserService>();
-//                var uow = scope.Resolve<IUnitOfWork>();
+                await _accountService.RegisterCompanyName(user.Id, user.UserName, user.Email);
+            }
 
-                //var user = new User { RegistrationType = registrationType, ExternalId = externalUser.ProviderId, SubscribeForUpdates = true };
-                //string legacyId = null;
-                //switch (user.RegistrationType)
-                //{
-                //    case RegistrationType.Google:
-                //        user.FriendlyName = GetFirstClaim(externalUser.Claims, "name");
-                //        user.Email = GetFirstClaim(externalUser.Claims, "email");
-                //        legacyId = user.Email;
-                //        break;
-                //    case RegistrationType.Twitter:
-                //        user.FriendlyName = GetFirstClaim(externalUser.Claims, "name", "urn:twitter:screenname");
-                //        legacyId = GetFirstClaim(externalUser.Claims, "name");
-                //        break;
-                //    case RegistrationType.Facebook:
-                //        user.FriendlyName = GetFirstClaim(externalUser.Claims, "name", "urn:facebook:name");
-                //        user.Email = GetFirstClaim(externalUser.Claims, "email");
-                //        break;
-                //    default:
-                //        throw new Exception("Unexpected registration type " + registrationType);
-                //}
+            return null;
+        }
 
-                var validator = new DictionaryValidator();
-                //var email = user.Email;
-                //User existingUser;
-                //var canLogin = userService.ValidateUser(user, validator, out existingUser, legacyId);
-                //if (existingUser == null)
-                //{
-                //    canLogin = false;
-                //    if (!string.IsNullOrEmpty(user.Email) && validator.Errors.ContainsKey("email"))
-                //    {
-                //        user.Email = null;
-                //    }
-                //    userService.RegisterNewUser(user, sendWelcomeEmail: false);
-                //    existingUser = user;
-                //}
-                //else
-                //{
-                //    existingUser.ExternalId = externalUser.ProviderId;
-                //}
+        public override async Task IsActiveAsync(IsActiveContext ctx)
+        {
+            var id = ctx.Subject.GetSubjectId();
+            var user = await userManager.FindByIdAsync(id);
 
-                //var subjectName = string.IsNullOrWhiteSpace(existingUser.FriendlyName) ? "Guest" : existingUser.FriendlyName;
-
-                //TODO: fix external accounts
-                //new ExternalIdentity() { }
-                //new AuthenticateResult()
-                //var result = canLogin
-                //    ? new ExternalAuthenticateResult(externalUser.Provider.Name, existingUser.Id.ToString(), subjectName)
-                //    : new ExternalAuthenticateResult("/account/mustUpdateSettings", externalUser.Provider.Name, existingUser.Id.ToString(), subjectName);
-
-                //result.RedirectClaims.Add(new Claim(ClaimTypes.Email, email ?? string.Empty));
-
-                //uow.Commit();
-
-                //return Task.FromResult(result);
-                return null;
+            if (user == null)
+            {
+                //guest users are not persisted
+                ctx.IsActive = true;
+            }
+            else
+            {
+                await IsActiveAsync(ctx, user);
             }
         }
 
         private AuthenticateResult AuthenticateNewGuestUser()
         {
-            var id = Guid.NewGuid().ToString("N");
+            var id = NewUserId();
             return new AuthenticateResult(id, id, new List<Claim>
             {
-                new Claim(Framework.Defs.ClaimTypes.Subject, id)
+                new Claim(Constants.ClaimTypes.Subject, id)
             });
         }
 
-        private string GetFirstClaim(IEnumerable<Claim> claims, params string[] names)
+        private static ApplicationUser CreateUserFromClaims(string userId, IEnumerable<Claim> claims)
+        {
+            return new ApplicationUser
+            {
+                Id = userId,
+                Email = GetFirstClaim(claims, Constants.ClaimTypes.Email) ?? "guest@carbonium.io",
+                UserName = GetFirstClaim(claims, Constants.ClaimTypes.Name, Constants.ClaimTypes.GivenName, Constants.ClaimTypes.FamilyName) ?? "guest"
+            };
+        }
+
+        private static string NewUserId()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
+
+        private static string GetFirstClaim(IEnumerable<Claim> claims, params string[] names)
         {
             foreach (var name in names)
             {
                 var claim = claims.FirstOrDefault(x => x.Type == name);
-                if (claim != null)
+                if (claim != null && !string.IsNullOrWhiteSpace(claim.Value))
                 {
                     return claim.Value;
                 }
             }
-            //_logService.GetLogger(this).Warning("Could not find claims " + string.Join(",", names) + " among " + claims.Aggregate(string.Empty, (current, c) => current + c.Type + ","));
             return null;
         }
     }

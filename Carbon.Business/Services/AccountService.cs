@@ -15,13 +15,15 @@ namespace Carbon.Business.Services
         private readonly IRepository<CompanyNameRegistry> _nameRepository;
         private readonly Regex _nameFilter = new Regex(@"[^a-zA-Z0-9\-_\.]", RegexOptions.Compiled);
         private readonly List<string> _defaultNames = new List<string> {"designer", "creator", "inventor"};
+        private readonly IActorFabric _actorFabric;
 
-        public AccountService(IRepository<CompanyNameRegistry> nameRepository)
+        public AccountService(IRepository<CompanyNameRegistry> nameRepository, IActorFabric actorFabric)
         {
             _nameRepository = nameRepository;
+            _actorFabric = actorFabric;
         }
 
-        public async Task<string> RegisterCompanyName(string username, string email)
+        public async Task<string> RegisterCompanyName(string userId, string username, string email)
         {
             var candidates = new List<string>();
 
@@ -46,12 +48,16 @@ namespace Carbon.Business.Services
                 }
             }
 
-            return await RegisterCompanyName(candidates);
+            var companyName = await RegisterCompanyName(userId, candidates);
+            var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
+            await actor.ChangeCompanyName(companyName);
+
+            return companyName;
         }
 
-        private async Task<string> RegisterCompanyName(IEnumerable<string> candidates)
+        private async Task<string> RegisterCompanyName(string userId, IEnumerable<string> candidates)
         {
-            var batch = candidates.Select(x => new CompanyNameRegistry(x)).ToList();
+            var batch = candidates.Select(x => new CompanyNameRegistry(x, userId)).ToList();
             if (batch.Count > 0)
             {
                 var name = await TryRegisterCompanyName(batch);
@@ -61,7 +67,7 @@ namespace Carbon.Business.Services
                 }
                 for (var i = 0; i < 10; ++i)
                 {
-                    batch = batch.Select(x => new CompanyNameRegistry(x.RowKey + new Random().Next(0, 1000))).ToList();
+                    batch = batch.Select(x => new CompanyNameRegistry(x.RowKey + new Random().Next(0, 1000), userId)).ToList();
                     name = await TryRegisterCompanyName(batch);
                     if (name != null)
                     {
@@ -72,7 +78,7 @@ namespace Carbon.Business.Services
 
             for (var i = 0; i < 50; ++i)
             {
-                batch = _defaultNames.Select(x => new CompanyNameRegistry(x + new Random().Next(0, 1000))).ToList();
+                batch = _defaultNames.Select(x => new CompanyNameRegistry(x + new Random().Next(0, 1000), userId)).ToList();
                 var name = await TryRegisterCompanyName(batch);
                 if (name != null)
                 {

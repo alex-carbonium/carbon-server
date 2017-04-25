@@ -47,9 +47,7 @@ namespace Carbon.Services.Controllers
             var expires = DateTime.UtcNow.Add(options.AuthenticationOptions.CookieOptions.RememberMeDuration);
             props.ExpiresUtc = expires;
 
-            var authenticationMethod = Constants.AuthenticationMethods.Password;
-
-            var user = IdentityServerPrincipal.Create(userId, userId, authenticationMethod);
+            var user = IdentityServerPrincipal.Create(userId, userId);
             var identity = user.Identities.First();
 
             Request.GetOwinContext().Authentication.SignIn(props, identity);

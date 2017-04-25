@@ -24,7 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ElCamino.AspNet.Identity.AzureTable, Version=1.6.6.0, Culture=neutral, PublicKeyToken=dccd6cad85dcd411, processorArchitecture=MSIL">
-      <HintPath>..\packages\defrosted.AspNet.Identity.AzureTable.1.6.6\lib\net45\ElCamino.AspNet.Identity.AzureTable.dll</HintPath>
+      <HintPath>..\packages\defrosted.AspNet.Identity.AzureTable.1.6.7\lib\net45\ElCamino.AspNet.Identity.AzureTable.dll</HintPath>
     </Reference>
     <Reference Include="IdentityModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.1.12.0\lib\net45\IdentityModel.dll</HintPath>

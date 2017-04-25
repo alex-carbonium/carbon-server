@@ -18,6 +18,8 @@
     <Parameter Name="PrivateKeyDebugPassword" Value="" MustOverride="true"/>
     <Parameter Name="PrivateKeyReleaseThumbprint" Value="" MustOverride="true"/>
     <Parameter Name="ProtectionCertificateThumbprint" Value="" MustOverride="true"/>
+    <Parameter Name="GoogleAppId" Value="" MustOverride="true"/>
+    <Parameter Name="GoogleAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
   </Section>
   <Section Name="Azure">
     <Parameter Name="TelemetryKey" Value="" MustOverride="true" />

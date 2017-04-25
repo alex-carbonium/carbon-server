@@ -39,6 +39,7 @@ namespace Carbon.Owin.Common.Security
                 "dev.carbonium.io",
                 "prod.carbonium.io",
                 "local.carbonium.io:8080",
+                "local.carbonium.io:9000",
                 "carbonium.io",
                 "carbonium.local",
                 "carbonium.local:8080",

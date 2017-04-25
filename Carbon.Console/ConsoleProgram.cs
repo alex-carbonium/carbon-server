@@ -11,16 +11,18 @@ namespace Carbon.Console
     {
         static void Main(string[] args)
         {
-            StartServices();
-            StartStorage();
+            var actorFabric = new InMemoryActorFabric();
+
+            StartServices(actorFabric);
+            StartStorage(actorFabric);
 
             System.Console.WriteLine("Services running, press Enter to exit");
             System.Console.ReadLine();
         }
 
-        private static void StartServices()
+        private static void StartServices(IActorFabric actorFabric)
         {
-            string baseAddress = "http://localhost:9000/";
+            string baseAddress = "http://127.0.0.1:9000/";
 
             var configuration = new InMemoryConfiguration();
             var start = new ServicesStartup(container =>
@@ -28,15 +30,15 @@ namespace Carbon.Console
                 container.RegisterInstance<Configuration>(configuration);
                 container.RegisterTypeSingleton<DataProvider, InMemoryDataProvider>();
                 container.RegisterTypeSingleton<ILogService, ConsoleLogService>();
-                container.RegisterTypeSingleton<IActorFabric, InMemoryActorFabric>();
+                container.RegisterInstance(actorFabric);
             });
 
             WebApp.Start(baseAddress, start.Configuration);
         }
 
-        private static void StartStorage()
+        private static void StartStorage(IActorFabric actorFabric)
         {
-            string baseAddress = "http://localhost:9100/";
+            string baseAddress = "http://127.0.0.1:9100/";
 
             var configuration = new InMemoryConfiguration();
             var start = new StorageStartup(container =>
@@ -44,7 +46,7 @@ namespace Carbon.Console
                 container.RegisterInstance<Configuration>(configuration);
                 container.RegisterTypeSingleton<DataProvider, InMemoryDataProvider>();
                 container.RegisterTypeSingleton<ILogService, ConsoleLogService>();
-                container.RegisterTypeSingleton<IActorFabric, InMemoryActorFabric>();
+                container.RegisterInstance(actorFabric);
             });
 
             WebApp.Start(baseAddress, start.Configuration);

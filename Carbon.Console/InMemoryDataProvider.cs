@@ -11,7 +11,8 @@ namespace Carbon.Console
         public InMemoryDataProvider()
         {
             _folders = new Dictionary<string, string>();
-            _folders.Add("Data", "Data");
+            _folders.Add(Defs.Packages.Data, "Data");
+            _folders.Add(Defs.Packages.Client, @"..\..\..\..\..\carbon-ui");
         }
 
         public override string ResolvePath(string packageName, string file)

@@ -18,6 +18,12 @@ namespace Carbon.Console
             Add("IdSrv", "PrivateKeyFile", "idsrv-debug.pfx");
             Add("IdSrv", "PublicKeyFile", "idsrv-debug.cer");
             Add("IdSrv", "PrivateKeyDebugPassword", "PandaIsSafe");
+            Add("IdSrv", "GoogleAppId", "766646497455-56q8aqr57clr1trokg9jdsjvtp21snd2.apps.googleusercontent.com");
+            Add("IdSrv", "GoogleAppSecret", "Dxa229t8IE7gkbexoUGTgEIy");
+
+            Add("Azure", "TelemetryKey", string.Empty);
+            Add("Endpoints", "Storage", "//localhost:9100");
+            Add("Endpoints", "Cdn", string.Empty);
         }
 
         public void Add(string section, string parameter, dynamic value)

@@ -8,6 +8,8 @@
     <Parameter Name="IdSrv_PublicKeyFile" DefaultValue="idsrv-debug.cer" />
     <Parameter Name="IdSrv_PrivateKeyFile" DefaultValue="idsrv-debug.pfx" />
     <Parameter Name="IdSrv_PrivateKeyDebugPassword" DefaultValue="PandaIsSafe" />
+    <Parameter Name="IdSrv_GoogleAppId" DefaultValue="766646497455-56q8aqr57clr1trokg9jdsjvtp21snd2.apps.googleusercontent.com" />
+    <Parameter Name="IdSrv_GoogleAppSecret" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAk9PRXKIGQgtMbgexpW8bTXmCkaw4s4woJTCe1/VyJfJESPRJlCEpjcAcp/oEF+WIn2kQPOY8fff0y22BkEP+q1xrJGB7vyxTHnAqrW6/ndtzYd3tGaxoycsCyabI0i2TaiGrZra1OK8vm9EXPje8nXw8ir6YYCezCVedZ6yFt1bmVwFLNkzyv287FMKK9AhaIpuPVno0wak90+4hOifnTkRS1+JRGYuq8wmp720DSJCMfxSlUouErYuqhaea1fRiI+pgtvx6vLTeGUMIQYF9bED5QnGUMxExmRaTHVtFtDdFDDhnoKl1AaSrAX/hB/UxIif+W0Izfdsmp8oBzFZ1FDBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD/vPeDmCMCdyXcreYv4v1vgEA1SNSq8faAFu6LJNHzqsqfoPjqKiXWKJiodrZ4f8hmX5HrhUT/znscpZvWnwE1dzgDtUtI5FRYg3e4lz4z6gFT" />
     <Parameter Name="ConnectionStrings_nosql" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
     <Parameter Name="Certificates_IdSrv" DefaultValue="" />
     <Parameter Name="Certificates_Encrypt" DefaultValue="9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F" />
@@ -78,6 +80,8 @@
             <Parameter Name="PrivateKeyDebugPassword" Value="[IdSrv_PrivateKeyDebugPassword]" />
             <Parameter Name="PrivateKeyReleaseThumbprint" Value="[Certificates_IdSrv]" />
             <Parameter Name="ProtectionCertificateThumbprint" Value="[Certificates_Encrypt]" />
+            <Parameter Name="GoogleAppId" Value="[IdSrv_GoogleAppId]" />
+            <Parameter Name="GoogleAppSecret" Value="[IdSrv_GoogleAppSecret]" IsEncrypted="true" />
           </Section>
           <Section Name="ConnectionStrings">
             <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />

@@ -71,9 +71,7 @@ namespace Carbon.Services.Controllers
                 }
             }
 
-            var companyName = await _accountService.RegisterCompanyName(model.Username, model.Email);
-            var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
-            await actor.ChangeCompanyName(companyName);
+            await _accountService.RegisterCompanyName(userId, model.Username, model.Email);
 
             return Success();
         }
