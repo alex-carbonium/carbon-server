@@ -12,11 +12,12 @@ using AuthenticationOptions = IdentityServer3.Core.Configuration.AuthenticationO
 using CookieOptions = IdentityServer3.Core.Configuration.CookieOptions;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
-//using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Carbon.Business.Domain;
 using Carbon.Business.Services;
-//using Microsoft.Owin.Security.Twitter;
+using Microsoft.Owin.Security.Twitter;
+using Microsoft.Owin.Security.MicrosoftAccount;
 
 namespace Carbon.Services.IdentityServer
 {
@@ -109,24 +110,36 @@ namespace Carbon.Services.IdentityServer
             google.Scope.Add("email");
             app.UseGoogleAuthentication(google);
 
-            //    var fb = new FacebookAuthenticationOptions
-            //    {
-            //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Facebook),
-            //        SignInAsAuthenticationType = signInAsType,
-            //        AppId = appSettings.facebookAppID.ToString(),
-            //        AppSecret = appSettings.facebookAppSecret
-            //    };
-            //    fb.Scope.Add("email");
-            //    app.UseFacebookAuthentication(fb);
+            var fb = new FacebookAuthenticationOptions
+            {
+                AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Facebook),
+                SignInAsAuthenticationType = signInAsType,
+                AppId = appSettings.GetString("IdSrv", "FacebookAppId"),
+                AppSecret = appSettings.GetString("IdSrv", "FacebookAppSecret"),
+                UserInformationEndpoint = "https://graph.facebook.com/v2.9/me?fields=id,name,email"
+            };
+            app.UseFacebookAuthentication(fb);
 
-            //    var twitter = new TwitterAuthenticationOptions
-            //    {
-            //        AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Twitter),
-            //        SignInAsAuthenticationType = signInAsType,
-            //        ConsumerKey = appSettings.twitterConsumerKey,
-            //        ConsumerSecret = appSettings.twitterConsumerSecret
-            //    };
-            //    app.UseTwitterAuthentication(twitter);
+            var twitter = new TwitterAuthenticationOptions
+            {
+                AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Twitter),
+                SignInAsAuthenticationType = signInAsType,
+                ConsumerKey = appSettings.GetString("IdSrv", "TwitterAppId"),
+                ConsumerSecret = appSettings.GetString("IdSrv", "TwitterAppSecret")
+            };
+            app.UseTwitterAuthentication(twitter);
+
+            var ms = new MicrosoftAccountAuthenticationOptions
+            {
+                AuthenticationType = Enum.GetName(typeof(RegistrationType), RegistrationType.Microsoft),
+                SignInAsAuthenticationType = signInAsType,
+                ClientId = appSettings.GetString("IdSrv", "MicrosoftAppId"),
+                ClientSecret = appSettings.GetString("IdSrv", "MicrosoftAppSecret")
+            };
+            //TODO: enable when https://github.com/aspnet/AspNetKatana/issues/48 is fixed
+            //ms.Scope.Add("profile");
+            //ms.Scope.Add("email");
+            app.UseMicrosoftAccountAuthentication(ms);
         }
     }
 }

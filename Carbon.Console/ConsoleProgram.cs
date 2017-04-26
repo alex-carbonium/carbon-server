@@ -4,6 +4,7 @@ using Carbon.Framework.Logging;
 using Carbon.Services;
 using Carbon.StorageService;
 using Microsoft.Owin.Hosting;
+using System.Linq;
 
 namespace Carbon.Console
 {
@@ -12,17 +13,18 @@ namespace Carbon.Console
         static void Main(string[] args)
         {
             var actorFabric = new InMemoryActorFabric();
+            var protocol = args.Contains("--ssl") ? "https" : "http";
 
-            StartServices(actorFabric);
-            StartStorage(actorFabric);
+            StartServices(protocol, actorFabric);
+            StartStorage(protocol, actorFabric);
 
-            System.Console.WriteLine("Services running, press Enter to exit");
+            System.Console.WriteLine("Press Enter to exit...");
             System.Console.ReadLine();
         }
 
-        private static void StartServices(IActorFabric actorFabric)
+        private static void StartServices(string protocol, IActorFabric actorFabric)
         {
-            string baseAddress = "http://127.0.0.1:9000/";
+            string baseAddress = protocol + "://+:9000/";
 
             var configuration = new InMemoryConfiguration();
             var start = new ServicesStartup(container =>
@@ -34,11 +36,12 @@ namespace Carbon.Console
             });
 
             WebApp.Start(baseAddress, start.Configuration);
+            System.Console.WriteLine("Running services on " + baseAddress);
         }
 
-        private static void StartStorage(IActorFabric actorFabric)
+        private static void StartStorage(string protocol, IActorFabric actorFabric)
         {
-            string baseAddress = "http://127.0.0.1:9100/";
+            string baseAddress = protocol + "://+:9100/";
 
             var configuration = new InMemoryConfiguration();
             var start = new StorageStartup(container =>
@@ -50,6 +53,7 @@ namespace Carbon.Console
             });
 
             WebApp.Start(baseAddress, start.Configuration);
+            System.Console.WriteLine("Running storage on " + baseAddress);
         }
     }
 }

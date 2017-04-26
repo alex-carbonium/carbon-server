@@ -3,6 +3,7 @@ using System.Web.Http;
 using Carbon.Business.Services;
 using Carbon.Owin.Common.WebApi;
 using Carbon.Services.IdentityServer;
+using System.Linq;
 
 namespace Carbon.Services.Controllers
 {
@@ -90,6 +91,25 @@ namespace Carbon.Services.Controllers
             var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
             var companyName = await actor.GetCompanyName();
             return Ok(new { CompanyName = companyName });
+        }
+
+        [HttpGet, Route("info")]
+        public async Task<IHttpActionResult> Info()
+        {
+            var userId = GetUserId();
+            var userTask = _userManager.FindByIdAsync(userId);
+            var hasPasswordTask = _userManager.HasPasswordAsync(userId);
+            await Task.WhenAll(userTask, hasPasswordTask);
+
+            var user = userTask.Result;
+
+            return Ok(new
+            {
+                Name = user.UserName,
+                Email = user.HasEmail() ? user.Email : "",
+                HasPassword = hasPasswordTask.Result,
+                EnabledProviders = user.Logins.Select(x => x.LoginProvider)
+            });
         }
     }
 }

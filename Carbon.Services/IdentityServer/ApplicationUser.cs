@@ -1,5 +1,4 @@
 ﻿using ElCamino.AspNet.Identity.AzureTable.Model;
-using Microsoft.AspNet.Identity;
 
 namespace Carbon.Services.IdentityServer
 {
@@ -8,6 +7,24 @@ namespace Carbon.Services.IdentityServer
         public override string PeekRowKey()
         {
             return Id;
+        }
+
+        public bool HasEmail()
+        {
+            if (string.IsNullOrEmpty(Email))
+            {
+                return false;
+            }
+            if (Email.StartsWith("guest") && Email.EndsWith("@carbonium.io"))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static string MakeInternalEmail(string userId)
+        {
+            return "guest" + userId + "@carbonium.io";
         }
     }
 }

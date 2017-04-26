@@ -20,6 +20,12 @@
     <Parameter Name="ProtectionCertificateThumbprint" Value="" MustOverride="true"/>
     <Parameter Name="GoogleAppId" Value="" MustOverride="true"/>
     <Parameter Name="GoogleAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="FacebookAppId" Value="" MustOverride="true"/>
+    <Parameter Name="FacebookAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="TwitterAppId" Value="" MustOverride="true"/>
+    <Parameter Name="TwitterAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="MicrosoftAppId" Value="" MustOverride="true"/>
+    <Parameter Name="MicrosoftAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
   </Section>
   <Section Name="Azure">
     <Parameter Name="TelemetryKey" Value="" MustOverride="true" />

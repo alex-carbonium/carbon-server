@@ -14,6 +14,8 @@ using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Carbon.Business.Domain;
 using Newtonsoft.Json.Linq;
+using Carbon.Owin.Common.Logging;
+using Carbon.Framework.Logging;
 
 [assembly: OwinStartup(typeof(ServicesStartup))]
 
@@ -39,6 +41,7 @@ namespace Carbon.Services
             JobSchedulingConfig.Register(Container);
 
             app.Use(typeof(NinjectMiddleware), Container);
+            app.UseLogAdapter(Container.Resolve<ILogService>());
 
             app.Map("/idsrv", idsrv =>
             {

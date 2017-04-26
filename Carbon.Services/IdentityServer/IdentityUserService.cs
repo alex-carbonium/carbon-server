@@ -55,7 +55,7 @@ namespace Carbon.Services.IdentityServer
 
         protected override async Task<ApplicationUser> TryGetExistingUserFromExternalProviderClaimsAsync(string provider, IEnumerable<Claim> claims, string tenantId)
         {
-            var email = GetFirstClaim(claims, Constants.ClaimTypes.Email);
+            var email = GetEmailClaim(claims);
             if (!string.IsNullOrEmpty(email))
             {
                 var user = await userManager.FindByEmailAsync(email);
@@ -122,7 +122,7 @@ namespace Carbon.Services.IdentityServer
             return new ApplicationUser
             {
                 Id = userId,
-                Email = GetFirstClaim(claims, Constants.ClaimTypes.Email) ?? "guest@carbonium.io",
+                Email = GetEmailClaim(claims) ?? ApplicationUser.MakeInternalEmail(userId),
                 UserName = GetFirstClaim(claims, Constants.ClaimTypes.Name, Constants.ClaimTypes.GivenName, Constants.ClaimTypes.FamilyName) ?? "guest"
             };
         }
@@ -130,6 +130,17 @@ namespace Carbon.Services.IdentityServer
         private static string NewUserId()
         {
             return Guid.NewGuid().ToString("N");
+        }
+
+        private static string GetEmailClaim(IEnumerable<Claim> claims)
+        {
+            var email = GetFirstClaim(claims, Constants.ClaimTypes.Email);
+            if (!string.IsNullOrEmpty(email) && email.Contains("@"))
+            {
+                //sometimes emails are returned as user ids, etc
+                return email;
+            }
+            return null;
         }
 
         private static string GetFirstClaim(IEnumerable<Claim> claims, params string[] names)
