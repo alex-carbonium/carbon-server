@@ -36,8 +36,7 @@ namespace Carbon.StorageService.Dependencies
                 .RegisterType<ProjectModelService, ProjectModelService>()
                 .RegisterTypeSingleton<PermissionService, PermissionService>()
                 .RegisterTypeSingleton<ActiveProjectTrackingService, ActiveProjectTrackingService>()
-                .RegisterTypePerWebRequest<IIdentityContext, IdentityContext>()
-                .RegisterTypeSingleton<ILogService, TelemetryLogService>();
+                .RegisterTypePerWebRequest<OperationContext, OperationContext>();
 
             addons?.Invoke(container);
 

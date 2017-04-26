@@ -13,10 +13,10 @@ namespace Carbon.Owin.Common.WebApi
     {
         public static HttpConfiguration Register(Assembly routesAssembly = null, string basePath = null, bool useInjection = true, bool useAttributeRoutes = true)
         {
-            var config = new HttpConfiguration();            
+            var config = new HttpConfiguration();
 
             config.EnableCors(new EnableCorsAttribute(
-                AllowedOrigins.AllAsList, 
+                AllowedOrigins.AllAsList,
                 "*",//"Content-Type,X-Requested-With,Authorization,X-SessionId,Cache-Control,Origin",
                 "POST,GET,OPTIONS"));
 
@@ -31,11 +31,11 @@ namespace Carbon.Owin.Common.WebApi
             if (useAttributeRoutes)
             {
                 config.MapHttpAttributeRoutes();
-            }            
+            }
 
             if (useInjection)
             {
-                config.Filters.Add(new WebApiUnitOfWorkFilterAttribute());                
+                config.Filters.Add(new WebApiUnitOfWorkFilterAttribute());
 
                 config.MessageHandlers.Insert(0, new NinjectWebApiHandler());
             }
@@ -43,12 +43,12 @@ namespace Carbon.Owin.Common.WebApi
             if (routesAssembly != null && basePath != null)
             {
                 config.RegisterSwagger(routesAssembly, basePath);
-            }            
+            }
 
             config.Services.Add(typeof(IExceptionLogger), new WebApiExceptionLogger());
 
             config.Filters.Add(new KnownExceptionFilter());
-                                       
+
             return config;
         }
     }

@@ -4,17 +4,17 @@ using Carbon.Business.Domain;
 using Carbon.Business.Services;
 using Microsoft.ServiceFabric.Actors;
 
-namespace Carbon.Test.Unit
+namespace Carbon.Console
 {
-    public class ActorFabricStub : IActorFabric
+    public class InMemoryActorFabric : IActorFabric
     {
         private readonly Dictionary<string, ICompanyActor> _companyActorStore;
 
-        public ActorFabricStub()
+        public InMemoryActorFabric()
         {
-            _companyActorStore = new Dictionary<string, ICompanyActor>();                        
+            _companyActorStore = new Dictionary<string, ICompanyActor>();
         }
-           
+
         public T GetProxy<T>(string id) where T : IActor
         {
             if (typeof(T) == typeof(ICompanyActor))
@@ -28,7 +28,7 @@ namespace Carbon.Test.Unit
 #pragma warning restore 4014
 
                     actor = companyActor;
-                    _companyActorStore.Add(id, actor);                    
+                    _companyActorStore.Add(id, actor);
                 }
                 return (T) actor;
             }

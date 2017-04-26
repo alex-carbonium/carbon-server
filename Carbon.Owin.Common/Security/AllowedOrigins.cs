@@ -29,17 +29,17 @@ namespace Carbon.Owin.Common.Security
             }
 
 
-            yield return "localhost";            
+            yield return "localhost";
         }
 
         static AllowedOrigins()
         {
             var allowedDomains = new List<string>
             {
-                "carbon-qa2.westeurope.cloudapp.azure.com",
-                "carbon-prod.westeurope.cloudapp.azure.com",
                 "dev.carbonium.io",
                 "prod.carbonium.io",
+                "local.carbonium.io:8080",
+                "local.carbonium.io:9000",
                 "carbonium.io",
                 "carbonium.local",
                 "carbonium.local:8080",

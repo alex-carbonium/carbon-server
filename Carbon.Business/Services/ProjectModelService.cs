@@ -8,7 +8,6 @@ using Carbon.Business.Sync.Handlers;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.Util;
-using Carbon.Business.Logging;
 
 namespace Carbon.Business.Services
 {
@@ -67,12 +66,7 @@ namespace Carbon.Business.Services
 
                 if (originalVersion != fromVersion)
                 {
-                    _logService.GetLogger(this).WarningWithContext("Server sync conflict", scope, c =>
-                    {
-                        c["projectId"] = change.ModelId;
-                        c["originalVersion"] = originalVersion;
-                        c["fromVersion"] = fromVersion;
-                    });
+                    _logService.GetLogger().Warning($"Server sync conflict. Original: {originalVersion}, fromVersion: {fromVersion}", scope);
                 }
             }
             else if (!permissionTask.Result.HasFlag(Permission.Read))

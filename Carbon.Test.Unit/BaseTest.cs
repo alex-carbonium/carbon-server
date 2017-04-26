@@ -12,21 +12,22 @@ using Carbon.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Ninject;
+using Carbon.Console;
 
 namespace Carbon.Test.Unit
 {
-    [TestClass]                        
+    [TestClass]
     public abstract class BaseTest
     {
         public IDependencyContainer Container { get; private set; }
         public IDependencyContainer Scope { get; private set; }
-        public Mock<IUnitOfWork> UnitOfWork { get; set; }        
+        public Mock<IUnitOfWork> UnitOfWork { get; set; }
         public UnitOfWorkStub UnitOfWorkStub {
             get { return (UnitOfWorkStub) Scope.Resolve<IUnitOfWork>(); }
-        }                
-        public AppSettings AppSettings 
-        { 
-            get { return Scope.Resolve<AppSettings>(); } 
+        }
+        public AppSettings AppSettings
+        {
+            get { return Scope.Resolve<AppSettings>(); }
         }
         public Mock<IProjectRendersService> ProjectRendersService { get; set; }
         public Mock<IJobScheduler> JobSchedulerMock { get; set; }
@@ -35,52 +36,52 @@ namespace Carbon.Test.Unit
             get { return JobSchedulerMock.Object; }
         }
         public Mock<ILogService> LogService { get; set; }
-        public Mock<Logger> Logger { get; set; }
-        public ActorFabricStub ActorFabricStub { get; private set; }
+        public Mock<ILogger> Logger { get; set; }
+        public InMemoryActorFabric ActorFabricStub { get; private set; }
 
         private Dictionary<string, object> _repositories;
-            
+
         [TestInitialize]
         public virtual void Setup()
         {
             UnitOfWork = new Mock<IUnitOfWork>();
-            UnitOfWork.DefaultValue = DefaultValue.Mock;          
+            UnitOfWork.DefaultValue = DefaultValue.Mock;
 
             //AppSettingsMock.Setup(x => x.SiteHost).Returns("http://localhost:8010");
             //AppSettingsMock.Setup(x => x.Smtp.LogReaders).Returns("devs@carbonium.io");
-            
+
             ProjectRendersService = new Mock<IProjectRendersService>();
-            
+
             JobSchedulerMock = new Mock<IJobScheduler>();
 
-            Logger = new Mock<Logger>();
+            Logger = new Mock<ILogger>();
             LogService = new Mock<ILogService>();
-            LogService.Setup(x => x.GetLogger(It.IsAny<object>())).Returns(Logger.Object);
-            LogService.Setup(x => x.GetLogger(It.IsAny<string>())).Returns(Logger.Object);
-            
-            UnitOfWork.DefaultValue = DefaultValue.Mock;            
+            LogService.Setup(x => x.GetLogger()).Returns(Logger.Object);
+            LogService.Setup(x => x.GetLogger()).Returns(Logger.Object);
 
-            _repositories = new Dictionary<string, object>();           
-            
-            ActorFabricStub = new ActorFabricStub();
+            UnitOfWork.DefaultValue = DefaultValue.Mock;
+
+            _repositories = new Dictionary<string, object>();
+
+            ActorFabricStub = new InMemoryActorFabric();
 
             Container = new NinjectDependencyContainer(new StandardKernel());
-            Container.RegisterInstance<Configuration>(new ConfigurationStub());
-            Container.RegisterInstance<DataProvider>(new DataProviderStub());
+            Container.RegisterInstance<Configuration>(new InMemoryConfiguration());
+            Container.RegisterInstance<DataProvider>(new InMemoryDataProvider());
             Container.RegisterInstance<IActorFabric>(ActorFabricStub);
             DataLayerConfig.RegisterImplementation(Container);
-            
+
             Container.RegisterTypePerWebRequest<IUnitOfWork>(() =>
             {
                 var uow = Scope.Resolve<UnitOfWorkStub>();
                 uow.AllRepositories = _repositories;
                 return uow;
-            });            
+            });
             Container.RegisterInstance(JobScheduler);
-            Container.RegisterInstance(LogService.Object);            
+            Container.RegisterInstance(LogService.Object);
 
             Scope = Container.BeginScope();
-        }    
+        }
 
         public InMemoryRepository<T> SetupRepository<T>()
         {
@@ -99,18 +100,18 @@ namespace Carbon.Test.Unit
 
     public static class MoqExtensions
     {
-        public static void VerifyWarningWithContext(this Mock<Logger> logger, string message)
-        {            
-            logger.Verify(x => x.Warning(message, It.IsAny<IDictionary<string, string>>()));
-        }
-        public static void VerifyNoWarning(this Mock<Logger> logger)
+        public static void VerifyWarningWithContext(this Mock<ILogger> logger, string message)
         {
-            logger.Verify(x => x.Warning(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()),
+            logger.Verify(x => x.Warning(It.Is<string>(s => s.Contains(message)), It.IsAny<IDependencyContainer>(), It.IsAny<string>()));
+        }
+        public static void VerifyNoWarning(this Mock<ILogger> logger)
+        {
+            logger.Verify(x => x.Warning(It.IsAny<string>(), It.IsAny<IDependencyContainer>(), It.IsAny<string>()),
                 Times.Never());
         }
-        public static void VerifyErrorWithContext(this Mock<Logger> logger, string message)
+        public static void VerifyErrorWithContext(this Mock<ILogger> logger, string message)
         {
-            logger.Verify(x => x.Error(message, It.IsAny<IDictionary<string, string>>()));
+            logger.Verify(x => x.Error(message, It.IsAny<IDependencyContainer>(), It.IsAny<string>()));
         }
     }
 }

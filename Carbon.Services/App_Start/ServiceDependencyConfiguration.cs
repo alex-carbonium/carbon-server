@@ -10,7 +10,6 @@ using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.Util;
 using Carbon.Owin.Common.Data;
-using Carbon.Owin.Common.Security;
 using Carbon.Services.IdentityServer;
 
 namespace Carbon.Services
@@ -52,14 +51,13 @@ namespace Carbon.Services
                 .RegisterTypeSingleton<IRepository<SharedPage>, TableRepository<SharedPage>>()
                 .RegisterTypeSingleton<IRepository<FeatureSubscription>, TableRepository<FeatureSubscription>>()
                 .RegisterTypeSingleton<IRepository<CompanyFile>, BlobRepository<CompanyFile>>()
-                .RegisterTypeSingleton<ILogService, TelemetryLogService>()
                 .RegisterTypeSingleton<ResourceCache, ResourceCache>()
                 .RegisterTypeSingleton<FontManager, FontManager>()
 
                 .RegisterTypePerWebRequest<ApplicationDbContext, ApplicationDbContext>()
                 .RegisterTypePerWebRequest<ApplicationUserManager, ApplicationUserManager>()
                 .RegisterTypePerWebRequest<ApplicationRoleManager, ApplicationRoleManager>()
-                .RegisterTypePerWebRequest<IIdentityContext, IdentityContext>();
+                .RegisterTypePerWebRequest<OperationContext, OperationContext>();
 
             addons?.Invoke(container);
 

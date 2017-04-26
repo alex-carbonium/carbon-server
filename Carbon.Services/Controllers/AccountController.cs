@@ -3,6 +3,7 @@ using System.Web.Http;
 using Carbon.Business.Services;
 using Carbon.Owin.Common.WebApi;
 using Carbon.Services.IdentityServer;
+using System.Linq;
 
 namespace Carbon.Services.Controllers
 {
@@ -53,16 +54,17 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {
-            var user = new ApplicationUser
-            {
-                Id = GetUserId(),
-                Email = model.Email,
-                UserName = model.Username
-            };
-
-            var existing = await _userManager.FindByIdAsync(user.Id);
+            var userId = GetUserId();
+            var existing = await _userManager.FindByIdAsync(userId);
             if (existing == null)
             {
+                var user = new ApplicationUser
+                {
+                    Id = userId,
+                    Email = model.Email,
+                    UserName = model.Username
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                 {
@@ -70,9 +72,7 @@ namespace Carbon.Services.Controllers
                 }
             }
 
-            var companyName = await _accountService.RegisterCompanyName(model.Username, model.Email);
-            var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
-            await actor.ChangeCompanyName(companyName);
+            await _accountService.RegisterCompanyName(userId, model.Username, model.Email);
 
             return Success();
         }
@@ -91,6 +91,25 @@ namespace Carbon.Services.Controllers
             var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
             var companyName = await actor.GetCompanyName();
             return Ok(new { CompanyName = companyName });
+        }
+
+        [HttpGet, Route("info")]
+        public async Task<IHttpActionResult> Info()
+        {
+            var userId = GetUserId();
+            var userTask = _userManager.FindByIdAsync(userId);
+            var hasPasswordTask = _userManager.HasPasswordAsync(userId);
+            await Task.WhenAll(userTask, hasPasswordTask);
+
+            var user = userTask.Result;
+
+            return Ok(new
+            {
+                Name = user.UserName,
+                Email = user.HasEmail() ? user.Email : "",
+                HasPassword = hasPasswordTask.Result,
+                EnabledProviders = user.Logins.Select(x => x.LoginProvider)
+            });
         }
     }
 }

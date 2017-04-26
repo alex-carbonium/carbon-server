@@ -31,6 +31,11 @@ namespace Carbon.Framework.Util
             return _scope.Get<T>();
         }
 
+        public override T TryResolve<T>()
+        {
+            return _scope.TryGet<T>();
+        }
+
         public override IEnumerable<object> ResolveMany(Type t)
         {
             return _scope.GetAll(t);
@@ -40,5 +45,5 @@ namespace Carbon.Framework.Util
         {
             _scope.Dispose();
         }
-    }    
+    }
 }

@@ -247,7 +247,7 @@ namespace Carbon.Services.Controllers
             }
             catch (Exception ex)
             {
-                LogService.GetLogger(this).Warning("Cannot save user image. {0}", ex.ToString());
+                LogService.GetLogger().Error(ex);
                 return null;
             }
         }

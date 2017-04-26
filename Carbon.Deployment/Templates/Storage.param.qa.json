@@ -4,15 +4,6 @@
   "parameters": {
     "EnvironmentName": {
       "value": "qa1"
-    },
-    "sqlAdminLoginPassword": {
-      "reference": {
-        "keyVault": {
-          "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
-        },
-        "secretName": "sqlAdminPassword"
-      }
-
     }
   }
 }

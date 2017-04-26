@@ -17,13 +17,13 @@ namespace Carbon.Business.Services
         private readonly ConcurrentDictionary<Tuple<string, string>, Task<ActiveProject>> _cache = new ConcurrentDictionary<Tuple<string, string>, Task<ActiveProject>>();
         private readonly PermissionService _permissionService;
         private readonly IRepository<ActiveProject> _activeProjectRepository;
-        private readonly Logger _logger;
+        private readonly ILogger _logger;
 
         public ActiveProjectTrackingService(PermissionService permissionService, IRepository<ActiveProject> activeProjectRepository, ILogService logService)
         {
             _permissionService = permissionService;
             _activeProjectRepository = activeProjectRepository;
-            _logger = logService.GetLogger(this);
+            _logger = logService.GetLogger();
         }
 
         public async Task<int> GetConnectionPort(string userId, string companyId, string projectId)

@@ -18,6 +18,7 @@ namespace Carbon.Owin.Common.WebApi
         public IUnitOfWork UnitOfWork => Scope.Resolve<IUnitOfWork>();
         public ILogService LogService => Scope.Resolve<ILogService>();
         public AppSettings AppSettings => Scope.Resolve<AppSettings>();
+        public OperationContext Operation => Scope.Resolve<OperationContext>();
         public IDependencyContainer Scope => Request.GetOwinContext().GetScopedContainer();
 
         protected HttpResponseMessage File(Stream stream)

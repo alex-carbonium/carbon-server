@@ -29,6 +29,14 @@ namespace Carbon.Services
         private string ReadFile(string name)
         {
             var path = _dataProvider.ResolvePath(Defs.Packages.Client, name);
+
+#if DEBUG
+            if (!File.Exists(path))
+            {
+                return "File " + name + " is missing in resource cache";
+            }
+#endif
+
             var content = File.ReadAllText(path);
 
             return content

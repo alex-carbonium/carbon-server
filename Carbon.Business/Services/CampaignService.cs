@@ -5,7 +5,6 @@ using Carbon.Business.Domain;
 using Carbon.Business.Domain.Marketing;
 using Carbon.Framework.Logging;
 using Carbon.Framework.UnitOfWork;
-using Carbon.Business.Logging;
 
 namespace Carbon.Business.Services
 {
@@ -27,7 +26,7 @@ namespace Carbon.Business.Services
         public void Send(BulkEmail email)
         {
             const int desiredBatchSize = 1000;
-            
+
             var servers = _unitOfWork.FindAll<EmailServer>().ToList();
             foreach (var server in servers)
             {
@@ -38,7 +37,7 @@ namespace Carbon.Business.Services
             var serverNo = -1;
 
             var campaign = _unitOfWork.FindById<Campaign>(email.CampaignId);
-            var allUsers = email.TestMode ? 
+            var allUsers = email.TestMode ?
                 new List<User>
                 {
                     _unitOfWork.FindAll<User>().Single(x => x.Email == "dennis@carbonium.io"),
@@ -47,12 +46,12 @@ namespace Carbon.Business.Services
                 : _campaignRepository.SelectUsers(campaign, email.MessageCount);
             if (allUsers.Count == 0)
             {
-                _logService.GetLogger(this).ErrorWithContext("No more users.");
+                _logService.GetLogger().Error("No more users.");
                 return;
             }
 
             var allRecipients = allUsers.Select(x => x.Email).ToList();
-            var allSubstitutions = BuildSubstitutions(allUsers);                        
+            var allSubstitutions = BuildSubstitutions(allUsers);
 
             for (var i = 0; i < allRecipients.Count;)
             {
@@ -67,20 +66,20 @@ namespace Carbon.Business.Services
 
                 if (actualBatchSize == 0)
                 {
-                    _logService.GetLogger(this).ErrorWithContext("Not enough capacity.");
+                    _logService.GetLogger().Error("Not enough capacity.");
                     break;
                 }
 
                 var batchEmail = Email.FromString<BulkEmail>(email.ToString());
-                
+
                 var batchRecipients = allRecipients.GetRange(i, actualBatchSize);
                 var batchSubstitutions = allSubstitutions.ToDictionary(
-                    s => s.Key, 
+                    s => s.Key,
                     s => s.Value.GetRange(i, actualBatchSize));
 
                 _mailService.SendBulkEmail(server, batchEmail, batchRecipients, batchSubstitutions);
                 server.Usage += actualBatchSize;
-                i += actualBatchSize;                
+                i += actualBatchSize;
             }
         }
 
@@ -91,7 +90,7 @@ namespace Carbon.Business.Services
             var sids = new List<string>();
 
             foreach (var user in users)
-            {                
+            {
                 var name = "there";
                 if (!string.IsNullOrEmpty(user.FriendlyName))
                 {
@@ -106,6 +105,6 @@ namespace Carbon.Business.Services
             substitutions.Add(":sid", sids);
 
             return substitutions;
-        }        
+        }
     }
 }

@@ -1,97 +1,59 @@
 using System;
-using System.Collections.Generic;
+using Carbon.Framework.Util;
 
 namespace Carbon.Framework.Logging
 {
-    public class ConsoleLogger : Logger
+    public class ConsoleLogger : ILogger
     {
+        public void Trace(string message, IDependencyContainer scope = null, string source = null)
+        {
+            Write(message);
+        }
+
+        public void Error(string message, IDependencyContainer scope = null, string source = null)
+        {
+            Write(message);
+        }
+
+        public void Error(Exception ex, IDependencyContainer scope = null, string source = null)
+        {
+            Write(ex);
+        }
+
+        public void Fatal(string message, IDependencyContainer scope = null, string source = null)
+        {
+            Write(message);
+        }
+
+        public void Fatal(Exception ex, IDependencyContainer scope = null, string source = null)
+        {
+            Write(ex);
+        }
+
+        public void Info(string message, IDependencyContainer scope = null, string source = null)
+        {
+            Write(message);
+        }
+
+        public void Warning(string message, IDependencyContainer scope = null, string source = null)
+        {
+            Write(message);
+        }
+
         private void Write(string message, params object[] parameters)
         {
-            Console.WriteLine(message, parameters);       
+            if (parameters != null && parameters.Length > 0)
+            {
+                Console.WriteLine(message);
+            }
+            else
+            {
+                Console.WriteLine(message);
+            }
         }
         private void Write(Exception ex)
         {
             Console.WriteLine(ex.ToString());
-        }
-
-        public override void Debug(string message, params object[] parameters)
-        {            
-            Write(message, parameters);
-        }
-
-        public override void Info(string message, params object[] parameters)
-        {
-            Write(message, parameters);
-        }
-
-        public override void Info(string message, IDictionary<string, string> context)
-        {
-            Write(message);
-        }
-
-        public override void Warning(string message, params object[] parameters)
-        {
-            Write(message, parameters);
-        }
-
-        public override void Warning(string message, IDictionary<string, string> context)
-        {
-            Write(message);
-        }
-
-        public override void Error(string message, params object[] parameters)
-        {
-            Write(message, parameters);
-        }
-
-        public override void Error(string message, IDictionary<string, string> context)
-        {
-            Write(message);
-        }
-
-        public override void Error(string message, Exception ex, IDictionary<string, string> context)
-        {
-            Write(message + Environment.NewLine + ex);
-        }
-
-        public override void Error(Exception ex, IDictionary<string, string> context)
-        {
-            Write(ex);
-        }
-
-        public override void Fatal(Exception ex)
-        {
-            Write(ex);
-        }
-
-        public override void Fatal(string message)
-        {
-            Write(message);
-        }
-
-        public override void Fatal(string message, params object[] parameters)
-        {
-            Write(message, parameters);
-        }
-
-        public override void Fatal(string message, IDictionary<string, string> context)
-        {
-            Write(message);
-        }
-
-        public override void Trace(string message)
-        {
-            Write(message);
-        }
-
-        public override void Trace(string message, params object[] parameters)
-        {
-            Write(message, parameters);
-        }
-
-        public override void Trace(string message, IDictionary<string, string> context, params object[] parameters)
-        {
-            Write(message, parameters);
         }
     }
 }

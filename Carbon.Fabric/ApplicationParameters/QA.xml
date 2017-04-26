@@ -7,7 +7,10 @@
     <Parameter Name="Endpoints_Cdn" Value="//carbonstatic.azureedge.net" />
     <!-- http:// scheme will be stripped-->
     <Parameter Name="Endpoints_File" Value="http://carbonstorageqa1.blob.core.windows.net/" />
-    <Parameter Name="Roles_Storage" Value="qa-storage" />
-    <Parameter Name="Roles_Services" Value="qa-services" />
+    <Parameter Name="Env" Value="qa" />
+    <Parameter Name="IdSrv_GoogleAppId" Value="766646497455-2omf95f5d0dagb36199v7h8lennauc8f.apps.googleusercontent.com" />
+    <Parameter Name="IdSrv_FacebookAppId" Value="1485684678131994" />
+    <Parameter Name="IdSrv_TwitterAppId" Value="3p2jYtmdxo62LyBqUd3QZLneX" />
+    <Parameter Name="IdSrv_MicrosoftAppId" Value="38cca683-1cde-48d1-b7e7-73cfcd67c334" />
   </Parameters>
 </Application>

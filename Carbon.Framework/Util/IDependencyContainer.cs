@@ -9,7 +9,9 @@ namespace Carbon.Framework.Util
         T Resolve<T>();
         object Resolve(Type t);
         IEnumerable<object> ResolveMany(Type t);
-        
+
+        T TryResolve<T>();
+
         IDependencyContainer RegisterType<TFrom, TTo>() where TTo : TFrom;
         IDependencyContainer RegisterTypePerWebRequest<TFrom>(Func<TFrom> func);
 
@@ -18,10 +20,10 @@ namespace Carbon.Framework.Util
         IDependencyContainer RegisterTypeSingleton<TFrom, TTo>() where TTo : TFrom;
 
         IDependencyContainer RegisterTypePerWebRequest<TFrom, TTo>() where TTo : TFrom;
-        
+
         IDependencyContainer RegisterFactory<T>(Func<MethodInfo, object[], Type> typeFinder = null) where T : class;
         IDependencyContainer RegisterFactorySingleton<T>(Func<MethodInfo, object[], Type> typeFinder = null) where T : class;
 
-        IDependencyContainer BeginScope();        
+        IDependencyContainer BeginScope();
     }
 }

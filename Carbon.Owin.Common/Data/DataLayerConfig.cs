@@ -17,23 +17,6 @@ namespace Carbon.Owin.Common.Data
 {
     public class DataLayerConfig
     {
-        public static string GetConnectionString(AppSettings appSettings)
-        {
-            return appSettings.GetConnectionString(StorageTypeConfig.GetConnectionStringName());
-        }
-
-        public static void ConfigureStandalone(IDependencyContainer container, AppSettings appSettings)
-        {
-            //var connectionString = GetConnectionString(appSettings);
-            //var codeVersion = Defs.Config.VERSION;
-            //NHibernateConfig.ConfigureAndMigrate(connectionString, container, codeVersion);
-        }
-
-        public static void ConfigureEmbedded(IDependencyContainer container)
-        {
-            //NHibernateConfig.RegisterSessionFactory(container);
-        }
-
         public static void RegisterImplementation(IDependencyContainer container)
         {
             var appSettings = container.Resolve<AppSettings>();

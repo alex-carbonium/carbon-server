@@ -6,12 +6,12 @@ using Logger = IdentityServer3.Core.Logging.Logger;
 namespace Carbon.Services.IdentityServer
 {
     public class LogProviderAdapter : ILogProvider
-    {        
-        private readonly Framework.Logging.Logger _logger;
+    {
+        private readonly Framework.Logging.ILogger _logger;
 
         public LogProviderAdapter(ILogService logService)
         {
-            _logger = logService.GetLogger("IdentityService");
+            _logger = logService.GetLogger();
         }
 
         public IDisposable OpenNestedContext(string message)
@@ -41,22 +41,33 @@ namespace Carbon.Services.IdentityServer
             {
                 return true;
             }
-                        
+
             switch (logLevel)
             {
-                //other log levels produce too much unnecessary data                
+                case LogLevel.Info:
+                    _logger.Info(Format(messageFunc, formatParameters));
+                    break;
                 case LogLevel.Warn:
-                    _logger.Warning(messageFunc(), formatParameters);
+                    _logger.Warning(Format(messageFunc, formatParameters));
                     break;
                 case LogLevel.Error:
-                    _logger.Error(messageFunc(), formatParameters);
+                    _logger.Error(Format(messageFunc, formatParameters));
                     break;
                 case LogLevel.Fatal:
-                    _logger.Fatal(messageFunc(), formatParameters);
+                    _logger.Fatal(Format(messageFunc, formatParameters));
                     break;
             }
 
             return true;
+        }
+
+        private static string Format(Func<string> messageFunc, object[] formatParameters)
+        {
+            if (formatParameters != null && formatParameters.Length > 0)
+            {
+                return string.Format(messageFunc(), formatParameters);
+            }
+            return messageFunc();
         }
     }
 }

@@ -6,7 +6,6 @@ using Carbon.Framework.Logging;
 using Carbon.Framework.UnitOfWork;
 using Carbon.Framework.Util;
 using Microsoft.WindowsAzure.Storage;
-using Carbon.Business.Logging;
 
 namespace Carbon.Data.Azure.Scheduler
 {
@@ -28,8 +27,8 @@ namespace Carbon.Data.Azure.Scheduler
             //{
             //    options.PublishSettingsFile = appSettings.GetPhysicalPath(appSettings.Azure.PublishSettingsFile);
             //}
-            options.LogException = ex => logService.GetLogger(typeof(AzureJobScheduler).FullName).ErrorWithContext("Unhandled job exception", ex);
-            
+            options.LogException = ex => logService.GetLogger().Error(ex);
+
             var scheduler = new AzureJobScheduler(options, (type, parameters) => RunJob(container, logService, type, parameters));
 
             container.RegisterInstance<IJobScheduler>(scheduler);
@@ -41,7 +40,7 @@ namespace Carbon.Data.Azure.Scheduler
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var logger = logService.GetLogger(type.FullName);
+            var logger = logService.GetLogger();
 
             using (var scope = container.BeginScope())
             using (var uow = scope.Resolve<IUnitOfWork>())
@@ -56,7 +55,7 @@ namespace Carbon.Data.Azure.Scheduler
             }
 
             stopwatch.Stop();
-            logger.Info("Job completed in {0} ms", stopwatch.ElapsedMilliseconds);
+            logger.Info($"Job completed in {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }

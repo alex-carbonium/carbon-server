@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Section Name="General">
-    <Parameter Name="RoleName" Value="" MustOverride="true" />
     <Parameter Name="TestSecret" Value="" MustOverride="true" IsEncrypted="true"/>
   </Section>
   <Section Name="ConnectionStrings">
-    <Parameter Name="sql" Value="" MustOverride="true" IsEncrypted="true" />
-    <Parameter Name="nosql" Value="" MustOverride="true" IsEncrypted="true" />    
+    <Parameter Name="nosql" Value="" MustOverride="true" IsEncrypted="true" />
   </Section>
   <Section Name="Endpoints">
     <Parameter Name="Listen" Value="" MustOverride="true" />
@@ -20,8 +18,16 @@
     <Parameter Name="PrivateKeyDebugPassword" Value="" MustOverride="true"/>
     <Parameter Name="PrivateKeyReleaseThumbprint" Value="" MustOverride="true"/>
     <Parameter Name="ProtectionCertificateThumbprint" Value="" MustOverride="true"/>
+    <Parameter Name="GoogleAppId" Value="" MustOverride="true"/>
+    <Parameter Name="GoogleAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="FacebookAppId" Value="" MustOverride="true"/>
+    <Parameter Name="FacebookAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="TwitterAppId" Value="" MustOverride="true"/>
+    <Parameter Name="TwitterAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
+    <Parameter Name="MicrosoftAppId" Value="" MustOverride="true"/>
+    <Parameter Name="MicrosoftAppSecret" Value="" MustOverride="true" IsEncrypted="true"/>
   </Section>
   <Section Name="Azure">
-    <Parameter Name="TelemetryKey" Value="" MustOverride="true" />    
+    <Parameter Name="TelemetryKey" Value="" MustOverride="true" />
   </Section>
 </Settings>

@@ -8,20 +8,25 @@ using Ninject.Extensions.NamedScope;
 using Ninject.Syntax;
 
 namespace Carbon.Framework.Util
-{    
+{
     public class NinjectDependencyContainer : IDependencyContainer
     {
-        private const string DEFAULT_SCOPE = "skech_scope";
+        private const string DEFAULT_SCOPE = "carbon";
         private readonly IKernel _kernel;
 
         public NinjectDependencyContainer(IKernel kernel)
         {
-            _kernel = kernel;                        
+            _kernel = kernel;
         }
 
         public virtual T Resolve<T>()
         {
             return _kernel.Get<T>();
+        }
+
+        public virtual T TryResolve<T>()
+        {
+            return _kernel.TryGet<T>();
         }
 
         public virtual object Resolve(Type t)
@@ -71,7 +76,7 @@ namespace Carbon.Framework.Util
             {
                 binding = Rebind<T>().ToFactory(() => new TypeFinderProvider(typeFinder));
             }
-            else 
+            else
             {
                 binding = Rebind<T>().ToFactory();
             }
@@ -97,13 +102,13 @@ namespace Carbon.Framework.Util
         }
 
         protected virtual IBindingToSyntax<T> Rebind<T>()
-        {           
+        {
             return _kernel.Rebind<T>();
         }
 
         public IDependencyContainer BeginScope()
         {
-            var scope = _kernel.CreateNamedScope(DEFAULT_SCOPE);            
+            var scope = _kernel.CreateNamedScope(DEFAULT_SCOPE);
             return new NinjectScopedDependencyContainer(_kernel, scope);
         }
 

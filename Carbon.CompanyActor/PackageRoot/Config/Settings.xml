@@ -7,5 +7,20 @@
   <Section Name="FabricCompanyActorServiceReplicatorSecurityConfig">
     <Parameter Name="CredentialType" Value="None" />
   </Section>
-  <!-- The content will be generated during build -->
+  <Section Name="Backup.Settings">
+    <Parameter Name="BackupMode" Value="azure" />
+  </Section>
+  <Section Name="Backup.Azure">
+    <Parameter Name="BackupConnectionString" Value="" MustOverride="true" IsEncrypted="true" />
+    <Parameter Name="BackupFrequency" Value="04:00:00" />
+    <Parameter Name="MaxBackupsToKeep" Value="5" />
+  </Section>
+  <Section Name="Backup.Local">
+    <Parameter Name="BackupArchivalPath" Value="C:\temp" />
+    <Parameter Name="BackupFrequency" Value="04:00:00" />
+    <Parameter Name="MaxBackupsToKeep" Value="5" />
+  </Section>
+  <Section Name="Azure">
+    <Parameter Name="TelemetryKey" Value="" MustOverride="true" />
+  </Section>
 </Settings>

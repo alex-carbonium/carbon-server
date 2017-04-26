@@ -18,7 +18,7 @@ namespace Carbon.Services.IdentityServer
 
         public override async Task<IdentityResult> ValidateAsync(ApplicationUser user)
         {
-            var errors = new List<string>();            
+            var errors = new List<string>();
             ValidateUserName(user, errors);
             if (RequireUniqueEmail)
             {
@@ -28,11 +28,11 @@ namespace Carbon.Services.IdentityServer
         }
 
         private static void ValidateUserName(ApplicationUser user, ICollection<string> errors)
-        {            
+        {
             if (string.IsNullOrWhiteSpace(user.UserName))
             {
                 errors.Add(Strings.InvalidUsername);
-            }                        
+            }
         }
 
         // make sure email is not empty, valid, and unique

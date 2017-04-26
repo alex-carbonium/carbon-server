@@ -20,13 +20,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer3.Core.Models;
-using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Extensions;
 using IdentityServer3.Core;
 using IdentityModel;
 using IdentityServer3.Core.Services.Default;
 
-namespace IdentityServer3.AspNetIdentity
+namespace Carbon.Services.IdentityServer
 {
     public class AspNetIdentityUserService<TUser, TKey> : UserServiceBase
         where TUser : class, Microsoft.AspNet.Identity.IUser<TKey>, new()
@@ -163,21 +162,9 @@ namespace IdentityServer3.AspNetIdentity
             return claims;
         }
 
-        protected virtual async Task<string> GetDisplayNameForAccountAsync(TKey userID)
+        protected virtual Task<string> GetDisplayNameForAccountAsync(TUser user)
         {
-            var user = await userManager.FindByIdAsync(userID);
-            var claims = await GetClaimsFromAccount(user);
-
-            Claim nameClaim = null;
-            if (DisplayNameClaimType != null)
-            {
-                nameClaim = claims.FirstOrDefault(x => x.Type == DisplayNameClaimType);
-            }
-            if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Name);
-            if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-            if (nameClaim != null) return nameClaim.Value;
-
-            return user.UserName;
+            return Task.FromResult(user.UserName);
         }
 
         protected async virtual Task<TUser> FindUserAsync(string username)
@@ -221,7 +208,7 @@ namespace IdentityServer3.AspNetIdentity
                         if (result == null)
                         {
                             var claims = await GetClaimsForAuthenticateResult(user);
-                            result = new AuthenticateResult(user.Id.ToString(), await GetDisplayNameForAccountAsync(user.Id), claims);
+                            result = new AuthenticateResult(user.Id.ToString(), await GetDisplayNameForAccountAsync(user), claims);
                         }
 
                         ctx.AuthenticateResult = result;
@@ -266,17 +253,18 @@ namespace IdentityServer3.AspNetIdentity
             var user = await userManager.FindAsync(new Microsoft.AspNet.Identity.UserLoginInfo(externalUser.Provider, externalUser.ProviderId));
             if (user == null)
             {
-                ctx.AuthenticateResult = await ProcessNewExternalAccountAsync(externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
+                ctx.AuthenticateResult = await ProcessNewExternalAccountAsync(externalUser.Provider, externalUser.ProviderId, externalUser.Claims, ctx.SignInMessage.Tenant);
             }
             else
             {
-                ctx.AuthenticateResult = await ProcessExistingExternalAccountAsync(user.Id, externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
+                ctx.AuthenticateResult = await ProcessExistingExternalAccountAsync(user, externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
             }
         }
 
-        protected virtual async Task<AuthenticateResult> ProcessNewExternalAccountAsync(string provider, string providerId, IEnumerable<Claim> claims)
+        protected virtual async Task<AuthenticateResult> ProcessNewExternalAccountAsync(string provider, string providerId, IEnumerable<Claim> claims, string tenant)
         {
-            var user = await TryGetExistingUserFromExternalProviderClaimsAsync(provider, claims);
+            var newUser = false;
+            var user = await TryGetExistingUserFromExternalProviderClaimsAsync(provider, claims, tenant);
             if (user == null)
             {
                 user = await InstantiateNewUserFromExternalProviderAsync(provider, providerId, claims);
@@ -288,6 +276,7 @@ namespace IdentityServer3.AspNetIdentity
                 {
                     return new AuthenticateResult(createResult.Errors.First());
                 }
+                newUser = true;
             }
 
             var externalLogin = new Microsoft.AspNet.Identity.UserLoginInfo(provider, providerId);
@@ -297,10 +286,10 @@ namespace IdentityServer3.AspNetIdentity
                 return new AuthenticateResult(addExternalResult.Errors.First());
             }
 
-            var result = await AccountCreatedFromExternalProviderAsync(user.Id, provider, providerId, claims);
+            var result = await AccountCreatedFromExternalProviderAsync(user, provider, providerId, claims, newUser);
             if (result != null) return result;
 
-            return await SignInFromExternalProviderAsync(user.Id, provider);
+            return await SignInFromExternalProviderAsync(user, provider);
         }
 
         protected virtual Task<TUser> InstantiateNewUserFromExternalProviderAsync(string provider, string providerId, IEnumerable<Claim> claims)
@@ -309,41 +298,40 @@ namespace IdentityServer3.AspNetIdentity
             return Task.FromResult(user);
         }
 
-        protected virtual Task<TUser> TryGetExistingUserFromExternalProviderClaimsAsync(string provider, IEnumerable<Claim> claims)
+        protected virtual Task<TUser> TryGetExistingUserFromExternalProviderClaimsAsync(string provider, IEnumerable<Claim> claims, string tenant)
         {
             return Task.FromResult<TUser>(null);
         }
 
-        protected virtual async Task<AuthenticateResult> AccountCreatedFromExternalProviderAsync(TKey userID, string provider, string providerId, IEnumerable<Claim> claims)
+        protected virtual async Task<AuthenticateResult> AccountCreatedFromExternalProviderAsync(TUser user, string provider, string providerId, IEnumerable<Claim> claims, bool isNewUser)
         {
-            claims = await SetAccountEmailAsync(userID, claims);
-            claims = await SetAccountPhoneAsync(userID, claims);
+            claims = await SetAccountEmailAsync(user, claims);
+            claims = await SetAccountPhoneAsync(user, claims);
 
-            return await UpdateAccountFromExternalClaimsAsync(userID, provider, providerId, claims);
+            return await UpdateAccountFromExternalClaimsAsync(user, provider, providerId, claims);
         }
 
-        protected virtual async Task<AuthenticateResult> SignInFromExternalProviderAsync(TKey userID, string provider)
+        protected virtual async Task<AuthenticateResult> SignInFromExternalProviderAsync(TUser user, string provider)
         {
-            var user = await userManager.FindByIdAsync(userID);
             var claims = await GetClaimsForAuthenticateResult(user);
 
             return new AuthenticateResult(
-                userID.ToString(),
-                await GetDisplayNameForAccountAsync(userID),
+                user.Id.ToString(),
+                await GetDisplayNameForAccountAsync(user),
                 claims,
                 authenticationMethod: Constants.AuthenticationMethods.External,
                 identityProvider: provider);
         }
 
-        protected virtual async Task<AuthenticateResult> UpdateAccountFromExternalClaimsAsync(TKey userID, string provider, string providerId, IEnumerable<Claim> claims)
+        protected virtual async Task<AuthenticateResult> UpdateAccountFromExternalClaimsAsync(TUser user, string provider, string providerId, IEnumerable<Claim> claims)
         {
-            var existingClaims = await userManager.GetClaimsAsync(userID);
+            var existingClaims = await userManager.GetClaimsAsync(user.Id);
             var intersection = existingClaims.Intersect(claims, new ClaimComparer());
             var newClaims = claims.Except(intersection, new ClaimComparer());
 
             foreach (var claim in newClaims)
             {
-                var result = await userManager.AddClaimAsync(userID, claim);
+                var result = await userManager.AddClaimAsync(user.Id, claim);
                 if (!result.Succeeded)
                 {
                     return new AuthenticateResult(result.Errors.First());
@@ -353,29 +341,29 @@ namespace IdentityServer3.AspNetIdentity
             return null;
         }
 
-        protected virtual async Task<AuthenticateResult> ProcessExistingExternalAccountAsync(TKey userID, string provider, string providerId, IEnumerable<Claim> claims)
+        protected virtual async Task<AuthenticateResult> ProcessExistingExternalAccountAsync(TUser user, string provider, string providerId, IEnumerable<Claim> claims)
         {
-            return await SignInFromExternalProviderAsync(userID, provider);
+            return await SignInFromExternalProviderAsync(user, provider);
         }
 
-        protected virtual async Task<IEnumerable<Claim>> SetAccountEmailAsync(TKey userID, IEnumerable<Claim> claims)
+        protected virtual async Task<IEnumerable<Claim>> SetAccountEmailAsync(TUser user, IEnumerable<Claim> claims)
         {
             var email = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Email);
             if (email != null)
             {
-                var userEmail = await userManager.GetEmailAsync(userID);
+                var userEmail = await userManager.GetEmailAsync(user.Id);
                 if (userEmail == null)
                 {
                     // if this fails, then presumably the email is already associated with another account
                     // so ignore the error and let the claim pass thru
-                    var result = await userManager.SetEmailAsync(userID, email.Value);
+                    var result = await userManager.SetEmailAsync(user.Id, email.Value);
                     if (result.Succeeded)
                     {
                         var email_verified = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.EmailVerified);
                         if (email_verified != null && email_verified.Value == "true")
                         {
-                            var token = await userManager.GenerateEmailConfirmationTokenAsync(userID);
-                            await userManager.ConfirmEmailAsync(userID, token);
+                            var token = await userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            await userManager.ConfirmEmailAsync(user.Id, token);
                         }
 
                         var emailClaims = new string[] { Constants.ClaimTypes.Email, Constants.ClaimTypes.EmailVerified };
@@ -387,24 +375,24 @@ namespace IdentityServer3.AspNetIdentity
             return claims;
         }
 
-        protected virtual async Task<IEnumerable<Claim>> SetAccountPhoneAsync(TKey userID, IEnumerable<Claim> claims)
+        protected virtual async Task<IEnumerable<Claim>> SetAccountPhoneAsync(TUser user, IEnumerable<Claim> claims)
         {
             var phone = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.PhoneNumber);
             if (phone != null)
             {
-                var userPhone = await userManager.GetPhoneNumberAsync(userID);
+                var userPhone = await userManager.GetPhoneNumberAsync(user.Id);
                 if (userPhone == null)
                 {
                     // if this fails, then presumably the phone is already associated with another account
                     // so ignore the error and let the claim pass thru
-                    var result = await userManager.SetPhoneNumberAsync(userID, phone.Value);
+                    var result = await userManager.SetPhoneNumberAsync(user.Id, phone.Value);
                     if (result.Succeeded)
                     {
                         var phone_verified = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.PhoneNumberVerified);
                         if (phone_verified != null && phone_verified.Value == "true")
                         {
-                            var token = await userManager.GenerateChangePhoneNumberTokenAsync(userID, phone.Value);
-                            await userManager.ChangePhoneNumberAsync(userID, phone.Value, token);
+                            var token = await userManager.GenerateChangePhoneNumberTokenAsync(user.Id, phone.Value);
+                            await userManager.ChangePhoneNumberAsync(user.Id, phone.Value, token);
                         }
 
                         var phoneClaims = new string[] { Constants.ClaimTypes.PhoneNumber, Constants.ClaimTypes.PhoneNumberVerified };
@@ -426,16 +414,20 @@ namespace IdentityServer3.AspNetIdentity
             TKey key = ConvertSubjectToKey(id);
             var acct = await userManager.FindByIdAsync(key);
 
-            ctx.IsActive = false;
+            await IsActiveAsync(ctx, acct);
+        }
 
-            if (acct != null)
+        protected virtual async Task IsActiveAsync(IsActiveContext ctx, TUser user)
+        {
+            ctx.IsActive = false;
+            if (user != null)
             {
                 if (EnableSecurityStamp && userManager.SupportsUserSecurityStamp)
                 {
-                    var security_stamp = subject.Claims.Where(x => x.Type == "security_stamp").Select(x => x.Value).SingleOrDefault();
+                    var security_stamp = ctx.Subject.Claims.Where(x => x.Type == "security_stamp").Select(x => x.Value).SingleOrDefault();
                     if (security_stamp != null)
                     {
-                        var db_security_stamp = await userManager.GetSecurityStampAsync(key);
+                        var db_security_stamp = await userManager.GetSecurityStampAsync(user.Id);
                         if (db_security_stamp != security_stamp)
                         {
                             return;

@@ -6,11 +6,11 @@ using Carbon.Framework.Extensions;
 namespace Carbon.Fabric.Common
 {
     public class FabricConfiguration : Configuration
-    {        
+    {
         private readonly ConfigurationPackage _package;
 
         public FabricConfiguration(ServiceContext context)
-        {            
+        {
             _package = context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
         }
 
@@ -21,7 +21,7 @@ namespace Carbon.Fabric.Common
         }
 
         public override SecureString GetSecureString(string section, string parameter)
-        {            
+        {
             return _package.Settings.Sections[section].Parameters[parameter].DecryptValue();
         }
 

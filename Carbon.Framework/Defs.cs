@@ -13,7 +13,7 @@ namespace Carbon.Framework
         public class Web
         {
             public const string ERROR_URL_FORMAT = "/error/{0}";
-            public const int HTTP_AJAX_ERROR_CODE = 418;        
+            public const int HTTP_AJAX_ERROR_CODE = 418;
         }
 
         public class ClaimTypes

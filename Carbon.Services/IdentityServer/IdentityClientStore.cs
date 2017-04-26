@@ -21,7 +21,7 @@ namespace Carbon.Services.IdentityServer
                 {
                     ClientName = "Access token renewal client",
                     Enabled = true,
-                    ClientId = "renew",
+                    ClientId = "implicit",
                     Flow = Flows.Implicit,
                     RequireConsent = false,
                     AllowAccessToAllScopes = true,
@@ -46,13 +46,13 @@ namespace Carbon.Services.IdentityServer
                }
             };
 
-            const string redirectPath = "/a/renew";
             foreach (var client in clients.Where(client => client.Flow == Flows.Implicit))
             {
                 client.RedirectUris = new List<string>();
                 foreach (var origin in AllowedOrigins.All)
                 {
-                    client.RedirectUris.Add(new Uri(origin).AddPath(redirectPath).ToString());
+                    client.RedirectUris.Add(new Uri(origin).AddPath("/a/renew").ToString());
+                    client.RedirectUris.Add(new Uri(origin).AddPath("/a/external").ToString());
                 }
             }
 
