@@ -1,0 +1,23 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "EnvironmentName": {
+      "value": "qa1"
+    },
+    "sourceCodeRepositoryURL": {
+      "value": "https://carbonproject.visualstudio.com/carbonium/_git/carbon-functions"
+    },
+    "sourceCodeBranch": {
+      "value": "releases/qa"
+    },
+    "sendgridPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/{subscriptionId}/resourceGroups/carbon-initial/providers/Microsoft.KeyVault/vaults/{keyVaultName}"
+        },
+        "secretName": "sendgridPassword"
+      }
+    }
+  }
+}
