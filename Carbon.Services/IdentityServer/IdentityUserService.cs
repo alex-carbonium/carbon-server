@@ -68,13 +68,14 @@ namespace Carbon.Services.IdentityServer
 
             if (!string.IsNullOrEmpty(tenantId))
             {
+                //TODO: validate tenantId
                 var user = await userManager.FindByIdAsync(tenantId);
                 if (user == null) //guest
                 {
                     user = CreateUserFromClaims(tenantId, claims);
                     await Task.WhenAll(
                         userManager.CreateAsync(user),
-                        _accountService.RegisterCompanyName(tenantId, user.UserName, user.Email));
+                        _accountService.RegisterNewUser(tenantId, user.UserName, user.Email));
                 }
                 return user;
             }
@@ -86,7 +87,7 @@ namespace Carbon.Services.IdentityServer
         {
             if (isNewUser)
             {
-                await _accountService.RegisterCompanyName(user.Id, user.UserName, user.Email);
+                await _accountService.RegisterNewUser(user.Id, user.UserName, user.Email);
             }
 
             return null;
@@ -117,12 +118,12 @@ namespace Carbon.Services.IdentityServer
             });
         }
 
-        private static ApplicationUser CreateUserFromClaims(string userId, IEnumerable<Claim> claims)
+        private ApplicationUser CreateUserFromClaims(string userId, IEnumerable<Claim> claims)
         {
             return new ApplicationUser
             {
                 Id = userId,
-                Email = GetEmailClaim(claims) ?? ApplicationUser.MakeInternalEmail(userId),
+                Email = GetEmailClaim(claims) ?? _accountService.MakeInternalEmail(userId),
                 UserName = GetFirstClaim(claims, Constants.ClaimTypes.Name, Constants.ClaimTypes.GivenName, Constants.ClaimTypes.FamilyName) ?? "guest"
             };
         }

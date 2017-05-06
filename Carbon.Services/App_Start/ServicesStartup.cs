@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Carbon.Business;
-using Carbon.Data.Azure.Scheduler;
 using Carbon.Framework.Util;
 using Microsoft.Owin;
 using Owin;
@@ -37,8 +36,6 @@ namespace Carbon.Services
         public void Configuration(IAppBuilder app)
         {
             var appSettings = Container.Resolve<AppSettings>();
-
-            JobSchedulingConfig.Register(Container);
 
             app.Use(typeof(NinjectMiddleware), Container);
             app.UseLogAdapter(Container.Resolve<ILogService>());

@@ -12,15 +12,47 @@ namespace Carbon.Business.Services
 {
     public class AccountService
     {
-        private readonly IRepository<CompanyNameRegistry> _nameRepository;
         private readonly Regex _nameFilter = new Regex(@"[^a-zA-Z0-9\-_\.]", RegexOptions.Compiled);
         private readonly List<string> _defaultNames = new List<string> {"designer", "creator", "inventor"};
-        private readonly IActorFabric _actorFabric;
 
-        public AccountService(IRepository<CompanyNameRegistry> nameRepository, IActorFabric actorFabric)
+        private readonly IRepository<CompanyNameRegistry> _nameRepository;
+        private readonly IActorFabric _actorFabric;
+        private readonly IMailService _mailService;
+        private readonly AppSettings _appSettings;
+
+        public AccountService(AppSettings appSettings, IRepository<CompanyNameRegistry> nameRepository, IActorFabric actorFabric, IMailService mailService)
         {
             _nameRepository = nameRepository;
             _actorFabric = actorFabric;
+            _mailService = mailService;
+            _appSettings = appSettings;
+        }
+
+        public bool IsRealEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
+            if (email.StartsWith("guest") && email.EndsWith("@carbonium.io"))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string MakeInternalEmail(string userId)
+        {
+            return "guest" + userId + "@carbonium.io";
+        }
+
+        public async Task RegisterNewUser(string userId, string username, string email)
+        {
+            var companyName = await RegisterCompanyName(userId, username, email);
+            if (IsRealEmail(email))
+            {
+                await _mailService.Send(email, "welcome", new { AccountLink = _appSettings.SiteHost + "/@" + companyName });
+            }
         }
 
         public async Task<string> RegisterCompanyName(string userId, string username, string email)

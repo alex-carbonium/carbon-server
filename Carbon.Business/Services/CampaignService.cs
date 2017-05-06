@@ -70,16 +70,16 @@ namespace Carbon.Business.Services
                     break;
                 }
 
-                var batchEmail = Email.FromString<BulkEmail>(email.ToString());
+                //var batchEmail = Email.FromString<BulkEmail>(email.ToString());
 
-                var batchRecipients = allRecipients.GetRange(i, actualBatchSize);
-                var batchSubstitutions = allSubstitutions.ToDictionary(
-                    s => s.Key,
-                    s => s.Value.GetRange(i, actualBatchSize));
+                //var batchRecipients = allRecipients.GetRange(i, actualBatchSize);
+                //var batchSubstitutions = allSubstitutions.ToDictionary(
+                //    s => s.Key,
+                //    s => s.Value.GetRange(i, actualBatchSize));
 
-                _mailService.SendBulkEmail(server, batchEmail, batchRecipients, batchSubstitutions);
-                server.Usage += actualBatchSize;
-                i += actualBatchSize;
+                //_mailService.SendBulkEmail(server, batchEmail, batchRecipients, batchSubstitutions);
+                //server.Usage += actualBatchSize;
+                //i += actualBatchSize;
             }
         }
 

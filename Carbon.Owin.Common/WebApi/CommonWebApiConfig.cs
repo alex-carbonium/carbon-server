@@ -35,7 +35,7 @@ namespace Carbon.Owin.Common.WebApi
 
             if (useInjection)
             {
-                config.Filters.Add(new WebApiUnitOfWorkFilterAttribute());
+                //config.Filters.Add(new WebApiUnitOfWorkFilterAttribute());
 
                 config.MessageHandlers.Insert(0, new NinjectWebApiHandler());
             }

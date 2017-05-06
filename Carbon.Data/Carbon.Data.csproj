@@ -64,10 +64,6 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Scheduler, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Scheduler.6.2.0\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.8.1.1\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -117,10 +113,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Azure\Scheduler\AzureJobScheduler.cs" />
-    <Compile Include="Azure\Scheduler\JobSchedulingConfig.cs" />
-    <Compile Include="Azure\Scheduler\SchedulerExtensions.cs" />
-    <Compile Include="Azure\Scheduler\SchedulerOptions.cs" />
+    <Compile Include="Azure\QueueMailService.cs" />
     <Compile Include="Azure\AzureUnitOfWork.cs" />
     <Compile Include="Azure\Blob\BlobRepository.cs" />
     <Compile Include="Azure\Blob\IBlobRepositoryFactory.cs" />

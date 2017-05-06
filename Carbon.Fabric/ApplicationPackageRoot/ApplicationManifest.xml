@@ -5,6 +5,7 @@
     <Parameter Name="CompanyActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="CompanyActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="CompanyActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="SiteHost" DefaultValue="http://localhost:8010" />
     <Parameter Name="IdSrv_PublicKeyFile" DefaultValue="idsrv-debug.cer" />
     <Parameter Name="IdSrv_PrivateKeyFile" DefaultValue="idsrv-debug.pfx" />
     <Parameter Name="IdSrv_PrivateKeyDebugPassword" DefaultValue="PandaIsSafe" />
@@ -17,6 +18,7 @@
     <Parameter Name="IdSrv_MicrosoftAppId" DefaultValue="2c4a8f6b-0cde-4134-aaa5-dc6552704576" />
     <Parameter Name="IdSrv_MicrosoftAppSecret" DefaultValue="MIIBzwYJKoZIhvcNAQcDoIIBwDCCAbwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAT5smClwE4FNR6Q88avp/YfdBoi22LXcdn2uoZGCLQi1uPQ9Qht5tzs9eCGfRPq1Wul1wM70FZSTjE3kbS1Lst0kEuJZYAj6UnvEuxB/HDmJPcm+thoA8VrqqfcH/xUXEoAcie2Lzj8aiQ+ok0vetCoybTZiebqdLgYb1yfrzCQ0AmbIwYSlADwcErJCdNlNgogGMMes1BQ1EvTdwtkmJHX7j42rdOZeSc9mgqJID5Cfw4bH6bKRj1Kw+1H53WLQfaTxhQRXd+ndZNcFn8TXLKUewlkMR74DiXifQzPzLCrF6u1m70hdI9Xolx1JDkdjMHaCcfkxClMtb1DeEdxq0sjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLIekFW1sPtQoR8HXBxCO/gDCXMQj42wObubWlyosv6gwHv3nadFY7GgE1zI2xc2PbOs6TEVcTy46WYNrcGXv3+1c=" />
     <Parameter Name="ConnectionStrings_nosql" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
+    <Parameter Name="ConnectionStrings_jobs" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
     <Parameter Name="Certificates_IdSrv" DefaultValue="" />
     <Parameter Name="Certificates_Encrypt" DefaultValue="9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F" />
     <Parameter Name="Certificates_Ssl" DefaultValue="3C6C98A08678F2BEDFD558B24F4122AF12D1097B" />
@@ -52,12 +54,14 @@
         <Settings>
           <Section Name="General">
             <Parameter Name="TestSecret" Value="MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggFRMIIBTQIBADA1MCExHzAdBgNVBAMMFmh0dHBzOi8vY2FyYm9uLWVuY3J5cHQCECV3vb/8q72VSmvqeDaNMScwDQYJKoZIhvcNAQEHMAAEggEAQldQj6ffMGmAcPv+bVhB7BJCvE9cBipqIOaqznNmDBWpllOhWayYR725g6/lGFD5xR1vZi7LHeODi9A71JkKDqU15W8TjTPrPpiodU05Faxu8mFHAV0dwM7jNVad/QqKBkk69MedmhzfF3EhjKECu0QO5uI6B1IHxc5fwcZ1l6EIE9gYk3EZ/BjeiJfqWyCoRmjUB0oXVqtpPIK+GETcrf3KojJPhVK/bpZa1zgR+Z9US3wN5vowfKcqU/Ei1TaiOFFCdtcIthk6T8Int7Sw997zghq9Dkc9Hnup6RJxys7Rr5Cf+R8zx87STwBkVAOpT23ZhAXG+xokhNuTCtTSEDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJgNJgEHPtx2fXY/SbMjz4gCAH+y8IOTlHVgGSQjzw9kE8UGpNa2uYtRk/JyhREdkDdg==" IsEncrypted="true" />
+            <Parameter Name="SiteHost" Value="[SiteHost]" />
           </Section>
           <Section Name="IdSrv">
             <Parameter Name="PublicKeyFile" Value="[IdSrv_PublicKeyFile]" />
           </Section>
           <Section Name="ConnectionStrings">
             <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
+            <Parameter Name="jobs" Value="[ConnectionStrings_jobs]" IsEncrypted="true" />
           </Section>
           <Section Name="Endpoints">
             <Parameter Name="Listen" Value="[Endpoints_Listen]" />
@@ -79,6 +83,7 @@
         <Settings>
           <Section Name="General">
             <Parameter Name="TestSecret" Value="MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggFRMIIBTQIBADA1MCExHzAdBgNVBAMMFmh0dHBzOi8vY2FyYm9uLWVuY3J5cHQCECV3vb/8q72VSmvqeDaNMScwDQYJKoZIhvcNAQEHMAAEggEAQldQj6ffMGmAcPv+bVhB7BJCvE9cBipqIOaqznNmDBWpllOhWayYR725g6/lGFD5xR1vZi7LHeODi9A71JkKDqU15W8TjTPrPpiodU05Faxu8mFHAV0dwM7jNVad/QqKBkk69MedmhzfF3EhjKECu0QO5uI6B1IHxc5fwcZ1l6EIE9gYk3EZ/BjeiJfqWyCoRmjUB0oXVqtpPIK+GETcrf3KojJPhVK/bpZa1zgR+Z9US3wN5vowfKcqU/Ei1TaiOFFCdtcIthk6T8Int7Sw997zghq9Dkc9Hnup6RJxys7Rr5Cf+R8zx87STwBkVAOpT23ZhAXG+xokhNuTCtTSEDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJgNJgEHPtx2fXY/SbMjz4gCAH+y8IOTlHVgGSQjzw9kE8UGpNa2uYtRk/JyhREdkDdg==" IsEncrypted="true" />
+            <Parameter Name="SiteHost" Value="[SiteHost]" />
           </Section>
           <Section Name="IdSrv">
             <Parameter Name="PublicKeyFile" Value="[IdSrv_PublicKeyFile]" />
@@ -97,6 +102,7 @@
           </Section>
           <Section Name="ConnectionStrings">
             <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
+            <Parameter Name="jobs" Value="[ConnectionStrings_jobs]" IsEncrypted="true" />
           </Section>
           <Section Name="Endpoints">
             <Parameter Name="Storage" Value="[Endpoints_Storage]" />

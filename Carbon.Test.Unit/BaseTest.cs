@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Carbon.Business;
 using Carbon.Business.Services;
-using Carbon.Framework.JobScheduling;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
 using Carbon.Framework.UnitOfWork;
@@ -30,11 +29,6 @@ namespace Carbon.Test.Unit
             get { return Scope.Resolve<AppSettings>(); }
         }
         public Mock<IProjectRendersService> ProjectRendersService { get; set; }
-        public Mock<IJobScheduler> JobSchedulerMock { get; set; }
-        public IJobScheduler JobScheduler
-        {
-            get { return JobSchedulerMock.Object; }
-        }
         public Mock<ILogService> LogService { get; set; }
         public Mock<ILogger> Logger { get; set; }
         public InMemoryActorFabric ActorFabricStub { get; private set; }
@@ -51,8 +45,6 @@ namespace Carbon.Test.Unit
             //AppSettingsMock.Setup(x => x.Smtp.LogReaders).Returns("devs@carbonium.io");
 
             ProjectRendersService = new Mock<IProjectRendersService>();
-
-            JobSchedulerMock = new Mock<IJobScheduler>();
 
             Logger = new Mock<ILogger>();
             LogService = new Mock<ILogService>();
@@ -77,7 +69,6 @@ namespace Carbon.Test.Unit
                 uow.AllRepositories = _repositories;
                 return uow;
             });
-            Container.RegisterInstance(JobScheduler);
             Container.RegisterInstance(LogService.Object);
 
             Scope = Container.BeginScope();

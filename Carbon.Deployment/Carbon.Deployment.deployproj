@@ -37,6 +37,8 @@
     <None Include="Templates\Fabric.param.qa.json" />
     <None Include="Templates\Common.json" />
     <None Include="Templates\Common.param.json" />
+    <None Include="Templates\Functions.json" />
+    <None Include="Templates\Functions.param.qa.json" />
     <None Include="Templates\Storage.json" />
     <None Include="Templates\Storage.param.qa.json" />
   </ItemGroup>

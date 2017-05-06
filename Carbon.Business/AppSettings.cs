@@ -31,8 +31,8 @@ namespace Carbon.Business
             return _dataProvider.GetPackageVersion(name);
         }
 
-        public virtual string DbProviderName => _configuration.GetString("General", "DbProviderName");
         public virtual SecureString TestSecret => _configuration.GetSecureString("General", "TestSecret");
+        public virtual string SiteHost => _configuration.GetString("General", "SiteHost");
 
         public virtual SubscriptionConfiguration Subscription { get; }
         public virtual SurveyConfiguration Survey { get; }
