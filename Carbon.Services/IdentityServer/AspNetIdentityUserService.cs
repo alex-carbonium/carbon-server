@@ -193,7 +193,7 @@ namespace Carbon.Services.IdentityServer
                     if (userManager.SupportsUserLockout &&
                         await userManager.IsLockedOutAsync(user.Id))
                     {
-                        ctx.AuthenticateResult = new AuthenticateResult("@lockedOut");
+                        ctx.AuthenticateResult = new AuthenticateResult("@account.lockedOut");
                         return;
                     }
 
@@ -215,13 +215,13 @@ namespace Carbon.Services.IdentityServer
                     }
                     else if (userManager.SupportsUserLockout)
                     {
-                        ctx.AuthenticateResult = new AuthenticateResult("@wrongPassword");
+                        ctx.AuthenticateResult = new AuthenticateResult("@account.wrongPassword");
                         await userManager.AccessFailedAsync(user.Id);
                     }
                 }
                 else
                 {
-                    ctx.AuthenticateResult = new AuthenticateResult("@wrongEmail");
+                    ctx.AuthenticateResult = new AuthenticateResult("@account.wrongEmail");
                 }
             }
         }

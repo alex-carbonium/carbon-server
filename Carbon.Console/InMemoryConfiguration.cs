@@ -12,6 +12,7 @@ namespace Carbon.Console
         {
             Data = new Dictionary<string, Dictionary<string, dynamic>>();
             Add("ConnectionStrings", "nosql", "UseDevelopmentStorage=true");
+            Add("ConnectionStrings", "jobs", "UseDevelopmentStorage=true");
 
             Add("IdSrv", "ProtectionCertificateThumbprint", "9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F");
             Add("IdSrv", "PrivateKeyReleaseThumbprint", string.Empty);
@@ -30,6 +31,8 @@ namespace Carbon.Console
             Add("Azure", "TelemetryKey", string.Empty);
             Add("Endpoints", "Storage", "//localhost:9100");
             Add("Endpoints", "Cdn", string.Empty);
+
+            Add("General", "SiteHost", "http://localhost:8010");
         }
 
         public void Add(string section, string parameter, dynamic value)

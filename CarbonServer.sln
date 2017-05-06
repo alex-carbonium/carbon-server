@@ -30,8 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carbon.Fabric.Common", "Car
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{93FE7D21-21F1-47B2-B3D4-EB8F7EAA72C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carbon.Jobs", "Carbon.Jobs\Carbon.Jobs.csproj", "{F942176D-F93E-4F18-ACCB-DAB1B41CDADF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carbon.CompanyActor", "Carbon.CompanyActor\Carbon.CompanyActor.csproj", "{2938D7A1-ED38-4A2C-B368-3E9DE209C7D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carbon.Tools", "Carbon.Tools\Carbon.Tools.csproj", "{5065696B-5D12-49C6-BDBF-EF80CA24D5BB}"
@@ -100,10 +98,6 @@ Global
 		{513A21AF-34A4-4D30-96D0-9F88048000A8}.Debug|x64.Build.0 = Debug|x64
 		{513A21AF-34A4-4D30-96D0-9F88048000A8}.Release|x64.ActiveCfg = Release|x64
 		{513A21AF-34A4-4D30-96D0-9F88048000A8}.Release|x64.Build.0 = Release|x64
-		{F942176D-F93E-4F18-ACCB-DAB1B41CDADF}.Debug|x64.ActiveCfg = Debug|x64
-		{F942176D-F93E-4F18-ACCB-DAB1B41CDADF}.Debug|x64.Build.0 = Debug|x64
-		{F942176D-F93E-4F18-ACCB-DAB1B41CDADF}.Release|x64.ActiveCfg = Release|x64
-		{F942176D-F93E-4F18-ACCB-DAB1B41CDADF}.Release|x64.Build.0 = Release|x64
 		{2938D7A1-ED38-4A2C-B368-3E9DE209C7D3}.Debug|x64.ActiveCfg = Debug|x64
 		{2938D7A1-ED38-4A2C-B368-3E9DE209C7D3}.Debug|x64.Build.0 = Debug|x64
 		{2938D7A1-ED38-4A2C-B368-3E9DE209C7D3}.Release|x64.ActiveCfg = Release|x64

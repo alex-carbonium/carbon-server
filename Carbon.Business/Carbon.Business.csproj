@@ -153,6 +153,7 @@
     <Compile Include="CloudSpecifications\FindByExpression.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="Domain\BulkEmail.cs" />
     <Compile Include="Services\DataRandomizer.cs" />
     <Compile Include="Domain\CompanyActor.cs" />
     <Compile Include="Domain\CompanyNameRegistry.cs" />
@@ -191,7 +192,6 @@
     <Compile Include="Domain\DataTree\DataNode.cs" />
     <Compile Include="Domain\DataTree\NodeType.cs" />
     <Compile Include="Domain\Discount.cs" />
-    <Compile Include="Domain\Email.cs" />
     <Compile Include="Domain\Marketing\Campaign.cs" />
     <Compile Include="Domain\Marketing\CampaignNotification.cs" />
     <Compile Include="Domain\Marketing\EmailServer.cs" />
@@ -222,8 +222,6 @@
     <Compile Include="Exceptions\InsufficientPermissionsException.cs" />
     <Compile Include="Exceptions\UpdateConflictException.cs" />
     <Compile Include="FormattingExtensions.cs" />
-    <Compile Include="Jobs\CampaignMailJob.cs" />
-    <Compile Include="Jobs\EmailJob.cs" />
     <Compile Include="ModelMigrations\IModelMigration.cs" />
     <Compile Include="ModelMigrations\ModelMigrationAttribute.cs" />
     <Compile Include="ModelMigrations\ModelMigrator.cs" />

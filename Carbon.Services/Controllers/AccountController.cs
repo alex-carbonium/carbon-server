@@ -4,6 +4,7 @@ using Carbon.Business.Services;
 using Carbon.Owin.Common.WebApi;
 using Carbon.Services.IdentityServer;
 using System.Linq;
+using Carbon.Framework.Pools;
 
 namespace Carbon.Services.Controllers
 {
@@ -36,16 +37,27 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("validateEmail")]
         public async Task<IHttpActionResult> ValidateEmail(EmailValidationModel model)
         {
-            var existing = await _userManager.FindByIdAsync(GetUserId());
-            if (existing != null)
+            var userId = GetUserId();
+            ApplicationUser current = null;
+            if (!string.IsNullOrEmpty(userId))
             {
-                return Success();
+                current = await _userManager.FindByIdAsync(userId);
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            var other = await _userManager.FindByEmailAsync(model.Email);
+            var duplicate = false;
+            if (current == null)
             {
-                return Error(nameof(model.Email), "A user with this email is already registered");
+                duplicate = other != null;
+            }
+            else
+            {
+                duplicate = other != null && other.Id != current.Id;
+            }
+
+            if (duplicate)
+            {
+                return Error(nameof(model.Email), "@account.duplicateEmail");
             }
 
             return Success();
@@ -72,7 +84,7 @@ namespace Carbon.Services.Controllers
                 }
             }
 
-            await _accountService.RegisterCompanyName(userId, model.Username, model.Email);
+            await _accountService.RegisterNewUser(userId, model.Username, model.Email);
 
             return Success();
         }
@@ -93,23 +105,153 @@ namespace Carbon.Services.Controllers
             return Ok(new { CompanyName = companyName });
         }
 
-        [HttpGet, Route("info")]
-        public async Task<IHttpActionResult> Info()
+        [HttpGet, Route("overview")]
+        public async Task<IHttpActionResult> Overview()
         {
             var userId = GetUserId();
-            var userTask = _userManager.FindByIdAsync(userId);
-            var hasPasswordTask = _userManager.HasPasswordAsync(userId);
-            await Task.WhenAll(userTask, hasPasswordTask);
+            var user = await _userManager.FindByIdAsync(userId);
 
-            var user = userTask.Result;
+            if (user == null)
+            {
+                return Ok(new { HasAccount = false });
+            }
+
+            bool hasPassword = false;
+            if (user != null)
+            {
+                hasPassword = await _userManager.HasPasswordAsync(userId);
+            }
 
             return Ok(new
             {
-                Name = user.UserName,
-                Email = user.HasEmail() ? user.Email : "",
-                HasPassword = hasPasswordTask.Result,
+                HasAccount = true,
+                Info = new
+                {
+                    Username = user.UserName,
+                    Email = _accountService.IsRealEmail(user.Email) ? user.Email : "",
+                },
+                HasPassword = hasPassword,
                 EnabledProviders = user.Logins.Select(x => x.LoginProvider)
             });
+        }
+
+        public class InfoModel
+        {
+            public string Username { get; set; }
+            public string Email { get; set; }
+        }
+
+        [HttpPost, Route("info")]
+        public async Task<IHttpActionResult> UpdateInfo(InfoModel model)
+        {
+            using (var errors = PooledDictionary<string, string>.GetInstance())
+            {
+                var user = await _userManager.FindByIdAsync(GetUserId());
+
+                if (string.IsNullOrWhiteSpace(model.Email))
+                {
+                    errors[nameof(model.Email)] = "@account.noEmail";
+                }
+                else if (!model.Email.Contains("@"))
+                {
+                    errors[nameof(model.Email)] = "@account.badEmail";
+                }
+                else
+                {
+                    var other = await _userManager.FindByEmailAsync(model.Email);
+                    if (other != null && other.Id != user.Id)
+                    {
+                        return Error(nameof(model.Email), "@account.duplicateEmail");
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(model.Username))
+                {
+                    errors[nameof(model.Username)] = "@account.noUsername";
+                }
+
+                if (errors.Count != 0)
+                {
+                    return Error(errors);
+                }
+
+                user.Email = model.Email;
+                user.UserName = model.Username;
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    errors[nameof(model.Email)] = string.Join(", ", result.Errors);
+                    return Error(errors);
+                }
+
+                return Success();
+            }
+        }
+
+        public class AddPasswordModel
+        {
+            public string NewPassword { get; set; }
+        }
+        [HttpPost, Route("addPassword")]
+        public async Task<IHttpActionResult> AddPassword(AddPasswordModel model)
+        {
+            using (var errors = PooledDictionary<string, string>.GetInstance())
+            {
+                if (string.IsNullOrWhiteSpace(model.NewPassword))
+                {
+                    errors[nameof(model.NewPassword)] = "@account.noPassword";
+                }
+
+                if (errors.Count != 0)
+                {
+                    return Error(errors);
+                }
+
+                var user = await _userManager.FindByIdAsync(GetUserId());
+                var result = await _userManager.AddPasswordAsync(GetUserId(), model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    return Error(nameof(model.NewPassword), result.Errors);
+                }
+
+                return Success();
+            }
+        }
+
+        public class ChangePasswordModel
+        {
+            public string OldPassword { get; set; }
+            public string NewPassword { get; set; }
+        }
+        [HttpPost, Route("changePassword")]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            using (var errors = PooledDictionary<string, string>.GetInstance())
+            {
+                if (string.IsNullOrWhiteSpace(model.OldPassword))
+                {
+                    errors[nameof(model.OldPassword)] = "@account.noPassword";
+                }
+                if (string.IsNullOrWhiteSpace(model.NewPassword))
+                {
+                    errors[nameof(model.NewPassword)] = "@account.noPassword";
+                }
+
+                if (errors.Count != 0)
+                {
+                    return Error(errors);
+                }
+
+                var result = await _userManager.ChangePasswordAsync(GetUserId(), model.OldPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    return Error(nameof(model.OldPassword), result.Errors);
+                }
+
+                return Success();
+            }
         }
     }
 }

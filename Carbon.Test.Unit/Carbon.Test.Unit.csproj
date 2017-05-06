@@ -139,7 +139,6 @@
     <Compile Include="Business\CampaignServiceTests.cs" />
     <Compile Include="Business\CompanyStateTests.cs" />
     <Compile Include="Business\DataTreeVisitorTests.cs" />
-    <Compile Include="Business\EmailTests.cs" />
     <Compile Include="Business\ParsingTests.cs" />
     <Compile Include="Business\PrimitiveVisitorTests.cs" />
     <Compile Include="Business\CloudProjectModelRepositoryTests.cs" />

@@ -5,10 +5,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 using Carbon.Business;
-using Carbon.Data.Azure.Scheduler;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Util;
-using Carbon.Owin.Common.Data;
 using Carbon.Owin.Common.Dependencies;
 using Carbon.Owin.Common.Logging;
 using Carbon.Owin.Common.Security;
@@ -50,8 +48,6 @@ namespace Carbon.StorageService
             var appSettings = Container.Resolve<AppSettings>();
 
             app.Use(typeof (NinjectMiddleware), Container);
-
-            JobSchedulingConfig.Register(Container);
 
             if (string.IsNullOrEmpty(basePath))
             {
