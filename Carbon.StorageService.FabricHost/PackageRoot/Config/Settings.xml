@@ -6,6 +6,7 @@
   </Section>
   <Section Name="ConnectionStrings">
     <Parameter Name="nosql" Value="" MustOverride="true"  IsEncrypted="true"/>
+    <Parameter Name="jobs" Value="" MustOverride="true"  IsEncrypted="true"/>
   </Section>
   <Section Name="IdSrv">
     <Parameter Name="PublicKeyFile" Value="" MustOverride="true"/>
