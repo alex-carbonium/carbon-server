@@ -258,7 +258,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
-    <None Include="PackageRoot\Config\eventFlowConfig.json" />
+    <None Include="PackageRoot\Config\eventFlowConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PackageRoot\Config\Settings.xml" />
     <Content Include="PackageRoot\Client\**\*" />
     <Content Include="PackageRoot\Data\idsrv-debug.cer" />

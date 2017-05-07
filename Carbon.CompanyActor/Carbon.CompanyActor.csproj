@@ -216,7 +216,9 @@
     <Compile Include="SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PackageRoot\Config\eventFlowConfig.json" />
+    <None Include="PackageRoot\Config\eventFlowConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PackageRoot\ServiceManifest.xml" />
     <None Include="PackageRoot\Config\Settings.xml" />
     <None Include="App.config" />
