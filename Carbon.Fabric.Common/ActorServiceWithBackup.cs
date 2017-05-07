@@ -115,7 +115,7 @@ namespace Carbon.Fabric.Common
 
                     CommonEventSource.Current.Info("Backup taken: " + backupsTaken, scope);
 
-                    await Task.Delay(this.backupManager.BackupFrequency);
+                    await Task.Delay(this.backupManager.BackupFrequency, cancellationToken);
                 }
             }
         }
