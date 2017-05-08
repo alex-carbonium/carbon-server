@@ -15,7 +15,6 @@ namespace Carbon.Owin.Common.WebApi
 {
     public abstract class BaseApiController : ApiController
     {
-        public IUnitOfWork UnitOfWork => Scope.Resolve<IUnitOfWork>();
         public ILogService LogService => Scope.Resolve<ILogService>();
         public AppSettings AppSettings => Scope.Resolve<AppSettings>();
         public OperationContext Operation => Scope.Resolve<OperationContext>();

@@ -1,24 +1,20 @@
-﻿using System;
-using Carbon.Framework.Attributes;
-using Carbon.Framework.Models;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Carbon.Business.Domain
 {
-    public class PasswordResetToken : DomainObject
+    public class PasswordResetToken : TableEntity
     {
         public PasswordResetToken()
         {
-            Expires = DateTime.Now.AddHours(24);
         }
-        [Unique, Length(255)]
-        public virtual string Code { get; set; }
-        public virtual DateTime Expires { get; set; }
-        public virtual string Email { get; set; }
-        public virtual bool Used { get; set; }
-
-        public virtual bool IsExpired()
+        public PasswordResetToken(string key, string userId)
         {
-            return Expires < DateTime.Now;
+            PartitionKey = key;
+            RowKey = key;
+
+            UserId = userId;
         }
+
+        public string UserId { get; set; }
     }
 }

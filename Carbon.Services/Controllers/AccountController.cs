@@ -5,6 +5,12 @@ using Carbon.Owin.Common.WebApi;
 using Carbon.Services.IdentityServer;
 using System.Linq;
 using Carbon.Framework.Pools;
+using Carbon.Business;
+using System;
+using Carbon.Framework.Logging;
+using Carbon.Business.Domain;
+using Carbon.Framework.Repositories;
+using Carbon.Business.CloudSpecifications;
 
 namespace Carbon.Services.Controllers
 {
@@ -14,12 +20,17 @@ namespace Carbon.Services.Controllers
         private readonly IActorFabric _actorFabric;
         private readonly ApplicationUserManager _userManager;
         private readonly AccountService _accountService;
+        private readonly IMailService _mailService;
+        private readonly IRepository<PasswordResetToken> _tokenRepository;
 
-        public AccountController(IActorFabric actorFabric, ApplicationUserManager userManager, AccountService accountService)
+        public AccountController(IActorFabric actorFabric, ApplicationUserManager userManager, AccountService accountService,
+            IMailService mailService, IRepository<PasswordResetToken> tokenRepository)
         {
             _actorFabric = actorFabric;
             _userManager = userManager;
             _accountService = accountService;
+            _mailService = mailService;
+            _tokenRepository = tokenRepository;
         }
 
         public class RegisterModel
@@ -94,7 +105,7 @@ namespace Carbon.Services.Controllers
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
             var companyId = await actor.ResolveExternalCompanyId(companyName);
-            return Ok(new {CompanyId = companyId});
+            return Ok(new { CompanyId = companyId });
         }
 
         [HttpGet, Route("getCompanyName")]
@@ -252,6 +263,94 @@ namespace Carbon.Services.Controllers
 
                 return Success();
             }
+        }
+
+        public class RequestPasswordChangeModel
+        {
+            public string Email { get; set; }
+        }
+        [HttpPost, Route("forgotPassword")]
+        public async Task<IHttpActionResult> ForgotPassword(RequestPasswordChangeModel model)
+        {
+            using (var errors = PooledDictionary<string, string>.GetInstance())
+            {
+                if (string.IsNullOrWhiteSpace(model.Email))
+                {
+                    errors[nameof(model.Email)] = "@account.noEmail";
+                }
+
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    errors[nameof(model.Email)] = "@account.wrongEmail";
+                }
+
+                if (errors.Count != 0)
+                {
+                    return Error(errors);
+                }
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+                await Task.WhenAll(
+                    _tokenRepository.InsertAsync(new PasswordResetToken(token.GetHashCode().ToString(), user.Id)),
+                    _mailService.Send(model.Email, "forgotPassword", new
+                    {
+                        Link = AppSettings.SiteHost + "/account/resetPassword/" + Uri.EscapeDataString(token)
+                    })
+               );
+
+                return Success();
+            }
+        }
+
+        public class ResetPasswordModel
+        {
+            public string Token { get; set; }
+            public string NewPassword { get; set; }
+        }
+        [HttpPost, Route("resetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Token))
+            {
+                return Error(nameof(model.NewPassword), "@account.wrongLink");
+            }
+
+            var hash = model.Token.GetHashCode().ToString();
+            var spec = new FindByRowKey<PasswordResetToken>(hash, hash);
+            var token = await _tokenRepository.FindSingleByAsync(spec);
+            if (token == null)
+            {
+                return Error(nameof(model.NewPassword), "@account.wrongLink");
+            }
+
+            var user = await _userManager.FindByIdAsync(token.UserId);
+            if (user == null)
+            {
+                return Error(nameof(model.NewPassword), "@account.wrongLink");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                return Error(nameof(model.NewPassword), "@account.noPassword");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user.Id, model.Token, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                LogService.GetLogger().Warning(string.Join(";", result.Errors), Scope);
+                return Error(nameof(model.NewPassword), "@account.wrongLink");
+            }
+
+            await Task.WhenAll(
+                _tokenRepository.DeleteAsync(token),
+                _mailService.Send(user.Email, "passwordChanged", new
+                {
+                    Link = AppSettings.SiteHost + "/account"
+                })
+            );
+
+            return Success();
         }
     }
 }

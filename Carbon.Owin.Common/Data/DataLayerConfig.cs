@@ -43,6 +43,7 @@ namespace Carbon.Owin.Common.Data
                 .RegisterTypeSingleton<IRepository<ProjectLog>, FatEntityRepository<ProjectLog>>()
                 .RegisterTypeSingleton<IRepository<ProjectState>, TableRepository<ProjectState>>()
                 .RegisterTypeSingleton<IRepository<ActiveProject>, TableRepository<ActiveProject>>()
+                .RegisterTypeSingleton<IRepository<PasswordResetToken>, TableRepository<PasswordResetToken>>()
                 .RegisterTypeSingleton<IRepository<CompanyNameRegistry>, TableRepository<CompanyNameRegistry>>()
 
                 .RegisterInstance(storageAccount)

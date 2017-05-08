@@ -5,7 +5,7 @@
     <Parameter Name="CompanyActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="CompanyActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="CompanyActorService_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="SiteHost" DefaultValue="http://localhost:8010" />
+    <Parameter Name="SiteHost" DefaultValue="http://localhost:8080" />
     <Parameter Name="IdSrv_PublicKeyFile" DefaultValue="idsrv-debug.cer" />
     <Parameter Name="IdSrv_PrivateKeyFile" DefaultValue="idsrv-debug.pfx" />
     <Parameter Name="IdSrv_PrivateKeyDebugPassword" DefaultValue="PandaIsSafe" />

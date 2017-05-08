@@ -32,7 +32,7 @@ namespace Carbon.Console
             Add("Endpoints", "Storage", "//localhost:9100");
             Add("Endpoints", "Cdn", string.Empty);
 
-            Add("General", "SiteHost", "http://localhost:8010");
+            Add("General", "SiteHost", "http://localhost:8080");
         }
 
         public void Add(string section, string parameter, dynamic value)
