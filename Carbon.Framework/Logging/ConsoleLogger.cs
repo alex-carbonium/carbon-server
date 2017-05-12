@@ -12,22 +12,30 @@ namespace Carbon.Framework.Logging
 
         public void Error(string message, IDependencyContainer scope = null, string source = null)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Write(message);
+            Console.ResetColor();
         }
 
         public void Error(Exception ex, IDependencyContainer scope = null, string source = null)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Write(ex);
+            Console.ResetColor();
         }
 
         public void Fatal(string message, IDependencyContainer scope = null, string source = null)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Write(message);
+            Console.ResetColor();
         }
 
         public void Fatal(Exception ex, IDependencyContainer scope = null, string source = null)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Write(ex);
+            Console.ResetColor();
         }
 
         public void Info(string message, IDependencyContainer scope = null, string source = null)
@@ -37,7 +45,9 @@ namespace Carbon.Framework.Logging
 
         public void Warning(string message, IDependencyContainer scope = null, string source = null)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Write(message);
+            Console.ResetColor();
         }
 
         private void Write(string message, params object[] parameters)
