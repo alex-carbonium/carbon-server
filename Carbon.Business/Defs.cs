@@ -9,7 +9,7 @@ namespace Carbon.Business
     {
         public static class Roles
         {
-            public const string Administrators = "Administrators";
+            public const string Administrators = "Admins";
             public const string Guest = "Guest";
         }
 
@@ -41,6 +41,7 @@ namespace Carbon.Business
 
         public static class IdentityServer
         {
+            public static string AuthClient = "auth";
             public static string PublicSecret = "nopassword";
 
             public const string AccessTokenKey = "access_token";

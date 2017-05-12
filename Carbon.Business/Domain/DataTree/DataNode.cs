@@ -105,7 +105,8 @@ namespace Carbon.Business.Domain.DataTree
             return Type == NodeType.ArtboardPage
                 || Type == NodeType.Artboard
                 || Type == NodeType.StateBoard
-                || Type == NodeType.Page;
+                || Type == NodeType.Page
+                || Type == NodeType.ArtboardTemplate;
         }
 
         public DataNode AddChild(string id, string type)

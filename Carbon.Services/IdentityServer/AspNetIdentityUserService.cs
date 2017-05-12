@@ -226,7 +226,7 @@ namespace Carbon.Services.IdentityServer
             }
         }
 
-        protected virtual async Task<IEnumerable<Claim>> GetClaimsForAuthenticateResult(TUser user)
+        protected virtual async Task<List<Claim>> GetClaimsForAuthenticateResult(TUser user)
         {
             List<Claim> claims = new List<Claim>();
             if (EnableSecurityStamp && userManager.SupportsUserSecurityStamp)

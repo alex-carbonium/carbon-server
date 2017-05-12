@@ -10,7 +10,7 @@ namespace Carbon.Business.Sync
         {
         }
 
-        public DataNodePath Path { get; set; }        
+        public DataNodePath Path { get; set; }
 
         protected override bool ReadProperty(string property, JsonReader reader)
         {
@@ -19,14 +19,15 @@ namespace Carbon.Business.Sync
                 return true;
             }
             switch (property)
-            {                
+            {
                 case "path":
                     var segment1 = string.Empty;
                     var segment2 = string.Empty;
                     var segment3 = string.Empty;
+                    var segment4 = string.Empty;
                     var count = 0;
 
-                    ReadAssert(reader, JsonToken.PropertyName);                     
+                    ReadAssert(reader, JsonToken.PropertyName);
                     ReadAssert(reader, JsonToken.StartArray);
 
                     while (reader.TokenType != JsonToken.EndArray)
@@ -42,6 +43,9 @@ namespace Carbon.Business.Sync
                             case 2:
                                 segment3 = (string)reader.Value;
                                 break;
+                            case 3:
+                                segment4 = (string)reader.Value;
+                                break;
                             default:
                                 throw new Exception("Unexpected number of segments in the path");
                         }
@@ -50,8 +54,8 @@ namespace Carbon.Business.Sync
                     }
 
                     ReadAssert(reader, JsonToken.EndArray);
-                    
-                    Path = new DataNodePath(segment1, segment2, segment3);
+
+                    Path = new DataNodePath(segment1, segment2, segment3, segment4);
 
                     return true;
                 default:

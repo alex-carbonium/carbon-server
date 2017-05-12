@@ -58,7 +58,7 @@ namespace Carbon.Test.Unit.Business
         {
             var app = new DataNode("app", NodeType.App);
             var page = app.AddChild("page", NodeType.Page);
-            var artboard = page.AddChild("artboard", NodeType.Artboard);            
+            var artboard = page.AddChild("artboard", NodeType.Artboard);
 
             var visits = Visit(app);
 

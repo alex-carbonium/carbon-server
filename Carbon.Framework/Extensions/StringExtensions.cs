@@ -61,5 +61,14 @@ namespace Carbon.Framework.Extensions
             }
             return s;
         }
+
+        public static string Shorten(this string s, int length = 6)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length <= length)
+            {
+                return s;
+            }
+            return s.Substring(0, length);
+        }
     }
 }

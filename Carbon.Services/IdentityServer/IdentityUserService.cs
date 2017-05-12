@@ -42,6 +42,21 @@ namespace Carbon.Services.IdentityServer
             }
         }
 
+        protected override async Task<List<Claim>> GetClaimsForAuthenticateResult(ApplicationUser user)
+        {
+            var claims = await base.GetClaimsForAuthenticateResult(user);
+
+            if (user.Roles != null)
+            {
+                foreach (var role in user.Roles)
+                {
+                    claims.Add(new Claim(Constants.ClaimTypes.Role, role.RoleName));
+                }
+            }
+
+            return claims;
+        }
+
         protected override Task<ApplicationUser> FindUserAsync(string email)
         {
             return userManager.FindByEmailAsync(email);

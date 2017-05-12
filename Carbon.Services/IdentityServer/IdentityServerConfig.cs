@@ -49,10 +49,13 @@ namespace Carbon.Services.IdentityServer
             var tokenProvider = new DataProtectorTokenProvider<ApplicationUser>(new IdentityDataProtector(ProtectionCertificate));
 
             var factory = new IdentityServerServiceFactory();
+            factory.Register(new Registration<IDependencyContainer>(container));
+
             factory.ScopeStore = new Registration<IScopeStore>(new IdentityScopeStore());
             factory.ClientStore = new Registration<IClientStore>(new IdentityClientStore());
             factory.UserService = new Registration<IUserService>(x => IdentityUserService.Create(appSettings, tokenProvider, container.Resolve<AccountService>()));
             factory.ViewService = new Registration<IViewService>(new IdentityViewService(logService));
+            factory.ClaimsProvider = new Registration<IClaimsProvider>(typeof(IdentityClaimsProvider));
 
             factory.CorsPolicyService = new Registration<ICorsPolicyService>(new CorsPolicyService());
 

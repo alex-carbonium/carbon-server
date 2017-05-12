@@ -30,6 +30,7 @@ namespace Carbon.Console
 
             Add("Azure", "TelemetryKey", string.Empty);
             Add("Endpoints", "Storage", "//localhost:9100");
+            Add("Endpoints", "File", "http://127.0.0.1:10000/devstoreaccount1");
             Add("Endpoints", "Cdn", string.Empty);
 
             Add("General", "SiteHost", "http://localhost:8080");

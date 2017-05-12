@@ -13,5 +13,28 @@ namespace Carbon.Services.IdentityServer
             })
         {
         }
+
+        public static async void StartupAsync(AppSettings appSettings)
+        {
+            var context = new ApplicationDbContext(appSettings);
+            var userStore = new UserStore<ApplicationUser>(context);
+            await userStore.CreateTablesIfNotExists();
+
+            var roleStore = new RoleStore<IdentityRole>(context);
+            await roleStore.CreateTableIfNotExistsAsync();
+
+            var adminRole = await roleStore.FindByNameAsync(Defs.Roles.Administrators);
+            if (adminRole == null)
+            {
+                try
+                {
+                    await roleStore.CreateAsync(new IdentityRole(Defs.Roles.Administrators));
+                }
+                catch
+                {
+                    //ignore
+                }
+            }
+        }
     }
 }

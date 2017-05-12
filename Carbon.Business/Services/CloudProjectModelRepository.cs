@@ -123,6 +123,7 @@ namespace Carbon.Business.Services
             }
 
             var state = new ProjectState(model.CompanyId, model.Id);
+            state.InitialVersion = version;
             state.EditVersion = version;
             await _realtimeInfoRepository.InsertAsync(state);
 
@@ -222,7 +223,7 @@ namespace Carbon.Business.Services
             await LoadModel(model, null);
         }
 
-        public async Task LoadModel(ProjectModel model, IList<ProjectLog> batchPrimitives)
+        public async Task<IList<ProjectLog>> LoadModel(ProjectModel model, IList<ProjectLog> batchPrimitives)
         {
             var projectId = model.Id;
             var latestSnapshot = await _snapshotRepository.FindByIdAsync(ProjectSnapshot.LatestId(model.CompanyId, projectId));
@@ -276,6 +277,8 @@ namespace Carbon.Business.Services
                     await _snapshotRepository.UpdateAsync(latestSnapshot);
                 }
             }
+
+            return tail;
         }
 
         private bool RemoveDuplicatePrimitives(List<DataNodeBasePrimitive> primitives)

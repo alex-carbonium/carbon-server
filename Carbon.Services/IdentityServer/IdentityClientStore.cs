@@ -33,7 +33,7 @@ namespace Carbon.Services.IdentityServer
                 {
                     Enabled = true,
                     ClientName = "Authentication client",
-                    ClientId = "auth",
+                    ClientId = Defs.IdentityServer.AuthClient,
                     Flow = Flows.ResourceOwner,
                     ClientSecrets = new List<Secret>
                     {

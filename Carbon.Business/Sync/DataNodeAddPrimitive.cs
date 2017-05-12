@@ -19,11 +19,11 @@ namespace Carbon.Business.Sync
                 return true;
             }
             switch (property)
-            {                
+            {
                 case "index":
                     Index = ReadInt(reader);
                     return true;
-                case "node":             
+                case "node":
                     ReadAssert(reader, JsonToken.PropertyName);
                     Node = DataNode.Create(reader);
                     return true;

@@ -77,7 +77,7 @@ namespace Carbon.Services
 
             app.UseWebApi(HtmlWebApiConfig.Register());
 
-            ApplicationUserManager.StartupAsync(appSettings);
+            ApplicationDbContext.StartupAsync(appSettings);
         }
 
         private static void SetupFileSystem(IAppBuilder app, DataProvider dataProvider, string pathString, string physicalPath)

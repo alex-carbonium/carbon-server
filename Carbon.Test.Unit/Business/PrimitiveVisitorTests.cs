@@ -19,7 +19,7 @@ namespace Carbon.Test.Unit.Business
             primitive.Path = new DataNodePath();
             primitive.Node = new DataNode("node2", NodeType.Page);
             primitive.Index = 0;
-                     
+
             //act
             Apply(model, primitive);
 
@@ -50,7 +50,7 @@ namespace Carbon.Test.Unit.Business
         public void InsertTwoNodesTogether()
         {
             //arrange
-            var model = new ProjectModel("app");            
+            var model = new ProjectModel("app");
 
             var addPage = new DataNodeAddPrimitive();
             addPage.Path = new DataNodePath();
@@ -96,7 +96,7 @@ namespace Carbon.Test.Unit.Business
             model.AddChild("page2", NodeType.Page);
 
             var primitive = new DataNodeAddPrimitive();
-            primitive.Path = new DataNodePath();            
+            primitive.Path = new DataNodePath();
             primitive.Node = new DataNode("page3", NodeType.Page);
             primitive.Index = model.Children.Count;
 
@@ -125,6 +125,26 @@ namespace Carbon.Test.Unit.Business
 
             //asser
             Assert.AreSame(primitive.Node, model.Children.First());
+        }
+
+        [TestMethod]
+        public void SetPropsFourthLevel()
+        {
+            //arrange
+            var model = new ProjectModel("app");
+            var page = model.AddChild("page", NodeType.Page);
+            var artboard = page.AddChild("artboard", NodeType.Artboard);
+            var template = artboard.AddChild("template", NodeType.ArtboardTemplate);
+
+            var primitive = new DataNodeSetPropsPrimitive();
+            primitive.Path = new DataNodePath(page.Id, artboard.Id, template.Id, template.Id);
+            primitive.Props = new Dictionary<string, dynamic> { { "name", "template2" } };
+
+            //act
+            Apply(model, primitive);
+
+            //asser
+            Assert.AreEqual("template2", template.Props["name"]);
         }
 
         [TestMethod]
@@ -220,7 +240,7 @@ namespace Carbon.Test.Unit.Business
     patchType: " + (int)PatchType.Change + @",
     path: [],
     propName: 'items',
-    item: {id: 'item2', value: 3}    
+    item: {id: 'item2', value: 3}
 }";
 
             var model = new ProjectModel();
@@ -270,14 +290,14 @@ namespace Carbon.Test.Unit.Business
         [TestMethod]
         public void PatchPropsInsertFirst()
         {
-            //arrange            
-            var model = new ProjectModel();            
+            //arrange
+            var model = new ProjectModel();
 
             var primitive = new DataNodePatchPropsPrimitive();
             primitive.Path = new DataNodePath();
-            primitive.PatchType = PatchType.Insert;            
+            primitive.PatchType = PatchType.Insert;
             primitive.PropName = "states";
-            primitive.Item = new {id = "state1"};            
+            primitive.Item = new {id = "state1"};
 
             //act
             Apply(model, primitive);

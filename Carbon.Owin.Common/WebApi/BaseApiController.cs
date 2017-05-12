@@ -7,7 +7,6 @@ using System.Text;
 using System.Web.Http;
 using Carbon.Business;
 using Carbon.Framework.Logging;
-using Carbon.Framework.UnitOfWork;
 using Carbon.Framework.Util;
 using Carbon.Owin.Common.Dependencies;
 
@@ -28,10 +27,10 @@ namespace Carbon.Owin.Common.WebApi
             return result;
         }
 
-        protected HttpResponseMessage ZippedContent(byte[] content, string fileName)
+        protected HttpResponseMessage ZippedContent(HttpContent content, string fileName)
         {
             var result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(content);
+            result.Content = content;
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {

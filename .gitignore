@@ -6,6 +6,7 @@
 *.rej
 *.user
 *.log
+*.dat
 Carbon.Services.FabricHost/PackageRoot/Data/app/*
 TestResults/*
 packages/*

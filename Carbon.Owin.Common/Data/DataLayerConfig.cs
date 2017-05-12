@@ -28,7 +28,7 @@ namespace Carbon.Owin.Common.Data
             var jobsQueueClient = jobsAccount.CreateCloudQueueClient();
 
             container
-                //.RegisterTypePerWebRequest<ICloudUnitOfWork, AzureUnitOfWork>()
+                .RegisterTypePerWebRequest<ICloudUnitOfWork, AzureUnitOfWork>()
                 //.RegisterTypePerWebRequest<IUnitOfWork, CompositeUnitOfWork>()
                 .RegisterFactory<IUnitOfWorkFactory>()
                 //.RegisterTypePerWebRequest<ICampaignRepository, CampaignRepository>()

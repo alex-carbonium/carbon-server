@@ -44,9 +44,9 @@ namespace Carbon.Services.IdentityServer
 
             switch (logLevel)
             {
-                case LogLevel.Info:
-                    _logger.Info(Format(messageFunc, formatParameters));
-                    break;
+                //case LogLevel.Info:
+                //    _logger.Info(Format(messageFunc, formatParameters));
+                //    break;
                 case LogLevel.Warn:
                     _logger.Warning(Format(messageFunc, formatParameters));
                     break;

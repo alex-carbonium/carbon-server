@@ -6,17 +6,17 @@ using Newtonsoft.Json.Linq;
 namespace Carbon.Business.Sync
 {
     public class PrimitiveConverter : JsonConverter
-    {        
+    {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotSupportedException();
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {            
-            var type = PrimitiveType.None;            
-                              
-            reader.Read();                        
+        {
+            var type = PrimitiveType.None;
+
+            reader.Read();
             if (reader.TokenType == JsonToken.PropertyName && string.Equals(reader.Value as string, "type", StringComparison.Ordinal))
             {
                 type = (PrimitiveType)reader.ReadAsInt32();
@@ -31,7 +31,7 @@ namespace Carbon.Business.Sync
                 throw new Exception("Could not determine primitive type");
             }
 
-            RawPrimitive primitive = null;            
+            RawPrimitive primitive = null;
             switch (type)
             {
                 case PrimitiveType.DataNodeAdd:
@@ -59,19 +59,19 @@ namespace Carbon.Business.Sync
 
                 case PrimitiveType.Error:
                     primitive = new ErrorPrimitive();
-                    break;                
+                    break;
             }
             reader.Read();
 
             if (primitive != null)
-            {                
+            {
                 primitive.ReadProperties(reader);
             }
             else
-            {                
+            {
                 primitive = new RawPrimitive();
                 primitive.Type = type;
-            }            
+            }
             return primitive;
         }
 

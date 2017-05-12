@@ -13,6 +13,7 @@ namespace Carbon.Business.CloudDomain
             RowKey = projectId;
         }
 
+        public string InitialVersion { get; set; }
         public string EditVersion { get; set; }
         public long TimesSaved { get; set; }
     }

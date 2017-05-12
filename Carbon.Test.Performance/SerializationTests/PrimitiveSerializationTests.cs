@@ -38,7 +38,7 @@ namespace Carbon.Test.Performance.SerializationTests
             {
                 var primitive = new DataNodeAddPrimitive();
                 primitive.Id = Guid();
-                primitive.Path = new DataNodePath(Guid(), Guid(), Guid());
+                primitive.Path = new DataNodePath(Guid(), Guid(), Guid(), Guid());
                 primitive.Node = CreateNode(10);
                 for (int j = 0; j < 10; j++)
                 {
@@ -60,7 +60,7 @@ namespace Carbon.Test.Performance.SerializationTests
             }
             var arrayString = arrayBuilder.ToString();
 
-            //Act                            
+            //Act
             var listTime = Measure(() =>
             {
                 PrimitiveFactory.CreateMany<DataNodeAddPrimitive>(strings).ToList();
@@ -71,10 +71,10 @@ namespace Carbon.Test.Performance.SerializationTests
                 JsonConvert.DeserializeObject<JArray>(arrayString);
             });
 
-            //Assert           
+            //Assert
             var msg = $"List {listTime}, array: {arrayTime}";
             _context.WriteLine(msg);
-            Assert.IsTrue(listTime < arrayTime, msg);            
+            Assert.IsTrue(listTime < arrayTime, msg);
         }
 
         private double Measure(Action action)
@@ -97,7 +97,7 @@ namespace Carbon.Test.Performance.SerializationTests
             {
                 var p = (char)('a' + j);
                 var v = (char)('A' + j);
-                node.SetProp(new string(p, 10), new string(v, 10));                
+                node.SetProp(new string(p, 10), new string(v, 10));
             }
             node.Children = new List<DataNode>();
             return node;
