@@ -25,7 +25,7 @@
 
   <!-- Config package is the contents of the Config directoy under PackageRoot that contains an
        independently-updateable and versioned set of custom configuration settings for your service. -->
-  <ConfigPackage Name="Config" Version="1.4.0" />
+  <ConfigPackage Name="Config" Version="1.5.0" />
   <DataPackage Name="Client" Version="1.0.0"/>
   <DataPackage Name="Data" Version="1.0.1"/>
 

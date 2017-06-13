@@ -1,5 +1,6 @@
 ﻿using Carbon.Business;
 using Carbon.Business.Services;
+using Carbon.Fabric.Common.Logging;
 using Carbon.Framework.Logging;
 using Carbon.Services;
 using Carbon.StorageService;
@@ -12,21 +13,23 @@ namespace Carbon.Console
     {
         static void Main(string[] args)
         {
+            var configuration = new InMemoryConfiguration();
+            AppInsightsConfig.Configure(configuration.GetString("Azure", "TelemetryKey"));
+
             var actorFabric = new InMemoryActorFabric();
             var protocol = args.Contains("--ssl") ? "https" : "http";
 
-            StartServices(protocol, actorFabric);
-            StartStorage(protocol, actorFabric);
+            StartServices(protocol, actorFabric, configuration);
+            StartStorage(protocol, actorFabric, configuration);
 
             System.Console.WriteLine("Press Enter to exit...");
             System.Console.ReadLine();
         }
 
-        private static void StartServices(string protocol, IActorFabric actorFabric)
+        private static void StartServices(string protocol, IActorFabric actorFabric, Configuration configuration)
         {
             string baseAddress = protocol + "://+:9000/";
 
-            var configuration = new InMemoryConfiguration();
             var start = new ServicesStartup(container =>
             {
                 container.RegisterInstance<Configuration>(configuration);
@@ -39,11 +42,10 @@ namespace Carbon.Console
             System.Console.WriteLine("Running services on " + baseAddress);
         }
 
-        private static void StartStorage(string protocol, IActorFabric actorFabric)
+        private static void StartStorage(string protocol, IActorFabric actorFabric, Configuration configuration)
         {
             string baseAddress = protocol + "://+:9100/";
 
-            var configuration = new InMemoryConfiguration();
             var start = new StorageStartup(container =>
             {
                 container.RegisterInstance<Configuration>(configuration);

@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using Carbon.Business;
+using Carbon.Framework.Extensions;
 
 namespace Carbon.Services
 {
@@ -42,8 +43,8 @@ namespace Carbon.Services
             return content
                 .Replace("telemetryKey = ''", "telemetryKey = '" + _appSettings.Azure.TelemetryKey + "'")
                 .Replace("appBuild = '1.0.0'", "appBuild = '" + _appSettings.GetDataPackageVersion(Defs.Packages.Client) + "'")
-                .Replace("storage: ''", "storage: '" + _appSettings.GetString("Endpoints", "Storage") + "'")
-                .Replace("cdn: ''", "cdn: '" + _appSettings.GetString("Endpoints", "Cdn") + "'");
+                .Replace("storage: ''", "storage: '" + _appSettings.Endpoints.Storage.WithoutScheme() + "'")
+                .Replace("cdn: ''", "cdn: '" + _appSettings.Endpoints.Cdn.WithoutScheme() + "'");
         }
     }
 }

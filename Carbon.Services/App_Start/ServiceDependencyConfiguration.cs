@@ -47,10 +47,6 @@ namespace Carbon.Services
                 .RegisterTypeSingleton<SharingService, SharingService>()
                 .RegisterTypeSingleton<AccountService, AccountService>()
                 .RegisterTypeSingleton<DataService, DataService>()
-                .RegisterTypeSingleton<IRepository<ShareToken>, TableRepository<ShareToken>>()
-                .RegisterTypeSingleton<IRepository<SharedPage>, TableRepository<SharedPage>>()
-                .RegisterTypeSingleton<IRepository<FeatureSubscription>, TableRepository<FeatureSubscription>>()
-                .RegisterTypeSingleton<IRepository<CompanyFile>, BlobRepository<CompanyFile>>()
                 .RegisterTypeSingleton<ResourceCache, ResourceCache>()
                 .RegisterTypeSingleton<FontManager, FontManager>()
 

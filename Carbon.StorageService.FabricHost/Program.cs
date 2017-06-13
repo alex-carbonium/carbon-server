@@ -3,6 +3,8 @@ using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Carbon.Fabric.Common.Logging;
 using Carbon.Fabric.Common;
+using System.Fabric;
+using Microsoft.Extensions.Configuration.ServiceFabric;
 
 namespace Carbon.StorageService.FabricHost
 {
@@ -15,9 +17,12 @@ namespace Carbon.StorageService.FabricHost
         {
             try
             {
-                AppInsightsConfig.Configure();
+                var activationContext = FabricRuntime.GetActivationContext();
+                var configPackage = activationContext.GetConfigurationPackageObject(ServiceFabricConfigurationProvider.DefaultConfigurationPackageName);
+                var instrumentationKey = configPackage.Settings.Sections["Azure"].Parameters["TelemetryKey"].Value;
+                AppInsightsConfig.Configure(instrumentationKey);
 
-                using (var diagnosticsPipeline = DiagnosticsPipelineFactory.Create())
+                using (var diagnosticsPipeline = DiagnosticsPipelineFactory.Create(instrumentationKey))
                 {
                     // The ServiceManifest.XML file defines one or more service type names.
                     // Registering a service maps a service type name to a .NET type.

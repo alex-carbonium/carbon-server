@@ -75,5 +75,11 @@
         "displayName": "CDN Endpoint"
       }
     }
-  ]
+  ],
+  "outputs": {
+    "nosqlAccount": {
+      "type": "string",
+      "value": "[variables('cdnName')]"
+    }
+  }
 }

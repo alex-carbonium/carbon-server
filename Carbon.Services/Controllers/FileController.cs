@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -12,10 +11,8 @@ using System.Web.Http;
 using Carbon.Business.CloudDomain;
 using Carbon.Business.Domain;
 using Carbon.Business.Services;
-using Carbon.Framework.Cloud;
 using Carbon.Framework.Extensions;
 using Carbon.Framework.Repositories;
-using Carbon.Framework.UnitOfWork;
 using Carbon.Framework.Util;
 using Carbon.Owin.Common.WebApi;
 using File = Carbon.Business.CloudDomain.File;
@@ -26,26 +23,24 @@ namespace Carbon.Services.Controllers
     public class FileController : AuthorizedApiController
     {
         private readonly IActorFabric _actorFabric;
-        private readonly IRepository<CompanyFile> _fileRepository;
-        private readonly ICloudUnitOfWorkFactory _cloudUnitOfWorkFactory;
+        private readonly IRepository<CompanyFile> _companyFileRepository;
+        private readonly CdnService _cdnService;
 
         public class FileContentModel
         {
             public string Content { get; set; }
         }
 
-        public FileController(IActorFabric actorFabric, IRepository<CompanyFile> fileRepository, ICloudUnitOfWorkFactory cloudUnitOfWorkFactory)
+        public FileController(IActorFabric actorFabric, IRepository<CompanyFile> companyFileRepository, CdnService cdnService)
         {
             _actorFabric = actorFabric;
-            _fileRepository = fileRepository;
-            _cloudUnitOfWorkFactory = cloudUnitOfWorkFactory;
+            _companyFileRepository = companyFileRepository;
+            _cdnService = cdnService;
         }
 
         private string FullFileUrl(string url)
         {
-            var storageUri = AppSettings.GetString("Endpoints", "File");
-            var uri = new Uri(storageUri, UriKind.Absolute).AddPath(url);
-            return uri.AbsoluteUri.Substring(uri.Scheme.Length + 1);
+            return AppSettings.Endpoints.File.AddPath(url).WithoutScheme();
         }
 
         private async Task<IEnumerable> CompanyImages(string companyId)
@@ -130,47 +125,17 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("uploadPublicImage")]
         public async Task<IHttpActionResult> UploadPublicImage(FileContentModel data)
         {
-            string imageUri;
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
-            var split = data.Content.Split(',');
-            if (split.Length != 2)
-            {
-                throw new InvalidEnumArgumentException(nameof(data));
-            }
-            string previewPicture = split[1];
-            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
-            {
-                File file = new File("img", Guid.NewGuid() + ".png");
-                file.SetContent(Convert.FromBase64String(previewPicture));
-                await uow.InsertAsync(file);
-                imageUri = file.Uri.AbsoluteUri;
-                uow.Commit();
-            }
-
-            return Ok(new {url=imageUri});
+            var file = new File("img", Guid.NewGuid().ToString("N") + ".png");
+            var url = await _cdnService.UploadImage(file, data.Content);
+            return Ok(new {url=url});
         }
 
         [HttpPost, Route("uploadPublicFile")]
         public async Task<IHttpActionResult> UploadPublicFile(FileContentModel data)
         {
-            string fileUri;
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
-            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
-            {
-                File file = new File("file", Guid.NewGuid() + ".data");
-                file.SetContent(data.Content);
-                await uow.InsertAsync(file);
-                fileUri = file.Uri.AbsoluteUri;
-                uow.Commit();
-            }
-
-            return Ok(new { url = fileUri });
+            var file = new File("file", Guid.NewGuid().ToString("N") + ".data");
+            var url = await _cdnService.UploadFile(file, data.Content);
+            return Ok(new { url = url });
         }
 
         [HttpPost, Route("delete")]
@@ -184,8 +149,8 @@ namespace Carbon.Services.Controllers
             {
                 await Task.WhenAll(
                     actor.DeleteFile(userId, name),
-                    _fileRepository.DeleteAsync(file.Id),
-                    _fileRepository.DeleteAsync(ThumbUrl(file.Id)));
+                    _companyFileRepository.DeleteAsync(file.Id),
+                    _companyFileRepository.DeleteAsync(ThumbUrl(file.Id)));
             }
 
             return Success();
@@ -209,7 +174,7 @@ namespace Carbon.Services.Controllers
                     companyFile.AutoDetectContentType();
                     stream.Position = 0;
                     companyFile.ContentStream = stream;
-                    var fileInsertTask = _fileRepository.InsertAsync(companyFile);
+                    var fileInsertTask = _companyFileRepository.InsertAsync(companyFile);
 
                     var thumbSize = MediaUtil.FitSize(image.Size, new Size(640, 640));
 
@@ -224,7 +189,7 @@ namespace Carbon.Services.Controllers
                         previewImage.Save(thumbStream, ImageFormat.Png);
                         thumbStream.Position = 0;
                         previewFile.ContentStream = thumbStream;
-                        previewInsertTask = _fileRepository.InsertAsync(previewFile);
+                        previewInsertTask = _companyFileRepository.InsertAsync(previewFile);
                     }
 
                     var companyFileInfo = existing ?? new CompanyFileInfo();

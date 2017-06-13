@@ -124,8 +124,6 @@
     <Compile Include="Cloud\Blob\ContainerType.cs" />
     <Compile Include="Cloud\Blob\ContainerAttribute.cs" />
     <Compile Include="Cloud\Blob\PrefixSpecification.cs" />
-    <Compile Include="Cloud\ICloudUnitOfWork.cs" />
-    <Compile Include="Cloud\ICloudUnitOfWorkFactory.cs" />
     <Compile Include="Cloud\ITableRepository.cs" />
     <Compile Include="Cloud\ITableRepositorySpecification.cs" />
     <Compile Include="Cloud\KeysSpecification.cs" />
@@ -152,9 +150,6 @@
     <Compile Include="Specifications\ISpecification.cs" />
     <Compile Include="Specifications\PredicateSpecification.cs" />
     <Compile Include="Specifications\Specification.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWorkFactory.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkExtension.cs" />
     <Compile Include="Util\NinjectScopedDependencyContainer.cs" />
     <Compile Include="Util\NinjectDependencyContainer.cs" />
     <Compile Include="Util\ExpressionUtil.cs" />

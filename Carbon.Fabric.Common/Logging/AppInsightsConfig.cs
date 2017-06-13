@@ -8,8 +8,9 @@ namespace Carbon.Fabric.Common.Logging
 {
     public static class AppInsightsConfig
     {
-        public static void Configure()
+        public static void Configure(string instrumentationKey)
         {
+            TelemetryConfiguration.Active.InstrumentationKey = instrumentationKey;
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new TelemetryInitializer());
 
             TelemetryConfiguration.Active.TelemetryProcessorChainBuilder.Use(next => new TelemetryProcessor(next));

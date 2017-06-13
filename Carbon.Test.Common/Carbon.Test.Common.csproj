@@ -63,7 +63,6 @@
     <Compile Include="ProjectSnaphotRepositoryStub.cs" />
     <Compile Include="TestAppSettings.cs" />
     <Compile Include="TestDependencyContainer.cs" />
-    <Compile Include="UnitOfWorkStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

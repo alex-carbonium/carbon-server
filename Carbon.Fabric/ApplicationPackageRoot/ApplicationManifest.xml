@@ -19,12 +19,13 @@
     <Parameter Name="IdSrv_MicrosoftAppSecret" DefaultValue="MIIBzwYJKoZIhvcNAQcDoIIBwDCCAbwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAT5smClwE4FNR6Q88avp/YfdBoi22LXcdn2uoZGCLQi1uPQ9Qht5tzs9eCGfRPq1Wul1wM70FZSTjE3kbS1Lst0kEuJZYAj6UnvEuxB/HDmJPcm+thoA8VrqqfcH/xUXEoAcie2Lzj8aiQ+ok0vetCoybTZiebqdLgYb1yfrzCQ0AmbIwYSlADwcErJCdNlNgogGMMes1BQ1EvTdwtkmJHX7j42rdOZeSc9mgqJID5Cfw4bH6bKRj1Kw+1H53WLQfaTxhQRXd+ndZNcFn8TXLKUewlkMR74DiXifQzPzLCrF6u1m70hdI9Xolx1JDkdjMHaCcfkxClMtb1DeEdxq0sjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLIekFW1sPtQoR8HXBxCO/gDCXMQj42wObubWlyosv6gwHv3nadFY7GgE1zI2xc2PbOs6TEVcTy46WYNrcGXv3+1c=" />
     <Parameter Name="ConnectionStrings_nosql" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
     <Parameter Name="ConnectionStrings_jobs" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
+    <Parameter Name="ConnectionStrings_cdn" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
     <Parameter Name="Certificates_IdSrv" DefaultValue="" />
     <Parameter Name="Certificates_Encrypt" DefaultValue="9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F" />
     <Parameter Name="Certificates_Ssl" DefaultValue="3C6C98A08678F2BEDFD558B24F4122AF12D1097B" />
     <Parameter Name="Endpoints_Listen" DefaultValue="ServiceEndpoint" />
-    <Parameter Name="Endpoints_Storage" DefaultValue="//localhost:9100" />
-    <Parameter Name="Endpoints_Cdn" DefaultValue="" />
+    <Parameter Name="Endpoints_Storage" DefaultValue="http://localhost:9100" />
+    <Parameter Name="Endpoints_Cdn" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
     <Parameter Name="Endpoints_File" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
     <Parameter Name="Azure_TelemetryKey" DefaultValue="6ad84643-9530-4367-a698-6dde4567f0cd" />
     <Parameter Name="Env" DefaultValue="local" />
@@ -65,6 +66,7 @@
           <Section Name="ConnectionStrings">
             <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
             <Parameter Name="jobs" Value="[ConnectionStrings_jobs]" IsEncrypted="true" />
+            <Parameter Name="cdn" Value="[ConnectionStrings_cdn]" IsEncrypted="true" />
           </Section>
           <Section Name="Endpoints">
             <Parameter Name="Listen" Value="[Endpoints_Listen]" />
@@ -109,6 +111,7 @@
           <Section Name="ConnectionStrings">
             <Parameter Name="nosql" Value="[ConnectionStrings_nosql]" IsEncrypted="true" />
             <Parameter Name="jobs" Value="[ConnectionStrings_jobs]" IsEncrypted="true" />
+            <Parameter Name="cdn" Value="[ConnectionStrings_cdn]" IsEncrypted="true" />
           </Section>
           <Section Name="Endpoints">
             <Parameter Name="Storage" Value="[Endpoints_Storage]" />

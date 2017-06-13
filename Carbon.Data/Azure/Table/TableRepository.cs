@@ -167,7 +167,7 @@ namespace Carbon.Data.Azure.Table
         {
             return _tables.GetOrAdd(typeof(T), t =>
             {
-                var name = t.Name;
+                var name = GetTableName(t);
                 if (TestNameSuffix != null)
                 {
                     name += TestNameSuffix;
@@ -187,6 +187,11 @@ namespace Carbon.Data.Azure.Table
                 }
                 return table;
             });
+        }
+
+        protected virtual string GetTableName(Type t)
+        {
+            return t.Name;
         }
     }
 }

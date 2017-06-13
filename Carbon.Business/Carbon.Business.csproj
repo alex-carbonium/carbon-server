@@ -152,6 +152,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="DataProvider.cs" />
     <Compile Include="Domain\BulkEmail.cs" />
+    <Compile Include="Services\CdnService.cs" />
     <Compile Include="Services\DataRandomizer.cs" />
     <Compile Include="Domain\CompanyActor.cs" />
     <Compile Include="Domain\CompanyNameRegistry.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Services\ICompanyActor.cs" />
     <Compile Include="Services\IFileWatcherService.cs" />
     <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\IPrivateSharedPageRepository.cs" />
     <Compile Include="Services\IProjectRendersService.cs" />
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Services\ProjectModelService.cs" />
@@ -242,6 +244,7 @@
     <Compile Include="Services\CampaignService.cs" />
     <Compile Include="CloudSpecifications\TableEntitySpecification.cs" />
     <Compile Include="CloudSpecifications\FindByPartition.cs" />
+    <Compile Include="Services\ResourceNameStatus.cs" />
     <Compile Include="Services\SharingService.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>

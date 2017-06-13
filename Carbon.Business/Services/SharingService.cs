@@ -1,35 +1,37 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Carbon.Business.CloudDomain;
 using Carbon.Business.CloudSpecifications;
 using Carbon.Business.Domain;
 using Carbon.Business.Exceptions;
-using Carbon.Framework.Cloud;
 using Carbon.Framework.Repositories;
-using Carbon.Framework.UnitOfWork;
+using Newtonsoft.Json.Linq;
 
 namespace Carbon.Business.Services
 {
     public class SharingService
     {
         public const string CharSymbols = "qwrtsdfghjklzxcvbnmQWRTSDFGHJKLZXCVBNM123456789";
-        private readonly string PublicScopePartition = Guid.Empty.ToString();
 
         private readonly IRepository<ShareToken> _shareTokenRepository;
-        private readonly IRepository<SharedPage> _sharedPageRepository;
+        private readonly IPrivateSharedPageRepository _privatePageRepository;
+        private readonly IPublicSharedPageRepository _publicPageRepository;
         private readonly IActorFabric _actorFabric;
-        private readonly ICloudUnitOfWorkFactory _cloudUnitOfWorkFactory;
+        private readonly CdnService _cdnService;
 
-        public SharingService(IRepository<ShareToken> shareTokenRepository, IRepository<SharedPage> sharedPageRepository, IActorFabric actorFabric, ICloudUnitOfWorkFactory cloudUnitOfWorkFactory)
+        public SharingService(IRepository<ShareToken> shareTokenRepository,
+            IPublicSharedPageRepository publicPageRepository,
+            IPrivateSharedPageRepository privatePageRepository,
+            IActorFabric actorFabric,
+            CdnService cdnService)
         {
             _shareTokenRepository = shareTokenRepository;
-            _cloudUnitOfWorkFactory = cloudUnitOfWorkFactory;
             _actorFabric = actorFabric;
-            _sharedPageRepository = sharedPageRepository;
+            _publicPageRepository = publicPageRepository;
+            _cdnService = cdnService;
+            _privatePageRepository = privatePageRepository;
         }
 
         public async Task<ShareToken> Invite(string userId, string companyId, string projectId, Permission permission, string email = null)
@@ -188,67 +190,132 @@ namespace Carbon.Business.Services
 
         private async Task<string> SaveImage(string id, string dataUrl)
         {
-            string imageUri;
-            var split = dataUrl.Split(',');
-            if (split.Length != 2)
-            {
-                throw new InvalidEnumArgumentException("dataUrl");
-            }
-            string previewPicture = split[1];
-            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
-            {
-                File file = new File("img", id + ".png");
-                file.SetContent(Convert.FromBase64String(previewPicture));
-                await uow.InsertAsync(file);
-                imageUri = file.Uri.AbsoluteUri;
-                uow.Commit();
-            }
-
-            return imageUri;
+            var file = new File("img", id + ".png");
+            return await _cdnService.UploadImage(file, dataUrl);
         }
 
         private async Task<string> SaveData(string id, string data)
         {
-            string dataUri;
-            using (var uow = _cloudUnitOfWorkFactory.NewUnitOfWork())
-            {
-                File file = new File("data", id + ".json");
-                file.SetContent(data);
-                await uow.InsertAsync(file);
-                dataUri = file.Uri.AbsoluteUri;
-                uow.Commit();
-            }
+            File file = new File("data", id + ".json");
+            return await _cdnService.UploadFile(file, data);
+        }
 
-            return dataUri;
+        public async Task<SharedPage> GetPageSetup(string userId, string pageId)
+        {
+            var publicPageTask = FindPageById(PublishScope.Public, userId, pageId);
+            var privatePageTask = FindPageById(PublishScope.Company, userId, pageId);
+
+            await Task.WhenAll(publicPageTask, privatePageTask);
+            var page = privatePageTask.Result ?? publicPageTask.Result;
+
+            if (page == null || page.CreatedByUserId != userId)
+            {
+                return null;
+            }
+            return page;
+        }
+
+        public async Task<ResourceNameStatus> ValidatePageName(PublishScope scope, string userId, string name)
+        {
+            var pageId = SharedPage.PageNameToId(name);
+            var page = await FindPageById(scope, userId: userId, pageId: pageId);
+
+            if (page == null)
+            {
+                return ResourceNameStatus.Available;
+            }
+            if (page.CreatedByUserId == userId)
+            {
+                return ResourceNameStatus.CanOverride;
+            }
+            return ResourceNameStatus.Taken;
         }
 
         public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, PublishScope scope)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
-            var id = Guid.NewGuid().ToString();
+            var id = SharedPage.PageNameToId(name);
+            var uniqueId = Guid.NewGuid().ToString("N");
+            var imageUri = SaveImage(uniqueId, previewPicture);
+            var dataUri = SaveData(uniqueId, UpdatePageJson(id, data));
 
-            var imageUri = SaveImage(id, previewPicture);
-            var dataUri = SaveData(id, data);
+            string partition;
+            IRepository<SharedPage> repo;
+            GetRepoAndPartition(scope, userId, id, out partition, out repo);
 
-            var partition = scope == PublishScope.Company ? userId : PublicScopePartition;
+            var status = await ValidatePageName(scope, userId, name);
+            if (status == ResourceNameStatus.CanOverride)
+            {
+                await Task.WhenAll(
+                    DeletePageById(PublishScope.Company, userId, id),
+                    DeletePageById(PublishScope.Public, userId, id));
+            }
 
             SharedPage page = new SharedPage
             {
                 PartitionKey = partition,
                 RowKey = id,
-                ImageUrl = await imageUri,
+                CoverUrl = await imageUri,
                 DataUrl = await dataUri,
                 CreatedByUserId = userId,
                 CreatedByUserName = await actor.GetCompanyName(),
                 Tags = tags,
                 Created = DateTime.UtcNow,
                 Description = description,
-                Name = name
+                Name = name,
+                Scope = (int)scope
             };
 
-            await _sharedPageRepository.InsertAsync(page);
+            await repo.InsertAsync(page);
             return page;
+        }
+
+        private string UpdatePageJson(string id, string data)
+        {
+            var obj = JObject.Parse(data);
+            var pageProps = obj["page"]["props"];
+            pageProps["id"] = id;
+            pageProps["galleryId"] = id;
+            return obj.ToString();
+        }
+
+        private void GetRepoAndPartition(PublishScope scope, string userId, string id, out string partition, out IRepository<SharedPage> repo)
+        {
+            if (scope == PublishScope.Company)
+            {
+                partition = userId;
+                repo = _privatePageRepository;
+            }
+            else
+            {
+                partition = id;
+                repo = _publicPageRepository;
+            }
+        }
+
+        private async Task<SharedPage> FindPageById(PublishScope scope, string userId, string pageId)
+        {
+            string partition;
+            IRepository<SharedPage> repo;
+            GetRepoAndPartition(scope, userId, pageId, out partition, out repo);
+
+            var spec = new FindByRowKey<SharedPage>(partition, pageId);
+            return await repo.FindSingleByAsync(spec);
+        }
+
+        private async Task DeletePageById(PublishScope scope, string userId, string pageId)
+        {
+            string partition;
+            IRepository<SharedPage> repo;
+            GetRepoAndPartition(scope, userId, pageId, out partition, out repo);
+
+            var spec = new FindByRowKey<SharedPage>(partition, pageId);
+            var page = await repo.FindSingleByAsync(spec);
+            if (page != null)
+            {
+                await repo.DeleteAsync(page);
+            }
         }
 
         public async Task<IQueryable<SharedPage>> SearchResources(string userId, string search, PublishScope scope)
@@ -256,13 +323,13 @@ namespace Carbon.Business.Services
             search = search ?? "";
             if (scope == PublishScope.Public)
             {
-                return (await _sharedPageRepository.FindAllByAsync(new FindByPartition<SharedPage>(PublicScopePartition))).Where(p=>
-                (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase)!=-1)
+                return (await _publicPageRepository.FindAllAsync()).Where(p =>
+                (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
                 || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
             }
             else
             {
-                return (await _sharedPageRepository.FindAllByAsync(new FindByPartition<SharedPage>(userId))).Where(p =>
+                return (await _privatePageRepository.FindAllByAsync(new FindByPartition<SharedPage>(userId))).Where(p =>
                 (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
                 || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Web.Hosting;
@@ -19,6 +20,7 @@ namespace Carbon.Business
             IdServer = new IdServerConfig(configuration, "IdSrv");
             IdClient = new IdClientConfig(configuration, "IdSrv");
             Azure = new AzureConfig(configuration, "Azure");
+            Endpoints = new EndpointConfig(configuration, "Endpoints");
         }
 
         public string GetString(string section, string parameter)
@@ -39,6 +41,7 @@ namespace Carbon.Business
         public virtual IdServerConfig IdServer { get; }
         public virtual IdClientConfig IdClient { get; }
         public virtual AzureConfig Azure { get; }
+        public virtual EndpointConfig Endpoints { get; }
 
         public string ResolvePath(string packageName, string path)
         {
@@ -124,6 +127,22 @@ namespace Carbon.Business
             }
 
             public string PublicKeyFile => _configuration.GetString(_section, "PublicKeyFile");
+        }
+
+        public class EndpointConfig
+        {
+            private readonly Configuration _configuration;
+            private readonly string _section;
+
+            public EndpointConfig(Configuration configuration, string section)
+            {
+                _configuration = configuration;
+                _section = section;
+            }
+
+            public Uri Cdn => new Uri(_configuration.GetString(_section, "Cdn"));
+            public Uri File => new Uri(_configuration.GetString(_section, "File"));
+            public Uri Storage => new Uri(_configuration.GetString(_section, "Storage"));
         }
 
         public virtual string GetConnectionString(string name)

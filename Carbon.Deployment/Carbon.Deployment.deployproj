@@ -28,8 +28,6 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <None Include="Templates\BuildMachine.json" />
-    <None Include="Templates\BuildMachine.param.json" />
     <None Include="Templates\Diagnostics.json" />
     <None Include="Templates\Diagnostics.param.qa.json" />
     <None Include="Templates\Fabric.param.prod.json" />

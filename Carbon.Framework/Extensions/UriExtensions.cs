@@ -97,5 +97,10 @@ namespace Carbon.Framework.Extensions
             var partial = uri.GetComponents(UriComponents.Host | UriComponents.PathAndQuery, UriFormat.Unescaped);
             return new Uri("https://" + partial);
         }
+
+        public static string WithoutScheme(this Uri uri)
+        {
+            return "//" + uri.Authority + uri.PathAndQuery + uri.Fragment;
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Carbon.Business.Services
     {
         private readonly BogusDataSet _defaultDataSet = new BogusDataSet();
         private readonly Dictionary<DataField, Func<BogusDataSet, DataContext, string>> _generators;
+        private readonly Random _random = new Random();
 
         public DataService()
         {
@@ -189,7 +190,10 @@ namespace Carbon.Business.Services
                 { DataField.Version, (d, c) => d.System.Version().ToString() },
 
                 { DataField.LoremParagraph, (d, c) => d.Lorem.Paragraph() },
-                { DataField.LoremSentence, (d, c) => d.Lorem.Sentence() }
+                { DataField.LoremSentence, (d, c) => d.Lorem.Sentence() },
+
+                { DataField.NumberSeq, (d, c) => d.NumberSequential(c) },
+                { DataField.NumberRand, (d, c) => _random.Next(1, 1000).ToString() }
             };
         }
     }
@@ -208,6 +212,7 @@ namespace Carbon.Business.Services
         public int AgoStep { get; set; }
         public DateTime PreviousDatePast { get; set; }
         public DateTime PreviousDateFuture { get; set; }
+        public int PreviousNumber { get; set; }
     }
 
     public enum DataField
@@ -281,7 +286,9 @@ namespace Carbon.Business.Services
         Version,
         LoremParagraph,
         LoremSentence,
-        DateOfBirthLong
+        DateOfBirthLong,
+        NumberSeq,
+        NumberRand
     }
 
     public class BogusDataSet
@@ -382,6 +389,11 @@ namespace Carbon.Business.Services
             }
 
             return context.AgoStep++ + " months ago";
+        }
+
+        public string NumberSequential(DataContext context)
+        {
+            return (++context.PreviousNumber).ToString();
         }
     }
 }

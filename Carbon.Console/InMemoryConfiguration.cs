@@ -13,6 +13,7 @@ namespace Carbon.Console
             Data = new Dictionary<string, Dictionary<string, dynamic>>();
             Add("ConnectionStrings", "nosql", "UseDevelopmentStorage=true");
             Add("ConnectionStrings", "jobs", "UseDevelopmentStorage=true");
+            Add("ConnectionStrings", "cdn", "UseDevelopmentStorage=true");
 
             Add("IdSrv", "ProtectionCertificateThumbprint", "9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F");
             Add("IdSrv", "PrivateKeyReleaseThumbprint", string.Empty);
@@ -28,10 +29,10 @@ namespace Carbon.Console
             Add("IdSrv", "MicrosoftAppId", "2c4a8f6b-0cde-4134-aaa5-dc6552704576");
             Add("IdSrv", "MicrosoftAppSecret", "9XRPhRumaFC7POzD6e7j2m8");
 
-            Add("Azure", "TelemetryKey", string.Empty);
-            Add("Endpoints", "Storage", "//localhost:9100");
+            Add("Azure", "TelemetryKey", ""/*"6ad84643-9530-4367-a698-6dde4567f0cd"*/);
+            Add("Endpoints", "Storage", "http://localhost:9100");
             Add("Endpoints", "File", "http://127.0.0.1:10000/devstoreaccount1");
-            Add("Endpoints", "Cdn", string.Empty);
+            Add("Endpoints", "Cdn", "http://127.0.0.1:10000/devstoreaccount1");
 
             Add("General", "SiteHost", "http://localhost:8080");
         }

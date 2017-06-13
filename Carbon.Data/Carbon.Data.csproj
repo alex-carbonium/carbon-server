@@ -112,7 +112,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Azure\QueueMailService.cs" />
-    <Compile Include="Azure\AzureUnitOfWork.cs" />
     <Compile Include="Azure\Blob\BlobRepository.cs" />
     <Compile Include="Azure\Blob\IBlobRepositoryFactory.cs" />
     <Compile Include="Azure\Table\FatEntity.cs" />
@@ -122,7 +121,7 @@
     <Compile Include="RepositoryImpl\BatchRepositories.cs" />
     <Compile Include="RepositoryImpl\BatchRepository.cs" />
     <Compile Include="RepositoryImpl\CampaignRepository.cs" />
-    <Compile Include="UnitOfWorkImpl\CompositeUnitOfWork.cs" />
+    <Compile Include="RepositoryImpl\SharedPageRepository.cs" />
     <Compile Include="UnitOfWorkImpl\DomainConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

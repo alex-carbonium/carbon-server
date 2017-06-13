@@ -20,14 +20,14 @@ namespace Carbon.Owin.Common.WebApi
             if (actionContext == null)
             {
                 throw new ArgumentNullException(nameof(actionContext));
-            }            
+            }
 
             var exception = actionContext.Exception;
             var aggregate = exception as AggregateException;
             if (aggregate?.InnerExceptions.Count == 1)
             {
                 exception = aggregate.InnerExceptions[0];
-            }            
+            }
 
             // If this is not an HTTP 500 (for example, if somebody throws an HTTP 404 from an action method),
             // ignore it.
@@ -46,10 +46,7 @@ namespace Carbon.Owin.Common.WebApi
                 return;
             }
 
-            actionContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            {
-                ReasonPhrase = exception.Message
-            };
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 #if DEBUG
             actionContext.Response.Content = new StringContent(exception.ToString());
 #endif

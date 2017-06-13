@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Carbon.Framework.Cloud.Blob;
+﻿using Carbon.Framework.Cloud.Blob;
 
 namespace Carbon.Business.CloudDomain
 {
-    [Container(Name = "files", Type = ContainerType.Public)]
+    [Container(Name = ContainerName, Type = ContainerType.Public)]
     public class File : BlobDomainObject
     {
+        public const string ContainerName = "files";
+
         public File()
         {
         }

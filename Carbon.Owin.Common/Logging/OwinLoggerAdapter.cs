@@ -32,7 +32,7 @@ namespace Carbon.Owin.Common.Logging
                     break;
                 case TraceEventType.Error:
                     //standard transport exception that often happens in SignalR
-                    if (message != "The specified network name is no longer available")
+                    if (!message.Contains("The specified network name is no longer available"))
                     {
                         logger.Error(message);
                     }

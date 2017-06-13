@@ -15,8 +15,8 @@ namespace Carbon.Business
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 DateFormatHandling = DateFormatHandling.IsoDateFormat
-            });            
-        }        
+            });
+        }
 
         public virtual void Read(JsonReader reader)
         {
@@ -33,7 +33,7 @@ namespace Carbon.Business
         public void ReadProperties(JsonReader reader)
         {
             while (reader.TokenType == JsonToken.PropertyName)
-            {                
+            {
                 var property = (string)reader.Value;
                 if (!ReadProperty(property, reader))
                 {
@@ -73,7 +73,7 @@ namespace Carbon.Business
             var value = reader.ReadAsString();
             reader.Read();
             return value;
-        }        
+        }
 
         protected int ReadInt(JsonReader reader)
         {
@@ -110,7 +110,7 @@ namespace Carbon.Business
             using (var sw = new StringWriter(builder, CultureInfo.InvariantCulture))
             using (var writer = new JsonTextWriter(sw))
             {
-                writer.Formatting = formatting;                
+                writer.Formatting = formatting;
 
                 Write(writer);
             }

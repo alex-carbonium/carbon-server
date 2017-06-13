@@ -12,7 +12,7 @@ namespace Carbon.Fabric.Common
 {
     public static class DiagnosticsPipelineFactory
     {
-        public static IDisposable Create()
+        public static IDisposable Create(string instrumentationKey)
         {
             var healthEntityName = "Carbon-Fabric";
             var healthReporter = new ServiceFabricHealthReporter(healthEntityName);
@@ -35,7 +35,7 @@ namespace Carbon.Fabric.Common
             var appInsightsOutput = configurationRoot.GetSection("outputs").GetChildren().FirstOrDefault(c => c["type"] == "ApplicationInsights");
             if (appInsightsOutput != null)
             {
-                appInsightsOutput["instrumentationKey"] = configPackage.Settings.Sections["Azure"].Parameters["TelemetryKey"].Value;
+                appInsightsOutput["instrumentationKey"] = instrumentationKey;
             }
 
             return DiagnosticPipelineFactory.CreatePipeline(configurationRoot, new ServiceFabricHealthReporter(healthEntityName));

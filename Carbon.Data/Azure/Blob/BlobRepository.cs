@@ -15,15 +15,15 @@ using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
 namespace Carbon.Data.Azure.Blob
 {
-    public class BlobRepository<TEntity> : Repository<TEntity>        
+    public class BlobRepository<TEntity> : Repository<TEntity>
         where TEntity : BlobDomainObject, new()
     {
         private readonly CloudBlobClient _client;
         private static readonly object _syncRoot = new object();
-        private bool _corsChecked;        
+        private bool _corsChecked;
 
         public BlobRepository(CloudBlobClient client)
-        {            
+        {
             _client = client;
         }
 
@@ -56,11 +56,11 @@ namespace Carbon.Data.Azure.Blob
                         _corsChecked = true;
                     }
                 }
-            }            
+            }
         }
 
         private CloudBlobContainer GetContainer()
-        {            
+        {
             EnsureCorsEnabled(_client);
 
             var attributes = typeof(TEntity).GetCustomAttributes(typeof(ContainerAttribute), inherit: true);
@@ -76,7 +76,7 @@ namespace Carbon.Data.Azure.Blob
             {
                 name = typeof(TEntity).Name;
             }
-            
+
             name = Regex.Replace(name, "[^a-zA-Z0-9]", string.Empty).ToLower();
 
             if (TestNameSuffix != null)
@@ -116,7 +116,7 @@ namespace Carbon.Data.Azure.Blob
                 using (var gzipStream = new GZipStream(blobStream, CompressionMode.Compress, leaveOpen: true))
                 {
                     await entity.ContentStream.CopyToAsync(gzipStream);
-                }                
+                }
             }
             else
             {
@@ -129,7 +129,7 @@ namespace Carbon.Data.Azure.Blob
                     memoryStream.Position = 0;
                     await blob.UploadFromStreamAsync(memoryStream);
                 }
-            }            
+            }
             entity.Uri = blob.Uri;
         }
         private void SaveBlob(TEntity entity)
@@ -245,13 +245,13 @@ namespace Carbon.Data.Azure.Blob
             using (var stream = blob.OpenRead())
             using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
             using (var unzippedStream = new MemoryStream())
-            {                                                
+            {
                 gzipStream.CopyTo(unzippedStream);
                 entity.Content = unzippedStream.ToArray();
-            }                        
+            }
             return entity;
         }
-        
+
         public override async Task<TEntity> FindByIdAsync(dynamic key, bool lockForUpdate = false)
         {
             var container = GetContainer();
@@ -260,12 +260,12 @@ namespace Carbon.Data.Azure.Blob
             {
                 return default(TEntity);
             }
-            
+
             await blob.FetchAttributesAsync();
 
-            var entity = InitEntityFromBlob(blob);            
+            var entity = InitEntityFromBlob(blob);
             entity.ContentStream = new GZipStream(await blob.OpenReadAsync(), CompressionMode.Decompress);
-            
+
             return entity;
         }
 

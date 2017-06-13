@@ -4,7 +4,6 @@ using Carbon.Business;
 using Carbon.Business.Services;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
-using Carbon.Framework.UnitOfWork;
 using Carbon.Framework.Util;
 using Carbon.Owin.Common.Data;
 using Carbon.Test.Common;
@@ -20,10 +19,6 @@ namespace Carbon.Test.Unit
     {
         public IDependencyContainer Container { get; private set; }
         public IDependencyContainer Scope { get; private set; }
-        public Mock<IUnitOfWork> UnitOfWork { get; set; }
-        public UnitOfWorkStub UnitOfWorkStub {
-            get { return (UnitOfWorkStub) Scope.Resolve<IUnitOfWork>(); }
-        }
         public AppSettings AppSettings
         {
             get { return Scope.Resolve<AppSettings>(); }
@@ -38,9 +33,6 @@ namespace Carbon.Test.Unit
         [TestInitialize]
         public virtual void Setup()
         {
-            UnitOfWork = new Mock<IUnitOfWork>();
-            UnitOfWork.DefaultValue = DefaultValue.Mock;
-
             //AppSettingsMock.Setup(x => x.SiteHost).Returns("http://localhost:8010");
             //AppSettingsMock.Setup(x => x.Smtp.LogReaders).Returns("devs@carbonium.io");
 
@@ -50,8 +42,6 @@ namespace Carbon.Test.Unit
             LogService = new Mock<ILogService>();
             LogService.Setup(x => x.GetLogger()).Returns(Logger.Object);
             LogService.Setup(x => x.GetLogger()).Returns(Logger.Object);
-
-            UnitOfWork.DefaultValue = DefaultValue.Mock;
 
             _repositories = new Dictionary<string, object>();
 
@@ -63,12 +53,6 @@ namespace Carbon.Test.Unit
             Container.RegisterInstance<IActorFabric>(ActorFabricStub);
             DataLayerConfig.RegisterImplementation(Container);
 
-            Container.RegisterTypePerWebRequest<IUnitOfWork>(() =>
-            {
-                var uow = Scope.Resolve<UnitOfWorkStub>();
-                uow.AllRepositories = _repositories;
-                return uow;
-            });
             Container.RegisterInstance(LogService.Object);
 
             Scope = Container.BeginScope();
@@ -77,8 +61,6 @@ namespace Carbon.Test.Unit
         public InMemoryRepository<T> SetupRepository<T>()
         {
             var repo = new InMemoryRepository<T>();
-
-            UnitOfWork.Setup(x => x.Repository<T>()).Returns(repo);
 
             return repo;
         }

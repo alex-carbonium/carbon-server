@@ -194,7 +194,6 @@
     <Compile Include="WebApi\OptionsMessageHandler.cs" />
     <Compile Include="WebApi\SwaggerConfig.cs" />
     <Compile Include="WebApi\WebApiExceptionLogger.cs" />
-    <Compile Include="WebApi\WebApiUnitOfWorkFilterAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

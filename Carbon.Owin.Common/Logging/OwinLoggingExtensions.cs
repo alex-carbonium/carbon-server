@@ -16,6 +16,6 @@ namespace Carbon.Owin.Common.Logging
 #endif
                 );
             return app;
-        }                
+        }
     }
 }
