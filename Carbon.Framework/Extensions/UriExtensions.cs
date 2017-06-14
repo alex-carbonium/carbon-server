@@ -100,7 +100,12 @@ namespace Carbon.Framework.Extensions
 
         public static string WithoutScheme(this Uri uri)
         {
-            return "//" + uri.Authority + uri.PathAndQuery + uri.Fragment;
+            var result = "//" + uri.Authority;
+            if (!string.IsNullOrEmpty(uri.PathAndQuery) && uri.PathAndQuery != "/")
+            {
+                result += uri.PathAndQuery + uri.Fragment;
+            }
+            return result;
         }
     }
 }
