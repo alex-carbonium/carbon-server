@@ -238,7 +238,7 @@ namespace Carbon.Business.Services
             var id = SharedPage.PageNameToId(name);
             var uniqueId = Guid.NewGuid().ToString("N");
             var imageUri = SaveImage(uniqueId, previewPicture);
-            var dataUri = SaveData(uniqueId, UpdatePageJson(id, data));
+            var dataUri = SaveData(uniqueId, UpdatePageJson(id, name, data));
 
             string partition;
             IRepository<SharedPage> repo;
@@ -271,11 +271,12 @@ namespace Carbon.Business.Services
             return page;
         }
 
-        private string UpdatePageJson(string id, string data)
+        private string UpdatePageJson(string id, string name, string data)
         {
             var obj = JObject.Parse(data);
             var pageProps = obj["page"]["props"];
             pageProps["id"] = id;
+            pageProps["name"] = name;
             pageProps["galleryId"] = id;
             return obj.ToString();
         }

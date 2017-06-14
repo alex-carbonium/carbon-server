@@ -123,10 +123,10 @@ namespace Carbon.Services.Controllers
         }
 
         [HttpPost, Route("uploadPublicImage")]
-        public async Task<IHttpActionResult> UploadPublicImage(FileContentModel data)
+        public async Task<IHttpActionResult> UploadPublicImage(FileContentModel model)
         {
             var file = new File("img", Guid.NewGuid().ToString("N") + ".png");
-            var url = await _cdnService.UploadImage(file, data.Content);
+            var url = await _cdnService.UploadImage(file, model.Content);
             return Ok(new {url=url});
         }
 

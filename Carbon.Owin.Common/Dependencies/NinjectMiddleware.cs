@@ -16,10 +16,10 @@ namespace Carbon.Owin.Common.Dependencies
         public override async Task Invoke(IOwinContext context)
         {
             using (var scope = _mainContainer.BeginScope())
-            {                                   
-                context.SetScopedContainer(scope);                
+            {
+                context.SetScopedContainer(scope);
                 await Next.Invoke(context);
-            }            
+            }
         }
     }
 }

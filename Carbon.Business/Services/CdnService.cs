@@ -1,7 +1,9 @@
 ﻿using Carbon.Business.CloudDomain;
+using Carbon.Business.Exceptions;
 using Carbon.Framework.Extensions;
 using Carbon.Framework.Repositories;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -73,10 +75,15 @@ namespace Carbon.Business.Services
                 return uriToCheck.WithoutScheme();
             }
 
-            var response = await _httpClient.GetAsync(uri);
-            if (!response.IsSuccessStatusCode)
+            if (!uri.IsAbsoluteUri)
             {
-                return null;
+                throw new BadUrlException(uri.OriginalString);
+            }
+
+            var response = await _httpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotModified)
+            {
+                throw new BadUrlException(uri.OriginalString);
             }
 
             file.ContentStream = await response.Content.ReadAsStreamAsync();
