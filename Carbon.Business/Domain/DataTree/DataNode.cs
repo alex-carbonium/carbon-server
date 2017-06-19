@@ -155,7 +155,7 @@ namespace Carbon.Business.Domain.DataTree
             if (child != null)
             {
                 Children.Remove(child);
-                Children.Insert(newPosition, child);
+                Children.Insert(System.Math.Min(newPosition, Children.Count -1), child);
             }
         }
 
