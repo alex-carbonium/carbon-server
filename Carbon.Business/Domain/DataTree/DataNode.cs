@@ -154,8 +154,14 @@ namespace Carbon.Business.Domain.DataTree
             var child = Children?.SingleOrDefault(x => x.Id == childId);
             if (child != null)
             {
+                if (Children.Count == 1)
+                {
+                    return;
+                }
+
                 Children.Remove(child);
-                Children.Insert(System.Math.Min(newPosition, Children.Count -1), child);
+                newPosition = System.Math.Min(newPosition, Children.Count - 1);                
+                Children.Insert(newPosition, child);
             }
         }
 
