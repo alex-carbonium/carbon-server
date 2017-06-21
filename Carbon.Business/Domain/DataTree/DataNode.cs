@@ -105,8 +105,7 @@ namespace Carbon.Business.Domain.DataTree
             return Type == NodeType.ArtboardPage
                 || Type == NodeType.Artboard
                 || Type == NodeType.StateBoard
-                || Type == NodeType.Page
-                || Type == NodeType.ArtboardTemplate;
+                || Type == NodeType.Page;
         }
 
         public DataNode AddChild(string id, string type)
@@ -160,7 +159,7 @@ namespace Carbon.Business.Domain.DataTree
                 }
 
                 Children.Remove(child);
-                newPosition = System.Math.Min(newPosition, Children.Count - 1);                
+                newPosition = System.Math.Min(newPosition, Children.Count - 1);
                 Children.Insert(newPosition, child);
             }
         }

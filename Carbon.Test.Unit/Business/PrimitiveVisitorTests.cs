@@ -128,26 +128,6 @@ namespace Carbon.Test.Unit.Business
         }
 
         [TestMethod]
-        public void SetPropsFourthLevel()
-        {
-            //arrange
-            var model = new ProjectModel("app");
-            var page = model.AddChild("page", NodeType.Page);
-            var artboard = page.AddChild("artboard", NodeType.Artboard);
-            var template = artboard.AddChild("template", NodeType.ArtboardTemplate);
-
-            var primitive = new DataNodeSetPropsPrimitive();
-            primitive.Path = new DataNodePath(page.Id, artboard.Id, template.Id, template.Id);
-            primitive.Props = new Dictionary<string, dynamic> { { "name", "template2" } };
-
-            //act
-            Apply(model, primitive);
-
-            //asser
-            Assert.AreEqual("template2", template.Props["name"]);
-        }
-
-        [TestMethod]
         public void ApplyByPageIdAndElementId()
         {
             //arrange

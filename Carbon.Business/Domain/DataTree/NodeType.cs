@@ -7,7 +7,7 @@ namespace Carbon.Business.Domain.DataTree
         public const string ArtboardPage = "P";
         public const string Container = "w";
         public const string Artboard = "a";
-        public const string ArtboardTemplate = "T";
+        public const string Symbol = "T";
         public const string StateBoard = "Q";
         public const string Text = "t";
     }
