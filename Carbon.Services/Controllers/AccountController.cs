@@ -7,7 +7,6 @@ using System.Linq;
 using Carbon.Framework.Pools;
 using Carbon.Business;
 using System;
-using Carbon.Framework.Logging;
 using Carbon.Business.Domain;
 using Carbon.Framework.Repositories;
 using Carbon.Business.CloudSpecifications;
@@ -45,7 +44,7 @@ namespace Carbon.Services.Controllers
             public string Email { get; set; }
         }
 
-        [HttpPost, Route("validateEmail")]
+        [AllowAnonymous, HttpPost, Route("validateEmail")]
         public async Task<IHttpActionResult> ValidateEmail(EmailValidationModel model)
         {
             var userId = GetUserId();
@@ -74,11 +73,16 @@ namespace Carbon.Services.Controllers
             return Success();
         }
 
-        [HttpPost, Route("register")]
+        [AllowAnonymous, HttpPost, Route("register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {
+            ApplicationUser existing = null;
             var userId = GetUserId();
-            var existing = await _userManager.FindByIdAsync(userId);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                existing = await _userManager.FindByIdAsync(userId);
+            }
+
             if (existing == null)
             {
                 var user = new ApplicationUser
@@ -112,8 +116,8 @@ namespace Carbon.Services.Controllers
         public async Task<IHttpActionResult> GetCompanyName()
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
-            var companyName = await actor.GetCompanyName();
-            return Ok(new { CompanyName = companyName });
+            var info = await actor.GetCompanyInfo();
+            return Ok(new { CompanyName = info.Name });
         }
 
         [HttpGet, Route("overview")]
@@ -194,6 +198,9 @@ namespace Carbon.Services.Controllers
                     errors[nameof(model.Email)] = string.Join(", ", result.Errors);
                     return Error(errors);
                 }
+
+                var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
+                await actor.UpdateOwnerInfo(new UserInfo { Name = user.UserName, Email = user.Email, Avatar = user.Avatar });
 
                 return Success();
             }

@@ -23,5 +23,5 @@ namespace Carbon.Business.Domain
             }
             return obj.Entry.GetHashCode();
         }
-    }    
+    }
 }

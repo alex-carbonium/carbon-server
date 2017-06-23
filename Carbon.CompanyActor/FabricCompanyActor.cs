@@ -45,9 +45,14 @@ namespace Carbon.CompanyActor
             return Impl.GetDashboard(userId);
         }
 
-        public Task<string> GetCompanyName()
+        public Task<CompanyInfo> GetCompanyInfo()
         {
-            return Impl.GetCompanyName();
+            return Impl.GetCompanyInfo();
+        }
+
+        public Task UpdateOwnerInfo(UserInfo info)
+        {
+            return Impl.UpdateOwnerInfo(info);
         }
 
         public Task<ExternalAcl> ShareProject(string userId, string projectId, int permission)
@@ -60,9 +65,9 @@ namespace Carbon.CompanyActor
             return Impl.ChangeProjectName(userId, projectId, newName);
         }
 
-        public Task ChangeCompanyName(string newName)
+        public Task UpdateCompanyInfo(CompanyInfo info)
         {
-            return Impl.ChangeCompanyName(newName);
+            return Impl.UpdateCompanyInfo(info);
         }
 
         public Task RegisterKnownEmail(string userId, string email)

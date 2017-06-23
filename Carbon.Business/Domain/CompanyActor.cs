@@ -37,17 +37,38 @@ namespace Carbon.Business.Domain
         {
             var company = new Company
             {
+                Id = CompanyId,
                 RootFolder = new ProjectFolder { Id = "my" }
             };
+            company.AddOrReplaceUser(new User { Id = company.Id });
 
             await Task.WhenAll(
-                StateManager.TryAddStateAsync(Keys.Company, company),
+                StateManager.AddOrUpdateStateAsync(Keys.Company, company, UpgradeCompany),
                 StateManager.TryAddStateAsync(Keys.Counter, new Dictionary<Countable, int>
                 {
                     {Countable.Project, 0},
                     {Countable.Folder, 0}
                 })
             );
+        }
+
+        private Company UpgradeCompany(string id, Company company)
+        {
+            company.Id = id;
+
+            var owner = company.GetOwner();
+            if (owner == null)
+            {
+                owner = new User
+                {
+                    Id = id,
+                    Name = company.Name,
+                    Avatar = company.Logo
+                };
+                company.AddOrReplaceUser(owner);
+            }
+
+            return company;
         }
 
         public async Task<Project> CreateProject(string userId, string folderId)
@@ -180,30 +201,61 @@ namespace Carbon.Business.Domain
             }
         }
 
-        public async Task<string> GetCompanyName()
+        public async Task<CompanyInfo> GetCompanyInfo()
         {
             var company = await GetCompany();
-            return company.Name;
+            var owner = company.GetOwner();
+            return new CompanyInfo
+            {
+                Name = company.Name,
+                Logo = company.Logo,
+                Owner = new UserInfo
+                {
+                    Avatar = owner.Avatar,
+                    Email = owner.Email,
+                    Name = owner.Name
+                }
+            };
+        }
+        public async Task UpdateOwnerInfo(UserInfo info)
+        {
+            var company = await GetCompany();
+
+            var owner = company.GetOwner();
+            owner.Name = info.Name;
+            owner.Email = info.Email;
+            owner.Avatar = info.Avatar;
+            company.AddOrReplaceUser(owner);
+
+            await SaveCompany(company);
         }
 
-        public async Task ChangeCompanyName(string newName)
+        public async Task UpdateCompanyInfo(CompanyInfo info)
         {
             var company = await GetCompany();
-            if (company.Name != newName)
+
+            if (company.Name != info.Name)
             {
                 var externalTasks = new List<Task>();
                 foreach (var userId in company.Acls.Select(x => x.Entry.Sid).Distinct())
                 {
                     var actor = ActorFabric.GetProxy<ICompanyActor>(userId);
-                    externalTasks.Add(actor.UpdateExternalCompanyName(CompanyId, newName));
+                    externalTasks.Add(actor.UpdateExternalCompanyName(CompanyId, info.Name));
                 }
                 await Task.WhenAll(externalTasks);
 
-                company.Name = newName;
-                await SaveCompany(company);
+                company.Name = info.Name;
             }
+
+            var owner = company.GetOwner();
+            owner.Name = info.Owner.Name;
+            owner.Email = info.Owner.Email;
+            owner.Avatar = info.Owner.Avatar;
+
+            await SaveCompany(company);
         }
 
+        //TODO: change to users
         public async Task RegisterKnownEmail(string userId, string email)
         {
             var company = await GetCompany();

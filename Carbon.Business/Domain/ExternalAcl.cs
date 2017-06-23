@@ -3,7 +3,7 @@
     public class ExternalAcl : IAclEntryContainer
     {
         public AclEntry Entry { get; set; }
-        public string CompanyName { get; set; }        
+        public string CompanyName { get; set; }
         public string ResourceName { get; set; }
 
         public static ExternalAcl Create(AclEntry entry, string companyName, string resourceName)

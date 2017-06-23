@@ -10,7 +10,7 @@ namespace Carbon.Business.Domain
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public long Size { get; set; }        
+        public long Size { get; set; }
         public string Metadata { get; set; }
         public DateTime ModifiedDateTime { get; set; }
 
@@ -29,6 +29,6 @@ namespace Carbon.Business.Domain
         }
 
         public static readonly IEqualityComparer<CompanyFileInfo> UniqueComparer = new UniquePropertyComparer<CompanyFileInfo>(
-            x => x.Name);        
+            x => x.Name);
     }
 }

@@ -81,8 +81,17 @@ namespace Carbon.Business.Services
             }
 
             var companyName = await RegisterCompanyName(userId, candidates);
+            var companyInfo = new CompanyInfo
+            {
+                Name = companyName,
+                Owner = new UserInfo
+                {
+                    Email = email,
+                    Name = username
+                }
+            };
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
-            await actor.ChangeCompanyName(companyName);
+            await actor.UpdateCompanyInfo(companyInfo);
 
             return companyName;
         }

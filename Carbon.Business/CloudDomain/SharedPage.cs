@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage.Table;
 using Carbon.Framework.Repositories;
-using Carbon.Business.Domain;
 
 namespace Carbon.Business.CloudDomain
 {
@@ -9,8 +8,9 @@ namespace Carbon.Business.CloudDomain
     {
         public string Tags { get; set; }
         public string Name { get; set; }
-        public string CreatedByUserId { get; set; }
-        public string CreatedByUserName { get; set; }
+        public string AuthorId { get; set; }
+        public string AuthorName { get; set; }
+        public string AuthorAvatar { get; set; }
         public string Description { get; set; }
         public string CoverUrl { get; set; }
         public string DataUrl { get; set; }

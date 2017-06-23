@@ -1,37 +1,39 @@
+using Carbon.Framework.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Carbon.Business.Domain
 {
-    public class Company
+    public class Company : IDomainObject<string>
     {
         private readonly HashSet<Acl> _acls = new HashSet<Acl>(UniqueAclEntryComparer.Default);
-        private readonly HashSet<User> _users = new HashSet<User>();
+        private readonly HashSet<User> _users = new HashSet<User>(User.UniqueComparer);
         private readonly HashSet<ExternalAcl> _externalAcls = new HashSet<ExternalAcl>(UniqueAclEntryComparer.Default);
         private readonly HashSet<CompanyFileInfo> _files = new HashSet<CompanyFileInfo>(CompanyFileInfo.UniqueComparer);
 
         public Company()
         {
-            //Users = new List<User>();
             //Invitations = new List<CompanyInvitation>();
             //Bills = new List<Bill>();
-            //Acls = new List<Acl>();            
+            //Acls = new List<Acl>();
             //ProjectFolders = new List<ProjectFolder>();
         }
-        
-        public string Name { get; set; }        
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Logo { get; set; }
         public ProjectFolder RootFolder { get; set; }
-        //public string WebsiteUrl { get; set; }                
+        //public string WebsiteUrl { get; set; }
 
         public ICollection<User> Users => _users;
         public ICollection<Acl> Acls => _acls;
         public ICollection<ExternalAcl> ExternalAcls => _externalAcls;
         public ICollection<CompanyFileInfo> Files => _files;
 
-        //public IList<CompanyInvitation> Invitations { get; set; }        
+        //public IList<CompanyInvitation> Invitations { get; set; }
         //public IList<ProjectFolder> ProjectFolders { get; set; }
-        //public IList<Bill> Bills { get; set; }                        
+        //public IList<Bill> Bills { get; set; }
 
         //public CompanyInvitation AddInvitation(string email, string code = "", bool purchased = false, Permission asRole = Permission.Read)
         //{
@@ -42,7 +44,7 @@ namespace Carbon.Business.Domain
 
         //public ProjectFolder AddFolder(string name)
         //{
-        //    var folder = new ProjectFolder();            
+        //    var folder = new ProjectFolder();
         //    folder.Name = name;
         //    ProjectFolders.Add(folder);
         //    return folder;
@@ -61,7 +63,7 @@ namespace Carbon.Business.Domain
         //public long GetSizeOfFiles()
         //{
         //    return Files.Sum(x => x.Size);
-        //}        
+        //}
 
         public void AddOrReplaceAcl(Acl acl)
         {
@@ -93,6 +95,11 @@ namespace Carbon.Business.Domain
             {
                 _files.Remove(file);
             }
+        }
+
+        public User GetOwner()
+        {
+            return _users.Single(x => x.Id == Id);
         }
     }
 }

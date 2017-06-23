@@ -208,7 +208,7 @@ namespace Carbon.Business.Services
             await Task.WhenAll(publicPageTask, privatePageTask);
             var page = privatePageTask.Result ?? publicPageTask.Result;
 
-            if (page == null || page.CreatedByUserId != userId)
+            if (page == null || page.AuthorId != userId)
             {
                 return null;
             }
@@ -224,7 +224,7 @@ namespace Carbon.Business.Services
             {
                 return ResourceNameStatus.Available;
             }
-            if (page.CreatedByUserId == userId)
+            if (page.AuthorId == userId)
             {
                 return ResourceNameStatus.CanOverride;
             }
@@ -251,15 +251,18 @@ namespace Carbon.Business.Services
                     DeletePageById(PublishScope.Company, userId, id),
                     DeletePageById(PublishScope.Public, userId, id));
             }
+            var companyInfo = actor.GetCompanyInfo();
+            await Task.WhenAll(imageUri, dataUri, companyInfo);
 
             SharedPage page = new SharedPage
             {
                 PartitionKey = partition,
                 RowKey = id,
-                CoverUrl = await imageUri,
-                DataUrl = await dataUri,
-                CreatedByUserId = userId,
-                CreatedByUserName = await actor.GetCompanyName(),
+                CoverUrl = imageUri.Result,
+                DataUrl = dataUri.Result,
+                AuthorId = userId,
+                AuthorName = companyInfo.Result.Name,
+                AuthorAvatar = companyInfo.Result.Logo ?? companyInfo.Result.Owner.Avatar,
                 Tags = tags,
                 Created = DateTime.UtcNow,
                 Description = description,

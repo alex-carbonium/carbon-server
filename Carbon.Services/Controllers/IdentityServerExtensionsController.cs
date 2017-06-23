@@ -24,10 +24,11 @@ namespace Carbon.Services.Controllers
         public async Task<IHttpActionResult> UserId()
         {
             var userId = GetUserId();
+            //TODO: security issue, cookie should be issued only after successful login
             IssueAuthenticationCookie(userId);
 
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
-            var companyName = await actor.GetCompanyName();
+            var companyName = (await actor.GetCompanyInfo()).Name;
 
             return Ok(new { UserId = userId, CompanyName = companyName });
         }

@@ -152,6 +152,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="DataProvider.cs" />
     <Compile Include="Domain\BulkEmail.cs" />
+    <Compile Include="Domain\CompanyModels.cs" />
     <Compile Include="Exceptions\BadUrlException.cs" />
     <Compile Include="Services\CdnService.cs" />
     <Compile Include="Services\DataRandomizer.cs" />

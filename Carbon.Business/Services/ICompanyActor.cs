@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Carbon.Business.Domain;
 using Microsoft.ServiceFabric.Actors;
-using System;
 
 namespace Carbon.Business.Services
 {
@@ -13,8 +12,10 @@ namespace Carbon.Business.Services
         Task<List<ProjectFolder>> GetDashboard(string userId);
 
         Task ChangeProjectName(string userId, string projectId, string newName);
-        Task ChangeCompanyName(string newName);
-        Task<string> GetCompanyName();
+
+        Task<CompanyInfo> GetCompanyInfo();
+        Task UpdateCompanyInfo(CompanyInfo info);
+        Task UpdateOwnerInfo(UserInfo info);
 
         Task<ExternalAcl> ShareProject(string toUserId, string projectId, int permission);
 
