@@ -99,7 +99,7 @@ namespace Carbon.Business.Domain
 
         public User GetOwner()
         {
-            return _users.Single(x => x.Id == Id);
+            return _users.SingleOrDefault(x => x.Id == Id);
         }
     }
 }
