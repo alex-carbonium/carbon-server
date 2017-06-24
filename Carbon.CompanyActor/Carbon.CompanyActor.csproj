@@ -232,7 +232,8 @@
     <Compile Include="SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ApplicationInsights.config">
+    <None Include="..\ApplicationInsights.config">
+      <Link>ApplicationInsights.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="PackageRoot\Config\eventFlowConfig.json">
