@@ -26,7 +26,7 @@
       <EnvironmentVariable Name="Carbon_Env" Value="" />
     </EnvironmentVariables>
   </CodePackage>
-  <ConfigPackage Name="Config" Version="1.1.0" />
+  <ConfigPackage Name="Config" Version="1.2.0" />
   <Resources>
     <Endpoints>
       <Endpoint Name="FabricCompanyActorServiceEndpoint" />
