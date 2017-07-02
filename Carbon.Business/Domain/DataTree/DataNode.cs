@@ -188,6 +188,11 @@ namespace Carbon.Business.Domain.DataTree
                     array.Add(item);
                     break;
                 case PatchType.Remove:
+                    if(array == null)
+                    {
+                        return;
+                    }
+
                     foreach (var arrayItem in array)
                     {
                         if (arrayItem.id == item.id)
