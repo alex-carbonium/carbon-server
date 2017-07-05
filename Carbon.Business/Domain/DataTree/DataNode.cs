@@ -166,11 +166,11 @@ namespace Carbon.Business.Domain.DataTree
 
         public void RemoveChild(string id)
         {
-            var child = Children?.SingleOrDefault(x => x.Id == id);
-            if (child != null)
+            
+            foreach(var child in Children?.Where(x => x.Id == id).ToList())
             {
                 Children.Remove(child);
-            }
+            }            
         }
 
         public void PatchProps(PatchType patchType, string propName, dynamic item)
