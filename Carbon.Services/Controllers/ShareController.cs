@@ -5,6 +5,7 @@ using Carbon.Business.Domain;
 using Carbon.Business.Services;
 using Carbon.Owin.Common.WebApi;
 using Carbon.Business.Exceptions;
+using System.Linq;
 
 namespace Carbon.Services.Controllers
 {
@@ -90,7 +91,7 @@ namespace Carbon.Services.Controllers
         public class ValidatePageModel
         {
             public string Name { get; set; }
-            public PublishScope Scope { get; set; }
+            public ResourceScope Scope { get; set; }
         }
         [HttpPost, Route("validatePageName")]
         public async Task<IHttpActionResult> ValidatePageName(ValidatePageModel model)
@@ -122,16 +123,14 @@ namespace Carbon.Services.Controllers
         }
 
         [HttpGet, Route("resources")]
-        public async Task<IHttpActionResult> AvailableResource(string search)
+        public async Task<IHttpActionResult> Resources(int from, int to, string search)
         {
             var userId = GetUserId();
-
-            var myResources = _sharingService.SearchResources(userId, search, PublishScope.Company);
-            var publicResources = _sharingService.SearchResources(userId, search, PublishScope.Public);
+            var resources = await _sharingService.SearchCompanyResources(userId, search);
             return Ok(new
             {
-                myResources = await myResources,
-                publicResources = await publicResources
+                pageData = resources.Skip(from).Take(to - from).ToList(),
+                totalCount = resources.Count()
             });
         }
 
@@ -142,7 +141,7 @@ namespace Carbon.Services.Controllers
             public string Tags { get; set; }
             public string PageData { get; set; }
             public string CoverUrl { get; set; }
-            public PublishScope Scope { get; set; }
+            public ResourceScope Scope { get; set; }
         }
     }
 }

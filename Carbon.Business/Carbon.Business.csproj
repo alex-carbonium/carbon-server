@@ -153,6 +153,7 @@
     <Compile Include="DataProvider.cs" />
     <Compile Include="Domain\BulkEmail.cs" />
     <Compile Include="Domain\CompanyModels.cs" />
+    <Compile Include="Domain\ResourceScope.cs" />
     <Compile Include="Exceptions\BadUrlException.cs" />
     <Compile Include="Services\CdnService.cs" />
     <Compile Include="Services\DataRandomizer.cs" />
@@ -164,7 +165,6 @@
     <Compile Include="Domain\ProjectModelChange.cs" />
     <Compile Include="Domain\ExternalAcl.cs" />
     <Compile Include="Domain\ExternalProject.cs" />
-    <Compile Include="Domain\PublishScope.cs" />
     <Compile Include="Domain\RegistrationType.cs" />
     <Compile Include="Domain\AclEntry.cs" />
     <Compile Include="Domain\ResourceType.cs" />

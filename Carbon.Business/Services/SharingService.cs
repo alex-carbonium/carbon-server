@@ -202,8 +202,8 @@ namespace Carbon.Business.Services
 
         public async Task<SharedPage> GetPageSetup(string userId, string pageId)
         {
-            var publicPageTask = FindPageById(PublishScope.Public, userId, pageId);
-            var privatePageTask = FindPageById(PublishScope.Company, userId, pageId);
+            var publicPageTask = FindPageById(ResourceScope.Public, userId, pageId);
+            var privatePageTask = FindPageById(ResourceScope.Company, userId, pageId);
 
             await Task.WhenAll(publicPageTask, privatePageTask);
             var page = privatePageTask.Result ?? publicPageTask.Result;
@@ -215,7 +215,7 @@ namespace Carbon.Business.Services
             return page;
         }
 
-        public async Task<ResourceNameStatus> ValidatePageName(PublishScope scope, string userId, string name)
+        public async Task<ResourceNameStatus> ValidatePageName(ResourceScope scope, string userId, string name)
         {
             var pageId = SharedPage.PageNameToId(name);
             var page = await FindPageById(scope, userId: userId, pageId: pageId);
@@ -231,7 +231,7 @@ namespace Carbon.Business.Services
             return ResourceNameStatus.Taken;
         }
 
-        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, PublishScope scope)
+        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, ResourceScope scope)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
@@ -248,8 +248,8 @@ namespace Carbon.Business.Services
             if (status == ResourceNameStatus.CanOverride)
             {
                 await Task.WhenAll(
-                    DeletePageById(PublishScope.Company, userId, id),
-                    DeletePageById(PublishScope.Public, userId, id));
+                    DeletePageById(ResourceScope.Company, userId, id),
+                    DeletePageById(ResourceScope.Public, userId, id));
             }
             var companyInfo = actor.GetCompanyInfo();
             await Task.WhenAll(imageUri, dataUri, companyInfo);
@@ -284,9 +284,9 @@ namespace Carbon.Business.Services
             return obj.ToString();
         }
 
-        private void GetRepoAndPartition(PublishScope scope, string userId, string id, out string partition, out IRepository<SharedPage> repo)
+        private void GetRepoAndPartition(ResourceScope scope, string userId, string id, out string partition, out IRepository<SharedPage> repo)
         {
-            if (scope == PublishScope.Company)
+            if (scope == ResourceScope.Company)
             {
                 partition = userId;
                 repo = _privatePageRepository;
@@ -298,7 +298,7 @@ namespace Carbon.Business.Services
             }
         }
 
-        private async Task<SharedPage> FindPageById(PublishScope scope, string userId, string pageId)
+        private async Task<SharedPage> FindPageById(ResourceScope scope, string userId, string pageId)
         {
             string partition;
             IRepository<SharedPage> repo;
@@ -308,7 +308,7 @@ namespace Carbon.Business.Services
             return await repo.FindSingleByAsync(spec);
         }
 
-        private async Task DeletePageById(PublishScope scope, string userId, string pageId)
+        private async Task DeletePageById(ResourceScope scope, string userId, string pageId)
         {
             string partition;
             IRepository<SharedPage> repo;
@@ -322,21 +322,24 @@ namespace Carbon.Business.Services
             }
         }
 
-        public async Task<IQueryable<SharedPage>> SearchResources(string userId, string search, PublishScope scope)
+        public async Task<IQueryable<SharedPage>> SearchCompanyResources(string userId, string search)
         {
             search = search ?? "";
-            if (scope == PublishScope.Public)
-            {
-                return (await _publicPageRepository.FindAllAsync()).Where(p =>
-                (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
-                || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
-            }
-            else
-            {
-                return (await _privatePageRepository.FindAllByAsync(new FindByPartition<SharedPage>(userId))).Where(p =>
-                (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
-                || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
-            }
+            return (await _privatePageRepository.FindAllByAsync(new FindByPartition<SharedPage>(userId)))
+                .ToList().AsQueryable()
+                .Where(p =>
+                    (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
+                    || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
+        }
+
+        public async Task<IQueryable<SharedPage>> SearchPublicResources(string search)
+        {
+            search = search ?? "";
+            return (await _publicPageRepository.FindAllAsync())
+                .ToList().AsQueryable()
+                .Where(p =>
+                    (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
+                    || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
         }
     }
 }

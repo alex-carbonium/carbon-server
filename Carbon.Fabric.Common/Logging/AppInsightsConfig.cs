@@ -72,7 +72,6 @@ namespace Carbon.Fabric.Common.Logging
                 }
                 lastBuffer.Metrics.Add(telemetry);
 
-                var now = DateTime.UtcNow;
                 if (lastBuffer.IntervalStart.Add(_interval) > DateTime.UtcNow)
                 {
                     return;

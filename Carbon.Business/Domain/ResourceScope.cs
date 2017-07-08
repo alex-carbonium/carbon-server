@@ -1,6 +1,6 @@
 ﻿namespace Carbon.Business.Domain
 {
-    public enum PublishScope
+    public enum ResourceScope
     {
         Company,
         Public
