@@ -11,3 +11,4 @@ Carbon.Services.FabricHost/PackageRoot/Data/app/*
 TestResults/*
 packages/*
 target/*
+Carbon.Fabric/Backup/

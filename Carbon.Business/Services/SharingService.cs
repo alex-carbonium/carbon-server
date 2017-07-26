@@ -8,6 +8,7 @@ using Carbon.Business.Domain;
 using Carbon.Business.Exceptions;
 using Carbon.Framework.Repositories;
 using Newtonsoft.Json.Linq;
+using System.Linq.Expressions;
 
 namespace Carbon.Business.Services
 {
@@ -335,11 +336,42 @@ namespace Carbon.Business.Services
         public async Task<IQueryable<SharedPage>> SearchPublicResources(string search)
         {
             search = search ?? "";
+            search = search.Trim();
+
+            Expression<Func<SharedPage, bool>> searchPredicate;
+            if(search.StartsWith("tags:", StringComparison.InvariantCultureIgnoreCase))
+            {
+                search = search.Substring(5);
+                searchPredicate = p => !string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1;
+            }
+            else if (search.StartsWith("name:", StringComparison.InvariantCultureIgnoreCase))
+            {
+                search = search.Substring(5);
+                searchPredicate = p => !string.IsNullOrEmpty(p.Name) && p.Tags.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1;
+            }
+            else if (search.StartsWith("description:", StringComparison.InvariantCultureIgnoreCase))
+            {
+                search = search.Substring(5);
+                searchPredicate = p => !string.IsNullOrEmpty(p.Description) && p.Tags.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1;
+            }
+            else
+            {
+                searchPredicate = p =>
+                    (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
+                    || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1);
+            }
+
+            // TODO: fix this big performance issue
             return (await _publicPageRepository.FindAllAsync())
                 .ToList().AsQueryable()
-                .Where(p =>
-                    (!string.IsNullOrEmpty(p.Name) && p.Name.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1)
-                    || (!string.IsNullOrEmpty(p.Tags) && p.Tags.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase) != -1));
+                .Where(searchPredicate);
+        }
+
+        public async Task<SharedPage> SearchPublicResourceById(string id)
+        {
+            // TODO: fix this perf issue
+            return (await _publicPageRepository.FindAllAsync())
+                .ToList().AsQueryable().FirstOrDefault(p => p.GalleryId == id);                
         }
     }
 }

@@ -26,5 +26,18 @@ namespace Carbon.Services.Controllers
                 totalCount = resources.Count()
             });
         }
+
+        [HttpGet, Route("resource")]
+        public async Task<IHttpActionResult> Resource(string id)
+        {
+            var resource = await _sharingService.SearchPublicResourceById(id);
+
+            if (resource != null)
+            {
+                return Ok(resource);
+            }
+
+            return Error("404", "Not found");
+        }
     }
 }
