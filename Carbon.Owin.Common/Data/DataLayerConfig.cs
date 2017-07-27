@@ -45,6 +45,7 @@ namespace Carbon.Owin.Common.Data
                 .RegisterTypeSingleton<IPublicSharedPageRepository, PublicSharedPageRepository>()
                 .RegisterTypeSingleton<IPrivateSharedPageRepository, PrivateSharedPageRepository>()
                 .RegisterTypeSingleton<IRepository<FeatureSubscription>, TableRepository<FeatureSubscription>>()
+                .RegisterTypeSingleton<IRepository<BetaSubscription>, TableRepository<BetaSubscription>>()
                 .RegisterTypeSingleton<IRepository<CompanyFile>, BlobRepository<CompanyFile>>()
                 .RegisterInstance<IRepository<File>>(new BlobRepository<File>(cdnBlobClient))
 

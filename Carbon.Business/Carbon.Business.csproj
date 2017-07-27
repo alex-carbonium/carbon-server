@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="CloudDomain\ActiveProject.cs" />
+    <Compile Include="CloudDomain\BetaSubscription.cs" />
     <Compile Include="CloudDomain\CompanyFile.cs" />
     <Compile Include="CloudDomain\FeatureSubscription.cs" />
     <Compile Include="CloudDomain\Html\FileModel.cs" />
