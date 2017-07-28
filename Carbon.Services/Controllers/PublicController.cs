@@ -20,7 +20,7 @@ namespace Carbon.Services.Controllers
         public IHttpActionResult SubscribeForBeta(string email)
         {
             _activityService.SubscribeForBeta(email);
-            return Ok();
+            return Ok(new { });
         }
         
     }
