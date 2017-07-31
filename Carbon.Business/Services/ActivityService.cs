@@ -32,6 +32,10 @@ namespace Carbon.Business.Services
 
         public void SubscribeForBeta(string email)
         {
+            if(string.IsNullOrEmpty(email))
+            {
+                return;
+            }
             this._betaSubscriptionRepository.InsertOrUpdate(new BetaSubscription(email));
         }
     }
