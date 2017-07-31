@@ -17,9 +17,9 @@ namespace Carbon.Services.Controllers
         }
 
         [HttpPost, Route("subscribe")]
-        public IHttpActionResult SubscribeForBeta(string email)
+        public async Task<IHttpActionResult> SubscribeForBeta(string email)
         {
-            _activityService.SubscribeForBeta(email);
+            await _activityService.SubscribeForBeta(email);
             return Ok(new { });
         }
         
