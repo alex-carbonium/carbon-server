@@ -16,8 +16,8 @@ namespace Carbon.Data.Azure.Table
     {
         public const int MaxBatchPayload = 1024 * 1024 * 3;
         public const int MaxBatchOperations = 100;
-        
-        private readonly ConcurrentDictionary<Type, CloudTable> _tables = new ConcurrentDictionary<Type, CloudTable>();        
+
+        private readonly ConcurrentDictionary<Type, CloudTable> _tables = new ConcurrentDictionary<Type, CloudTable>();
 
         private readonly CloudTableClient _client;
 
@@ -25,13 +25,13 @@ namespace Carbon.Data.Azure.Table
 
         public FatEntityRepository(CloudTableClient client)
         {
-            _client = client;            
+            _client = client;
         }
 
         public override IQueryable<T> FindAll(bool cache = false)
         {
             return TransformResults(CreateQuery());
-        }        
+        }
 
         public override IQueryable<T> FindAllBy(ISpecification<T> specification)
         {
@@ -53,7 +53,7 @@ namespace Carbon.Data.Azure.Table
                 throw new NotSupportedException(string.Format("Fat repository supports only table entityt specification. Requested type was {0}", specification.GetType().FullName));
             }
             var q = CreateQuery();
-            q = (TableQuery<DynamicTableEntity>) tableSpec.Apply(q).Cast<DynamicTableEntity>();            
+            q = (TableQuery<DynamicTableEntity>) tableSpec.Apply(q).Cast<DynamicTableEntity>();
             return TransformResults(await GetOrCreateTable().ExecuteQueryAsync(q));
         }
 
@@ -88,7 +88,7 @@ namespace Carbon.Data.Azure.Table
         public override async Task InsertAsync(T entity)
         {
             var fatEntities = SliceObject(entity);
-            await ExecuteBatch(fatEntities, (operation, fatEntity) => operation.Insert(fatEntity.WrappedEntity), async: true);   
+            await ExecuteBatch(fatEntities, (operation, fatEntity) => operation.Insert(fatEntity.WrappedEntity), async: true);
         }
 
         public override void Update(T entity)
@@ -161,7 +161,7 @@ namespace Carbon.Data.Azure.Table
         }
 
         public static IEnumerable<FatEntity> SliceObject(T obj)
-        {            
+        {
             int count;
             int max;
             int total;
@@ -178,8 +178,8 @@ namespace Carbon.Data.Azure.Table
                 foreach (var fatEntity in SliceComplex(obj))
                 {
                     yield return fatEntity;
-                }                
-            }            
+                }
+            }
         }
 
         private static IEnumerable<FatEntity> SliceComplex(T obj)
@@ -195,7 +195,7 @@ namespace Carbon.Data.Azure.Table
                 {
                     if (fatEntity == null)
                     {
-                        fatEntity = new FatEntity(obj.PartitionKey, $"{obj.RowKey}_{entityIndex:D3}");                        
+                        fatEntity = new FatEntity(obj.PartitionKey, $"{obj.RowKey}_{entityIndex:D3}");
                         ++entityIndex;
                     }
                     var full = !fatEntity.Fill(buffer, ref index);
@@ -230,7 +230,7 @@ namespace Carbon.Data.Azure.Table
         {
             var result = new List<T>();
             string lastRowKey = null, lastPartitionKey = null;
-            var fatEntities = new List<DynamicTableEntity>();            
+            var fatEntities = new List<DynamicTableEntity>();
             foreach (var entity in entities)
             {
                 var lastUnderscore = entity.RowKey.LastIndexOf("_");
@@ -270,6 +270,6 @@ namespace Carbon.Data.Azure.Table
         private TableQuery<DynamicTableEntity> CreateQuery()
         {
             return GetOrCreateTable().CreateQuery<DynamicTableEntity>();
-        }        
+        }
     }
 }

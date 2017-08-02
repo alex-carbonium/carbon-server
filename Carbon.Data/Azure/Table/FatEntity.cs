@@ -10,7 +10,8 @@ namespace Carbon.Data.Azure.Table
     public class FatEntity
     {
         private const int EnvelopOverhead = 1500;
-        public const int MaxRowSize = 1024 * 1024 - EnvelopOverhead;
+        private const int SafetyBuffer = 50 * 1024;
+        public const int MaxRowSize = 1024 * 1024 - EnvelopOverhead - SafetyBuffer;
         public const int MaxProperties = 252;
         public const int MaxPropertySize = 64 * 1024;
         public const int MetataPropertySize = 4096;
@@ -22,12 +23,12 @@ namespace Carbon.Data.Azure.Table
         private int _spaceLeft;
         private int _filledProperties;
 
-        private StringBuilder _metaTable;      
+        private StringBuilder _metaTable;
         private MemoryStream _currentStream;
         private int _propertySpaceLeft;
 
         public FatEntity(string partionKey, string rowKey)
-        {            
+        {
             _entity = new DynamicTableEntity(partionKey, rowKey);
 
             _spaceLeft = MaxRowSize - MetataPropertySize;
@@ -35,19 +36,19 @@ namespace Carbon.Data.Azure.Table
             _payloadSize = EnvelopOverhead;
         }
 
-        public DynamicTableEntity WrappedEntity 
-        { 
+        public DynamicTableEntity WrappedEntity
+        {
             get { return _entity; }
         }
 
         public bool Fill(byte[] data, ref int position)
-        {            
+        {
             while (_spaceLeft > 0 && position < data.Length && _filledProperties < MaxProperties)
             {
                 if (_propertySpaceLeft <= 0)
                 {
                     Flush(false);
-                    
+
                     _currentStream = new MemoryStream(4096);
 
                     _propertySpaceLeft = GetAvailablePropertySize();
@@ -58,13 +59,13 @@ namespace Carbon.Data.Azure.Table
                 length = Math.Min(length, _spaceLeft);
 
                 if (length > 0)
-                {                    
+                {
                     _currentStream.Write(data, position, length);
 
                     if (position == 0)
                     {
                         WriteMetadata(data.Length);
-                    }                    
+                    }
 
                     position += length;
                     _payloadSize += length;
@@ -73,12 +74,12 @@ namespace Carbon.Data.Azure.Table
                 }
             }
 
-            var usable = _spaceLeft > 0 && _filledProperties < MaxProperties;            
+            var usable = _spaceLeft > 0 && _filledProperties < MaxProperties;
             return usable;
         }
 
         public void FillSimple(IEnumerable<string> strings)
-        {            
+        {
             _metaTable = new StringBuilder("T");
             foreach (var data in strings)
             {
@@ -128,8 +129,8 @@ namespace Carbon.Data.Azure.Table
         }
 
         public static bool CanUseSimpleFormat(int count, int max, int total)
-        {            
-            return count <= MaxProperties - 1 
+        {
+            return count <= MaxProperties - 1
                 && max * 4 <= MaxPropertySize - PropertyNameOverhead
                 && total * 4 <= MaxRowSize - MetataPropertySize;
         }
@@ -229,11 +230,11 @@ namespace Carbon.Data.Azure.Table
             {
                 var metadata = property.StringValue;
                 var lengths = metadata.Split(',').Skip(1).Select(int.Parse).ToList();
-                foreach (var length in lengths)           
+                foreach (var length in lengths)
                 {
                     queue.Enqueue(length);
                 }
-            }            
+            }
         }
 
         public static int GetAvailablePropertySize()
