@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Carbon.Test.Unit.Business
 {
     [TestClass]
-    public class CompanyStateTests 
+    public class CompanyStateTests
     {
         [TestMethod]
         public void AclsShouldBeUniquePerResource()
@@ -44,18 +44,18 @@ namespace Carbon.Test.Unit.Business
             var company = new Company();
             company.RootFolder = new ProjectFolder { Id = "1", Name = "2"};
             var acl = Acl.CreateForProject("guest", "p0", (int) Permission.Read);
-            company.AddOrReplaceAcl(acl);            
-            company.AddOrReplaceExternalAcl(ExternalAcl.Create(acl.Entry, company.Name, "1"));
+            company.AddOrReplaceAcl(acl);
+            company.AddOrReplaceExternalAcl(ExternalAcl.Create(acl.Entry, company.Name, "1", "ava.png"));
             company.AddOrReplaceUser(new User {Email = "d@c"});
 
             company.RootFolder.Projects.Add(new Project {Id = "p1", Name = "Project1"});
 
-            company = SaveRestore(company);            
+            company = SaveRestore(company);
 
-            Assert.AreEqual(1, company.Acls.Count);            
-            Assert.AreEqual(1, company.ExternalAcls.Count);            
-            Assert.AreEqual(1, company.Users.Count);            
-            Assert.AreEqual(1, company.RootFolder.Projects.Count);            
+            Assert.AreEqual(1, company.Acls.Count);
+            Assert.AreEqual(1, company.ExternalAcls.Count);
+            Assert.AreEqual(1, company.Users.Count);
+            Assert.AreEqual(1, company.RootFolder.Projects.Count);
 
             company.RootFolder.Projects.Add(new Project());
         }

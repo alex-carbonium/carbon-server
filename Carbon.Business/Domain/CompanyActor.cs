@@ -166,21 +166,21 @@ namespace Carbon.Business.Domain
             var acl = Acl.CreateForProject(toUserId, projectId, permission);
             company.AddOrReplaceAcl(acl);
 
-            var externalAcl = await SendExternalAcl(toUserId, projectId, company.Name, project.Name);
+            var externalAcl = await SendExternalAcl(toUserId, projectId, company.Name, project.Name, project.Avatar);
             await SaveCompany(company);
             return externalAcl;
         }
 
-        private async Task<ExternalAcl> SendExternalAcl(string userId, string projectId, string companyName, string projectName)
+        private async Task<ExternalAcl> SendExternalAcl(string userId, string projectId, string companyName, string projectName, string projectAvatar)
         {
             var reverseEntry = AclEntry.Create(CompanyId, ResourceType.Project, projectId);
-            var externalAcl = ExternalAcl.Create(reverseEntry, companyName, projectName);
+            var externalAcl = ExternalAcl.Create(reverseEntry, companyName, projectName, projectAvatar);
             var externalActor = ActorFabric.GetProxy<ICompanyActor>(userId);
             await externalActor.RegisterExternalAcl(externalAcl);
             return externalAcl;
         }
 
-        public async Task ChangeProjectName(string userId, string projectId, string newName)
+        public async Task ChangeProjectSettings(string userId, string projectId, ProjectSettings settings)
         {
             var company = await GetCompany();
             var project = FindProject(company, projectId);
@@ -192,11 +192,12 @@ namespace Carbon.Business.Domain
                 var externalAcls = company.Acls.Where(x => x.Entry.ResourceType == ResourceType.Project && x.Entry.ResourceId == projectId);
                 foreach (var acl in externalAcls)
                 {
-                    externalTasks.Add(SendExternalAcl(acl.Entry.Sid, projectId, company.Name, newName));
+                    externalTasks.Add(SendExternalAcl(acl.Entry.Sid, projectId, company.Name, settings.Name, settings.Avatar));
                 }
                 await Task.WhenAll(externalTasks);
 
-                project.Name = newName;
+                project.Name = settings.Name;
+                project.Avatar = settings.Avatar;
                 await SaveCompany(company);
             }
         }

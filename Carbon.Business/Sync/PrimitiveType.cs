@@ -14,7 +14,7 @@ namespace Carbon.Business.Sync
         Selection = 7,
         View = 8,
 
-        ProjectNameChange = 100,
+        ProjectSettingsChange = 100,
 
         Error = 0xFFFFFFF //for testing only
     }
@@ -32,7 +32,7 @@ namespace Carbon.Business.Sync
         {
             switch (type)
             {
-                case PrimitiveType.ProjectNameChange:
+                case PrimitiveType.ProjectSettingsChange:
                     return false;
                 default:
                     return true;
@@ -51,7 +51,7 @@ namespace Carbon.Business.Sync
                 case PrimitiveType.DataNodePatchProps:
                 case PrimitiveType.Selection:
                 case PrimitiveType.View:
-                case PrimitiveType.ProjectNameChange:
+                case PrimitiveType.ProjectSettingsChange:
                     return Permission.Write;
                 default:
                     return Permission.Owner;

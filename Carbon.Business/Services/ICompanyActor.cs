@@ -11,7 +11,7 @@ namespace Carbon.Business.Services
         Task<int> GetProjectPermission(string userId, string projectId);
         Task<List<ProjectFolder>> GetDashboard(string userId);
 
-        Task ChangeProjectName(string userId, string projectId, string newName);
+        Task ChangeProjectSettings(string userId, string projectId, ProjectSettings settings);
 
         Task<CompanyInfo> GetCompanyInfo();
         Task UpdateCompanyInfo(CompanyInfo info);

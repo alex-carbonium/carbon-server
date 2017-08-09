@@ -53,8 +53,8 @@ namespace Carbon.Business.Sync
                     primitive = new DataNodePatchPropsPrimitive();
                     break;
 
-                case PrimitiveType.ProjectNameChange:
-                    primitive = new ProjectNameChangePrimitive();
+                case PrimitiveType.ProjectSettingsChange:
+                    primitive = new ProjectSettingsChangePrimitive();
                     break;
 
                 case PrimitiveType.Error:

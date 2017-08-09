@@ -279,7 +279,7 @@
     <Compile Include="Sync\Handlers\NoOpPrimitiveHandler.cs" />
     <Compile Include="Sync\Handlers\PrimitiveHandler.cs" />
     <Compile Include="Sync\PrimitiveHandlerAttribute.cs" />
-    <Compile Include="Sync\ProjectNameChangePrimitive.cs" />
+    <Compile Include="Sync\ProjectSettingsChangePrimitive.cs" />
     <Compile Include="Sync\RawPrimitive.cs" />
     <Compile Include="Services\IJavaScriptEngine.cs" />
   </ItemGroup>

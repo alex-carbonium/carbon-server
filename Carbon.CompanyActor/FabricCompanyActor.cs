@@ -60,9 +60,9 @@ namespace Carbon.CompanyActor
             return Impl.ShareProject(userId, projectId, permission);
         }
 
-        public Task ChangeProjectName(string userId, string projectId, string newName)
+        public Task ChangeProjectSettings(string userId, string projectId, ProjectSettings settings)
         {
-            return Impl.ChangeProjectName(userId, projectId, newName);
+            return Impl.ChangeProjectSettings(userId, projectId, settings);
         }
 
         public Task UpdateCompanyInfo(CompanyInfo info)

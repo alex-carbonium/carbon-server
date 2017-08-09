@@ -1,14 +1,19 @@
+using Carbon.Business.Domain.DataTree;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Carbon.Business.Sync
 {
-    public class ProjectNameChangePrimitive : Primitive
+    public class ProjectSettingsChangePrimitive : Primitive
     {
-        public ProjectNameChangePrimitive() : base(PrimitiveType.ProjectNameChange)
-        {            
+        public ProjectSettingsChangePrimitive() : base(PrimitiveType.ProjectSettingsChange)
+        {
         }
 
-        public string NewName { get; set; }
+        public Dictionary<string, dynamic> Settings { get; set; }
+
+        public string Name => Settings["name"];
+        public string Avatar => Settings["avatar"];
 
         protected override bool ReadProperty(string property, JsonReader reader)
         {
@@ -16,9 +21,9 @@ namespace Carbon.Business.Sync
             {
                 return true;
             }
-            if (property == "newName")
+            if (property == "settings")
             {
-                NewName = ReadString(reader);
+                Settings = DataNode.ReadProps(reader);
                 return true;
             }
             return false;
@@ -29,7 +34,7 @@ namespace Carbon.Business.Sync
             base.WriteProperties(writer);
 
             writer.WritePropertyName("newName");
-            writer.WriteValue(NewName);
+            DataNode.WriteProps(writer, Settings);
         }
     }
 }

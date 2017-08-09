@@ -5,15 +5,19 @@ using Carbon.Framework.Util;
 
 namespace Carbon.Business.Sync.Handlers
 {
-    [PrimitiveHandler(PrimitiveType.ProjectNameChange)]
-    public class ProjectNameChangeHandler : PrimitiveHandler<ProjectNameChangePrimitive>
+    [PrimitiveHandler(PrimitiveType.ProjectSettingsChange)]
+    public class ProjectSettingsChangeHandler : PrimitiveHandler<ProjectSettingsChangePrimitive>
     {
-        public override void Apply(ProjectNameChangePrimitive primitive, ProjectModel projectModel, IDependencyContainer scope)
+        public override void Apply(ProjectSettingsChangePrimitive primitive, ProjectModel projectModel, IDependencyContainer scope)
         {
             var operation = scope.Resolve<OperationContext>();
             var actorFabric = scope.Resolve<IActorFabric>();
             var companyActor = actorFabric.GetProxy<ICompanyActor>(projectModel.CompanyId);
-            companyActor.ChangeProjectName(operation.UserId, projectModel.Id, primitive.NewName);
+            companyActor.ChangeProjectSettings(operation.UserId, projectModel.Id, new ProjectSettings
+            {
+                Name = primitive.Name,
+                Avatar = primitive.Avatar
+            });
         }
     }
 }
