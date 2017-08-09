@@ -56,8 +56,7 @@ namespace Carbon.Business.Services
 
             if (primitivesList.Count > 0)
             {
-                var context = new Lazy<PrimitiveContext>(() => PrimitiveContext.Create(scope));
-                PrimitiveHandler.ApplyImmediate(primitivesList, model, () => context.Value);
+                PrimitiveHandler.ApplyImmediate(primitivesList, model, scope);
 
                 model.Change = change;
                 var originalVersion = model.EditVersion;

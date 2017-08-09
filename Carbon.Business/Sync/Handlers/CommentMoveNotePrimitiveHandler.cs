@@ -1,16 +1,17 @@
 ﻿using System;
 using Carbon.Business.Domain;
 using Newtonsoft.Json.Linq;
+using Carbon.Framework.Util;
 
 namespace Carbon.Business.Sync.Handlers
 {
     //[PrimitiveHandler("comment_move_note")]
     class CommentMoveNotePrimitiveHandler : CommentBasePrimitiveHandler
     {
-        public override void Apply(Primitive primitive, ProjectModel projectModel, PrimitiveContext context)
+        public override void Apply(Primitive primitive, ProjectModel projectModel, IDependencyContainer scope)
         {
             //var commentId = Guid.Parse(json["id"].Value<string>("uid"));
-           
+
             //var data = json["data"];
             //var x = data.Value<int>("pageX");
             //var y = data.Value<int>("pageY");
@@ -24,7 +25,7 @@ namespace Carbon.Business.Sync.Handlers
             //comment.PageX = x;
             //comment.PageY = y;
 
-            //repository.Update(comment); 
+            //repository.Update(comment);
         }
     }
 }

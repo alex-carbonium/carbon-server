@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Carbon.Business.Domain;
+using Carbon.Framework.Util;
 
 namespace Carbon.Business.Sync.Handlers
-{    
+{
     public abstract class PrimitiveHandler
     {
         private static Dictionary<PrimitiveType, Type> _primitivesTypeMap;
@@ -14,11 +15,11 @@ namespace Carbon.Business.Sync.Handlers
         private static readonly ConcurrentDictionary<PrimitiveType, PrimitiveHandler> _primitivesInstanceMap =
             new ConcurrentDictionary<PrimitiveType, PrimitiveHandler>();
 
-        private static readonly object _syncRoot = new object();        
+        private static readonly object _syncRoot = new object();
 
         public static PrimitiveHandler GetHandler(Primitive primitive)
         {
-            EnsureTypeMap();            
+            EnsureTypeMap();
 
             return _primitivesInstanceMap.GetOrAdd(primitive.Type, t =>
             {
@@ -26,19 +27,18 @@ namespace Carbon.Business.Sync.Handlers
                 if (!_primitivesTypeMap.TryGetValue(t, out type))
                 {
                     return null;
-                }                
+                }
 
                 var handler = (PrimitiveHandler) Activator.CreateInstance(type);
                 _primitivesInstanceMap[t] = handler;
                 return handler;
             });
-        }                               
+        }
 
-        public static void ApplyImmediate(IEnumerable<RawPrimitive> primitives, ProjectModel model, Func<PrimitiveContext> contextFunc)
-        {            
-            PrimitiveContext context = null;
+        public static void ApplyImmediate(IEnumerable<RawPrimitive> primitives, ProjectModel model, IDependencyContainer scope)
+        {
             foreach (var raw in primitives)
-            {                                               
+            {
                 if (!raw.Type.IsDeferred())
                 {
                     var primitive = (Primitive) raw;
@@ -47,16 +47,12 @@ namespace Carbon.Business.Sync.Handlers
                     {
                         continue;
                     }
-                    if (context == null)
-                    {
-                        context = contextFunc();
-                    }                                        
-                    handler.Apply(primitive, model, context);
-                }                
-            }            
+                    handler.Apply(primitive, model, scope);
+                }
+            }
         }
 
-        public abstract void Apply(Primitive primitive, ProjectModel projectModel, PrimitiveContext context);
+        public abstract void Apply(Primitive primitive, ProjectModel projectModel, IDependencyContainer scope);
 
         private static void EnsureTypeMap()
         {
@@ -85,7 +81,7 @@ namespace Carbon.Business.Sync.Handlers
                     _primitivesTypeMap = map;
                 }
             }
-        }        
+        }
 
         public static Dictionary<PrimitiveType, Type> TypeMap
         {
@@ -100,11 +96,11 @@ namespace Carbon.Business.Sync.Handlers
     public abstract class PrimitiveHandler<T> : PrimitiveHandler
         where T : Primitive
     {
-        public sealed override void Apply(Primitive primitive, ProjectModel projectModel, PrimitiveContext context)
+        public sealed override void Apply(Primitive primitive, ProjectModel projectModel, IDependencyContainer scope)
         {
-            Apply((T)primitive, projectModel, context);
+            Apply((T)primitive, projectModel, scope);
         }
 
-        public abstract void Apply(T primitive, ProjectModel projectModel, PrimitiveContext context);
+        public abstract void Apply(T primitive, ProjectModel projectModel, IDependencyContainer scope);
     }
 }

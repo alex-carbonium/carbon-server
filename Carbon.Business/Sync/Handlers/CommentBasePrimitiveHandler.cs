@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Carbon.Business.Domain;
+using Carbon.Framework.Util;
 
 namespace Carbon.Business.Sync.Handlers
 {
@@ -11,7 +12,7 @@ namespace Carbon.Business.Sync.Handlers
         {
         }
 
-        protected Comment ChangeStatus(Comment comment, CommentStatus newStatus, PrimitiveContext context)
+        protected Comment ChangeStatus(Comment comment, CommentStatus newStatus, IDependencyContainer scope)
         {
             var project = comment.Project;
 
@@ -33,7 +34,7 @@ namespace Carbon.Business.Sync.Handlers
             return commentStatus;
         }
 
-        protected IEnumerable<User> FindEmailRecipients(Project project, Comment comment, List<Comment> thread, PrimitiveContext context)
+        protected IEnumerable<User> FindEmailRecipients(Project project, Comment comment, List<Comment> thread, IDependencyContainer scope)
         {
             var users = new List<Tuple<User, Permission>>();
             //var userService = context.Scope.Resolve<IUserService>();
@@ -66,7 +67,7 @@ namespace Carbon.Business.Sync.Handlers
             return users.Select(x => x.Item1);
         }
 
-        protected void SendEmail(string action, Comment comment, string pageName, Uri host, PrimitiveContext context)
+        protected void SendEmail(string action, Comment comment, string pageName, Uri host, IDependencyContainer scope)
         {
             //Comment parentComment;
             //if (comment.ParentUid == Guid.Empty)

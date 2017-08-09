@@ -96,7 +96,7 @@ namespace Carbon.Business.Domain
             var project = new Project
             {
                 Id = projectId.ToString(),
-                Name = "My awesome app"
+                Name = "My carbon design"
             };
 
             if (folderAcls != null)

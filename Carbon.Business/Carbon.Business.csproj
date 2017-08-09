@@ -277,7 +277,6 @@
     <Compile Include="Sync\PrimitiveType.cs" />
     <Compile Include="Sync\PrimitiveVisitor.cs" />
     <Compile Include="Sync\Handlers\NoOpPrimitiveHandler.cs" />
-    <Compile Include="Sync\PrimitiveContext.cs" />
     <Compile Include="Sync\Handlers\PrimitiveHandler.cs" />
     <Compile Include="Sync\PrimitiveHandlerAttribute.cs" />
     <Compile Include="Sync\ProjectNameChangePrimitive.cs" />

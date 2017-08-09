@@ -1,7 +1,7 @@
 using Carbon.Business.Domain;
 
 namespace Carbon.Business.Sync
-{    
+{
     public enum PrimitiveType
     {
         None = 0,
@@ -14,7 +14,7 @@ namespace Carbon.Business.Sync
         Selection = 7,
         View = 8,
 
-        ProjectNameChange = 10,
+        ProjectNameChange = 100,
 
         Error = 0xFFFFFFF //for testing only
     }
@@ -51,6 +51,7 @@ namespace Carbon.Business.Sync
                 case PrimitiveType.DataNodePatchProps:
                 case PrimitiveType.Selection:
                 case PrimitiveType.View:
+                case PrimitiveType.ProjectNameChange:
                     return Permission.Write;
                 default:
                     return Permission.Owner;

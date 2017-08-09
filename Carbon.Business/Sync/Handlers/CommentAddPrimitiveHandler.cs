@@ -2,6 +2,7 @@
 using System.Linq;
 using Carbon.Business.Domain;
 using Newtonsoft.Json.Linq;
+using Carbon.Framework.Util;
 
 namespace Carbon.Business.Sync.Handlers
 {
@@ -24,7 +25,7 @@ namespace Carbon.Business.Sync.Handlers
     //[PrimitiveHandler("comment_add")]
     class CommentAddPrimitiveHandler : CommentBasePrimitiveHandler
     {
-        public override void Apply(Primitive primitive, ProjectModel projectModel, PrimitiveContext context)
+        public override void Apply(Primitive primitive, ProjectModel projectModel, IDependencyContainer scope)
         {
             //var idString = json["id"].Value<string>("uid");
             //var data = json["data"];
@@ -87,7 +88,7 @@ namespace Carbon.Business.Sync.Handlers
             //                uid = parentComment.Uid,
             //            },
             //            data = new
-            //            {                            
+            //            {
             //                status = CommentStatus.Opened
             //            }
             //        };
@@ -109,9 +110,9 @@ namespace Carbon.Business.Sync.Handlers
             //    PageY = noteY,
             //    Number = number
             //};
-                
+
             //repository.Insert(comment);
-            
+
             //json["id"]["newId"] = true;
             //data["number"] = number;
             //data["date"] = comment.DateTime;
@@ -125,7 +126,7 @@ namespace Carbon.Business.Sync.Handlers
             //    {
             //        context.AddExtraPrimitive(primitive);
             //    }
-            //}            
-        }   
+            //}
+        }
     }
 }
