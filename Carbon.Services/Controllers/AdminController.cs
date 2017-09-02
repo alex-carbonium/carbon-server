@@ -18,6 +18,8 @@ using System.Text;
 using System.IO.Compression;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Carbon.Business.Sync;
+using Carbon.Business.Domain.DataTree;
 
 namespace Carbon.Services.Controllers
 {
@@ -30,14 +32,23 @@ namespace Carbon.Services.Controllers
         private readonly ProjectModelService _projectModelService;
         private readonly IRepository<ProjectLog> _projectLogRepository;
         private readonly IRepository<ProjectState> _projectStateRepository;
+        private readonly IRepository<ProjectModel> _projectModelRepository;
+        private readonly IRepository<ProjectSnapshot> _snapshotRepository;
+        private readonly IActorFabric _actorFabric;
 
         public AdminController(ProjectModelService projectModelService,
             IRepository<ProjectLog> projectLogRepository,
-            IRepository<ProjectState> projectStateRepository)
+            IRepository<ProjectModel> projectModelRepository,
+            IRepository<ProjectSnapshot> snapshotRepository,
+            IRepository<ProjectState> projectStateRepository,
+            IActorFabric actorFabric)
         {
-            _projectModelService = projectModelService;
             _projectLogRepository = projectLogRepository;
             _projectStateRepository = projectStateRepository;
+            _projectModelService = projectModelService;
+            _projectModelRepository = projectModelRepository;
+            _snapshotRepository = snapshotRepository;
+            _actorFabric = actorFabric;
         }
 
         [Route("projectModel")]
@@ -112,6 +123,33 @@ namespace Carbon.Services.Controllers
 
             var zipStream = new FileStream(zipFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.DeleteOnClose);
             return ZippedContent(new StreamContent(zipStream), Path.GetFileName(zipFile));
+        }
+
+        [Route("projectFromJson"), HttpPost]
+        public async Task<IHttpActionResult> CreateProjectFromJson()
+        {
+            var multipart = await Request.Content.ReadAsMultipartAsync();
+            if (multipart.Contents.Count != 1)
+            {
+                return BadRequest("Single file expected");
+            }
+
+            var userId = GetUserId();
+            var file = await multipart.Contents[0].ReadAsStringAsync();
+            var model = await _projectModelService.CreateProjectAndModel(userId, userId);
+            var latestSnapshot = await _snapshotRepository.FindByIdAsync(ProjectSnapshot.LatestId(model.CompanyId, model.Id));
+
+            var id = model.Id;
+            model.Read(file);
+            model.Id = id;
+
+            using (var stream = model.ToStream())
+            {
+                latestSnapshot.ContentStream = stream;
+                await _snapshotRepository.UpdateAsync(latestSnapshot);
+            }
+
+            return Ok(new { id });
         }
     }
 }

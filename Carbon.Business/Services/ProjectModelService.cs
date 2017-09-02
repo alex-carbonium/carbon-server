@@ -76,7 +76,7 @@ namespace Carbon.Business.Services
             return model;
         }
 
-        private async Task<ProjectModel> CreateProjectAndModel(string userId, string companyId)
+        public async Task<ProjectModel> CreateProjectAndModel(string userId, string companyId)
         {
             var companyActor = _actorFabric.GetProxy<ICompanyActor>(companyId);
             var project = await companyActor.CreateProject(userId, folderId: null);

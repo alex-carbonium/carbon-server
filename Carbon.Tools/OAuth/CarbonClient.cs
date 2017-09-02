@@ -2,6 +2,7 @@
 using IdentityModel.Client;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace Carbon.Tools.OAuth
         {
             _cache = new TokenCache();
             _host = host;
+        }
+
+        public async Task<HttpResponseMessage> CreateProjectFromJsonAsync(string file)
+        {
+            return await PostFileAsync($"/api/admin/projectFromJson", file);
         }
 
         public async Task<HttpResponseMessage> GetProjectLogAsync(string companyId, string modelId)
@@ -35,6 +41,18 @@ namespace Carbon.Tools.OAuth
             {
                 var message = new HttpRequestMessage(HttpMethod.Post, new Uri(uri, UriKind.Relative));
                 message.Content = new StringContent(JsonConvert.SerializeObject(data));
+                return message;
+            });
+        }
+
+        private async Task<HttpResponseMessage> PostFileAsync(string uri, string file)
+        {
+            return await SendAsync(() =>
+            {
+                var message = new HttpRequestMessage(HttpMethod.Post, new Uri(uri, UriKind.Relative));
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(File.OpenRead(file)));
+                message.Content = content;
                 return message;
             });
         }

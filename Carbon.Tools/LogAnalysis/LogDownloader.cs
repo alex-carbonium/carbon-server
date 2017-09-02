@@ -9,16 +9,13 @@ namespace Carbon.Tools.LogAnalysis
     public class LogDownloader
     {
         [Verb("downloadLog")]
-        public class Options
+        public class Options : BaseOptions
         {
             [Option('c', "companyId", Required = true)]
             public string CompanyId { get; set; }
 
             [Option('m', "modelId", Required = true)]
             public string ModelId { get; set; }
-
-            [Option('h', "host", Default = "http://dev.carbonium.io")]
-            public string Host { get; set; }
 
             [Option('t', "targetFolder", Default = ".")]
             public string TargetFolder { get; set; }

@@ -144,6 +144,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Admin\CreateProjectFromJson.cs" />
+    <Compile Include="BaseOptions.cs" />
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="LogAnalysis\LogDownloader.cs" />
     <Compile Include="LogAnalysis\LogPlayer.cs" />
