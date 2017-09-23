@@ -1,5 +1,6 @@
 ﻿using Carbon.Tools.OAuth;
 using CommandLine;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Carbon.Tools.Admin
@@ -18,7 +19,7 @@ namespace Carbon.Tools.Admin
             var client = new CarbonClient(options.Host);
             using (var response = await client.CreateProjectFromJsonAsync(options.File))
             {
-                System.Console.WriteLine(response.StatusCode);
+                System.Console.WriteLine(await response.Content.ReadAsStringAsync());
             }
         }
     }
