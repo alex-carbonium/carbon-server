@@ -18,24 +18,68 @@ namespace Carbon.Services.Controllers
             { 1, PredefinedRoles.Comment },
             { 2, PredefinedRoles.Edit }
         };
+        private static readonly Dictionary<Permission, int> _permissionMap = new Dictionary<Permission, int>();
 
         private readonly SharingService _sharingService;
+
+        static ShareController()
+        {
+            foreach (var kv in _roleMap)
+            {
+                _permissionMap.Add(kv.Value, kv.Key);
+            }
+        }
 
         public ShareController(SharingService sharingService)
         {
             _sharingService = sharingService;
         }
 
-        [HttpGet, Route("code")]
-        public async Task<IHttpActionResult> GetShareCode(string companyId, string projectId, int role)
+        [HttpGet, Route("codes")]
+        public async Task<IHttpActionResult> GetShareCodes(string companyId, string projectId)
+        {
+            var codes = await _sharingService.GetShareCodes(GetUserId(), companyId, projectId);
+            return Ok(new
+            {
+                Codes = codes.Select(x => new
+                {
+                    Code = x.Id,
+                    Role = _permissionMap[(Permission)x.Permission]
+                })
+            });
+        }
+
+        [HttpDelete, Route("codes")]
+        public async Task<IHttpActionResult> DeleteShareCodes(string companyId, string projectId)
+        {
+            var codes = await _sharingService.GetShareCodes(GetUserId(), companyId, projectId);
+            return Ok(new
+            {
+                Codes = codes.Select(x => new
+                {
+                    Code = x.Id,
+                    Role = _permissionMap[(Permission)x.Permission]
+                })
+            });
+        }
+
+        [HttpPost, Route("code")]
+        public async Task<IHttpActionResult> AddShareCode(string companyId, string projectId, int role)
         {
             Permission permission;
             if (!_roleMap.TryGetValue(role, out permission))
             {
                 return BadRequest();
             }
-            var token = await _sharingService.Invite(GetUserId(), companyId, projectId, permission);
+            var token = await _sharingService.AddShareCode(GetUserId(), companyId, projectId, permission);
             return Ok(new { Code = token.RowKey });
+        }
+
+        [HttpDelete, Route("code")]
+        public async Task<IHttpActionResult> DeleteShareCode(string companyId, string projectId, string code)
+        {
+            await _sharingService.RemoveShareCode(GetUserId(), companyId, projectId, code);
+            return Success();
         }
 
         [HttpGet, Route("mirrorCode")]
@@ -52,17 +96,17 @@ namespace Carbon.Services.Controllers
             return Ok(new { });
         }
 
-        [HttpPost, Route("invite")]
-        public async Task<IHttpActionResult> Invite(string companyId, string projectId, string email, int role)
-        {
-            Permission permission;
-            if (!_roleMap.TryGetValue(role, out permission))
-            {
-                return BadRequest();
-            }
-            await _sharingService.Invite(GetUserId(), companyId, projectId, permission, email);
-            return Ok();
-        }
+        //[HttpPost, Route("invite")]
+        //public async Task<IHttpActionResult> Invite(string companyId, string projectId, string email, int role)
+        //{
+        //    Permission permission;
+        //    if (!_roleMap.TryGetValue(role, out permission))
+        //    {
+        //        return BadRequest();
+        //    }
+        //    await _sharingService.AddShareCode(GetUserId(), companyId, projectId, permission, email);
+        //    return Ok();
+        //}
 
         [HttpPost, Route("use")]
         public async Task<IHttpActionResult> Use(string code)

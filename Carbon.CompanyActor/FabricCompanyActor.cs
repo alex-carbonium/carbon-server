@@ -7,6 +7,7 @@ using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Carbon.Framework.Logging;
 using Carbon.Fabric.Common.Logging;
+using System;
 
 namespace Carbon.CompanyActor
 {
@@ -123,6 +124,26 @@ namespace Carbon.CompanyActor
         public Task UpdateExternalResourceName(string companyName, ResourceType resourceType, string oldName, string newName)
         {
             return Impl.UpdateExternalResourceName(companyName, resourceType, oldName, newName);
+        }
+
+        public Task<IEnumerable<ProjectShareCode>> GetProjectShareCodes(string userId, string projectId)
+        {
+            return Impl.GetProjectShareCodes(userId, projectId);
+        }
+
+        public Task AddProjectShareCode(string userId, string projectId, ProjectShareCode code)
+        {
+            return Impl.AddProjectShareCode(userId, projectId, code);
+        }
+
+        public Task RemoveProjectShareCode(string userId, string projectId, string codeId)
+        {
+            return Impl.RemoveProjectShareCode(userId, projectId, codeId);
+        }
+
+        public Task RemoveProjectShareCodes(string userId, string projectId)
+        {
+            return Impl.RemoveProjectShareCodes(userId, projectId);
         }
     }
 }

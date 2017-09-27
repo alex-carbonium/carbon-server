@@ -28,6 +28,11 @@ namespace Carbon.Business.Services
         Task<string> GetProjectMirrorCode(string userId, string projectId);
         Task<string> SetProjectMirrorCode(string userId, string projectId, string code);
 
+        Task<IEnumerable<ProjectShareCode>> GetProjectShareCodes(string userId, string projectId);
+        Task AddProjectShareCode(string userId, string projectId, ProjectShareCode code);
+        Task RemoveProjectShareCode(string userId, string projectId, string codeId);
+        Task RemoveProjectShareCodes(string userId, string projectId);
+
         Task<List<CompanyFileInfo>> GetFiles(string userId);
         Task<CompanyFileInfo> GetFile(string userId, string name);
         Task RegisterFile(string userId, CompanyFileInfo file);

@@ -18,7 +18,7 @@ namespace Carbon.Owin.Common.WebApi
             config.EnableCors(new EnableCorsAttribute(
                 AllowedOrigins.AllAsList,
                 "*",//"Content-Type,X-Requested-With,Authorization,X-SessionId,Cache-Control,Origin",
-                "POST,GET,OPTIONS"));
+                "POST,GET,PUT,DELETE,OPTIONS"));
 
             // Web API configuration and services
             config.Formatters.Remove(config.Formatters.XmlFormatter);

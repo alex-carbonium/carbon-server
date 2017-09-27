@@ -13,14 +13,14 @@ namespace Carbon.Owin.Common.WebApi
     {
         public static void RegisterSwagger(this HttpConfiguration config, Assembly routesAssembly, string basePath)
         {
-#if DEBUG                                    
+#if DEBUG
             var swaggerConfig = config.EnableSwagger(c =>
             {
                 // By default, the service root url is inferred from the request used to access the docs.
                 // However, there may be situations (e.g. proxy and load-balanced environments) where this does not
                 // resolve correctly. You can workaround this by providing your own code to determine the root URL.
-                //                    
-                c.RootUrl(req => SwaggerDocsConfig.DefaultRootUrlResolver(req) + basePath);                
+                //
+                c.RootUrl(req => SwaggerDocsConfig.DefaultRootUrlResolver(req) + basePath);
 
                 // If schemes are not explicitly provided in a Swagger 2.0 document, then the scheme used to access
                 // the docs is taken as the default. If your API supports multiple schemes and you want to be explicit
@@ -62,15 +62,15 @@ namespace Carbon.Owin.Common.WebApi
                 //    .Name("apiKey")
                 //    .In("header");
                 //
+
                 //c.OAuth2("oauth2")
                 //    .Description("OAuth2 Implicit Grant")
                 //    .Flow("implicit")
-                //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
-                //    //.TokenUrl("https://tempuri.org/token")
+                //    //.AuthorizationUrl("")
+                //    .TokenUrl("http://localhost:9000/idsrv/connect/token")
                 //    .Scopes(scopes =>
                 //    {
-                //        scopes.Add("read", "Read access to protected resources");
-                //        scopes.Add("write", "Write access to protected resources");
+                //        scopes.Add("account", "Account scope");
                 //    });
 
                 c.OperationFilter(() => new RouteOperationIdFilter(routesAssembly));
@@ -111,7 +111,7 @@ namespace Carbon.Owin.Common.WebApi
                     //c.SchemaFilter<ApplySchemaVendorExtensions>();
 
                     // Set this flag to omit schema property descriptions for any type properties decorated with the
-                    // Obsolete attribute 
+                    // Obsolete attribute
                     //c.IgnoreObsoleteProperties();
 
                     // In a Swagger 2.0 document, complex types are typically declared globally and referenced by unique
@@ -126,7 +126,7 @@ namespace Carbon.Owin.Common.WebApi
                     // You can change the serializer behavior by configuring the StringToEnumConverter globally or for a given
                     // enum type. Swashbuckle will honor this change out-of-the-box. However, if you use a different
                     // approach to serialize enums as strings, you can also force Swashbuckle to describe them as strings.
-                    // 
+                    //
                     //c.DescribeAllEnumsAsStrings();
 
                     // Similar to Schema filters, Swashbuckle also supports Operation and Document filters:
@@ -144,7 +144,7 @@ namespace Carbon.Owin.Common.WebApi
                     //
                     // Set filter to eliminate duplicate operation ids from being generated
                     // when there are multiple operations with the same verb in the API.
-                    //                    
+                    //
 
                     // Post-modify the entire Swagger document by wiring up one or more Document filters.
                     // This gives full control to modify the final SwaggerDocument. You should have a good understanding of
@@ -163,7 +163,7 @@ namespace Carbon.Owin.Common.WebApi
                     // In contrast to WebApi, Swagger 2.0 does not include the query string component when mapping a URL
                     // to an action. As a result, Swashbuckle will raise an exception if it encounters multiple actions
                     // with the same path (sans query string) and HTTP method. You can workaround this by providing a
-                    // custom strategy to pick a winner or merge the descriptions for the purposes of the Swagger docs 
+                    // custom strategy to pick a winner or merge the descriptions for the purposes of the Swagger docs
                     //
                     //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                     // ***** Uncomment the following to enable the swagger UI *****
@@ -214,13 +214,13 @@ namespace Carbon.Owin.Common.WebApi
                     // If your API supports the OAuth2 Implicit flow, and you've described it correctly, according to
                     // the Swagger 2.0 specification, you can enable UI support as shown below.
                     //
-                    //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");                    
+                    //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");
                     c.DocumentFilter(() => new DocumentFilter());
                 });
             swaggerConfig.EnableSwaggerUi();
 #endif
         }
-    }       
+    }
 
     internal class RouteOperationIdFilter : IOperationFilter
     {
@@ -239,8 +239,15 @@ namespace Carbon.Owin.Common.WebApi
                 operation.deprecated = true;
                 return;
             }
-            var controller = operation.tags[0].ToCamelCase();            
+            var controller = operation.tags[0].ToCamelCase();
             operation.operationId = apiDescription.Route.RouteTemplate.Replace(controller + "/", string.Empty);
+
+            var fileResponse = apiDescription.ActionDescriptor.GetCustomAttributes<FileResponseAttribute>().SingleOrDefault();
+            if (fileResponse != null)
+            {
+                operation.produces = new List<string> { fileResponse.MimeType };
+                operation.responses["200"].schema = new Schema { type = "file" };
+            }
 
             if (operation.parameters != null)
             {
@@ -249,7 +256,7 @@ namespace Carbon.Owin.Common.WebApi
                     var p = apiDescription.ParameterDescriptions.Single(x => x.Name == parameter.name);
                     parameter.@default = p.ParameterDescriptor.DefaultValue;
                 }
-            }            
+            }
         }
     }
 
