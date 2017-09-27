@@ -290,6 +290,11 @@ namespace Carbon.Business.Domain
         public async Task<string> ResolveExternalCompanyId(string companyName)
         {
             var company = await GetCompany();
+            if(string.Compare(company.Name, companyName, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                return company.Id;
+            }
+
             return company.ExternalAcls
                 .SingleOrDefault(x => x.CompanyName == companyName)
                 ?.Entry.Sid;

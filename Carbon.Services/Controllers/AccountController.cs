@@ -107,7 +107,7 @@ namespace Carbon.Services.Controllers
         [HttpPost, Route("resolveCompanyId")]
         public async Task<IHttpActionResult> ResolveCompanyId(string companyName)
         {
-            var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
+            var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());           
             var companyId = await actor.ResolveExternalCompanyId(companyName);
             return Ok(new { CompanyId = companyId });
         }
