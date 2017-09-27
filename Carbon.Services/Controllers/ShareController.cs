@@ -52,15 +52,8 @@ namespace Carbon.Services.Controllers
         [HttpDelete, Route("codes")]
         public async Task<IHttpActionResult> DeleteShareCodes(string companyId, string projectId)
         {
-            var codes = await _sharingService.GetShareCodes(GetUserId(), companyId, projectId);
-            return Ok(new
-            {
-                Codes = codes.Select(x => new
-                {
-                    Code = x.Id,
-                    Role = _permissionMap[(Permission)x.Permission]
-                })
-            });
+            await _sharingService.RemoveShareCodes(GetUserId(), companyId, projectId);
+            return Success();
         }
 
         [HttpPost, Route("code")]
