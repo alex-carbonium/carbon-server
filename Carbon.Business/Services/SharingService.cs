@@ -35,16 +35,61 @@ namespace Carbon.Business.Services
             _privatePageRepository = privatePageRepository;
         }
 
-        public async Task<ShareToken> Invite(string userId, string companyId, string projectId, Permission permission, string email = null)
+        public async Task<IEnumerable<ProjectShareCode>> GetShareCodes(string userId, string companyId, string projectId)
+        {
+            var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+            return await actor.GetProjectShareCodes(userId, projectId);
+        }
+
+        public async Task<ShareToken> AddShareCode(string userId, string companyId, string projectId, Permission permission, string email = null)
         {
             var token = await GenerateShareToken(companyId, userId, projectId, permission, email);
             var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+
+            await actor.AddProjectShareCode(userId, projectId, new ProjectShareCode { Id = token.PartitionKey, Permission = (int)permission });
+
             if (!string.IsNullOrEmpty(email))
             {
                 await actor.RegisterKnownEmail(userId, email);
                 //TODO: send mail
             }
             return token;
+        }
+
+        public async Task RemoveShareCode(string userId, string companyId, string projectId, string code)
+        {
+            var token = await _shareTokenRepository.FindSingleByAsync(new FindByRowKey<ShareToken>(code, code));
+            if (token != null)
+            {
+                await _shareTokenRepository.DeleteAsync(token);
+            }
+
+            var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+            await actor.RemoveProjectShareCode(userId, projectId, code);
+        }
+
+        public async Task RemoveShareCodes(string userId, string companyId, string projectId)
+        {
+            var codes = await GetShareCodes(userId, companyId, projectId);
+            var tasks = new List<Task>();
+            foreach (var code in codes)
+            {
+                var spec = new FindByRowKey<ShareToken>(code.Id, code.Id);
+                tasks.Add(_shareTokenRepository.FindSingleByAsync(spec)
+                    .ContinueWith(tokenTask =>
+                    {
+                        if (tokenTask.Result != null)
+                        {
+                            return _shareTokenRepository.DeleteAsync(tokenTask.Result);
+                        }
+                        return tokenTask;
+                    }));
+            }
+
+            await Task.WhenAll(tasks);
+
+            var actor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+            await actor.RemoveProjectShareCodes(userId, projectId);
         }
 
         private async Task<ShareToken> GenerateShareToken(string companyId, string userId, string projectId, Permission permission, string email = null)
@@ -371,7 +416,7 @@ namespace Carbon.Business.Services
         {
             // TODO: fix this perf issue
             return (await _publicPageRepository.FindAllAsync())
-                .ToList().AsQueryable().FirstOrDefault(p => p.GalleryId == id);                
+                .ToList().AsQueryable().FirstOrDefault(p => p.GalleryId == id);
         }
     }
 }

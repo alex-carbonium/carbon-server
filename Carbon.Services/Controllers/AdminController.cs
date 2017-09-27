@@ -70,7 +70,7 @@ namespace Carbon.Services.Controllers
             return response;
         }
 
-        [Route("projectLog")]
+        [Route("projectLog"), FileResponse("application/zip")]
         public async Task<HttpResponseMessage> GetProjectLog(string companyId, string modelId)
         {
             var partitionKey = ProjectLog.GeneratePartitionKey(companyId, modelId);
@@ -82,7 +82,10 @@ namespace Carbon.Services.Controllers
             var dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(dir);
 
-            var zipFile = Path.Combine(Path.GetTempPath(), $"log_{companyId}_{modelId}.zip");
+            var resultDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(resultDir);
+
+            var zipFile = Path.Combine(resultDir,  $"log_{companyId}_{modelId}.zip");
             try
             {
                 foreach (var entry in log)

@@ -341,6 +341,48 @@ namespace Carbon.Business.Domain
             return oldCode;
         }
 
+        public async Task<IEnumerable<ProjectShareCode>> GetProjectShareCodes(string userId, string projectId)
+        {
+            var company = await GetCompany();
+            var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
+            return project.ShareCodes;
+        }
+
+        public async Task AddProjectShareCode(string userId, string projectId, ProjectShareCode code)
+        {
+            var company = await GetCompany();
+            var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
+
+            project.AddOrReplaceShareCode(code);
+            await SaveCompany(company);
+        }
+
+        public async Task RemoveProjectShareCode(string userId, string projectId, string codeId)
+        {
+            var company = await GetCompany();
+            var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
+
+            var code = project.ShareCodes.SingleOrDefault(x => x.Id == codeId);
+            if (code != null)
+            {
+                project.ShareCodes.Remove(code);
+            }
+            await SaveCompany(company);
+        }
+
+        public async Task RemoveProjectShareCodes(string userId, string projectId)
+        {
+            var company = await GetCompany();
+            var project = FindProject(company, projectId);
+            ValidateProjectPermission(company, project, userId, Permission.Write);
+
+            project.ShareCodes.Clear();
+            await SaveCompany(company);
+        }
+
         public async Task<List<CompanyFileInfo>> GetFiles(string userId)
         {
             var company = await GetCompany();
@@ -411,7 +453,7 @@ namespace Carbon.Business.Domain
             var acl = company.Acls.SingleOrDefault(x => x.Entry.ResourceType == ResourceType.Project
                                                      && x.Entry.Sid == userId
                                                      && x.Entry.ResourceId == project.Id);
-            if (acl?.Allows(requested) == false)
+            if (acl == null || !acl.Allows(requested))
             {
                 throw new InsufficientPermissionsException(requested);
             }
