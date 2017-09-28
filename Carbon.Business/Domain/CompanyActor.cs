@@ -22,6 +22,9 @@ namespace Carbon.Business.Domain
             Folder
         }
 
+        // use it to return to the dashboard, if there is not deleted projects
+        private static readonly ProjectFolder TrashPlaceholder = new ProjectFolder { Id = "deleted" };
+
         public IActorStateManager StateManager { get; }
         public IActorFabric ActorFabric { get; }
         public string CompanyId { get; }
@@ -38,7 +41,7 @@ namespace Carbon.Business.Domain
             var company = new Company
             {
                 Id = CompanyId,
-                RootFolder = new ProjectFolder { Id = "my" }
+                RootFolder = new ProjectFolder { Id = "my" }                
             };
             company.AddOrReplaceUser(new User { Id = company.Id });
 
@@ -69,6 +72,32 @@ namespace Carbon.Business.Domain
             }
 
             return company;
+        }
+
+        public async Task DeleteProject(string projectId)
+        {
+            var company = await GetCompany();
+            var project = company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
+            if (project != null) {
+                company.RootFolder.Projects.Remove(project);
+                if(company.DeletedFolder == null)
+                {
+                    company.DeletedFolder = new ProjectFolder { Id = "deleted" };                    
+                }
+
+                company.DeletedFolder.Projects.Add(project);
+
+                await this.SaveCompany(company);
+            }
+            else if(company.DeletedFolder != null)
+            {
+                project = company.DeletedFolder.Projects.SingleOrDefault(x => x.Id == projectId);
+                if (project != null)
+                {
+                    company.DeletedFolder.Projects.Remove(project);
+                    await this.SaveCompany(company);
+                }
+            }
         }
 
         public async Task<Project> CreateProject(string userId, string folderId)
@@ -137,7 +166,7 @@ namespace Carbon.Business.Domain
             var sharedFolder = new ProjectFolder
             {
                 Id = "shared"
-            };
+            };            
 
             foreach (var acl in company.ExternalAcls.Where(x => x.Entry.ResourceType == ResourceType.Project))
             {
@@ -151,7 +180,9 @@ namespace Carbon.Business.Domain
                 sharedFolder.Projects.Add(project);
             }
 
-            return new List<ProjectFolder> {company.RootFolder, sharedFolder};
+            var deletedFolder = company.DeletedFolder ?? TrashPlaceholder;
+
+            return new List<ProjectFolder> {company.RootFolder, sharedFolder, deletedFolder};
         }
 
         public async Task<ExternalAcl> ShareProject(string toUserId, string projectId, int permission)

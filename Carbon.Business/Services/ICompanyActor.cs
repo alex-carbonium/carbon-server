@@ -16,7 +16,7 @@ namespace Carbon.Business.Services
         Task<CompanyInfo> GetCompanyInfo();
         Task UpdateCompanyInfo(CompanyInfo info);
         Task UpdateOwnerInfo(UserInfo info);
-
+        Task DeleteProject(string projectId);
         Task<ExternalAcl> ShareProject(string toUserId, string projectId, int permission);
 
         Task RegisterKnownEmail(string userId, string email);

@@ -45,6 +45,10 @@ namespace Carbon.CompanyActor
         {
             return Impl.GetDashboard(userId);
         }
+        public Task DeleteProject(string projectId)
+        {
+            return Impl.DeleteProject(projectId);
+        }
 
         public Task<CompanyInfo> GetCompanyInfo()
         {

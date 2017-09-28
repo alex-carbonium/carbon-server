@@ -24,6 +24,7 @@ namespace Carbon.Business.Domain
         public string Name { get; set; }
         public string Logo { get; set; }
         public ProjectFolder RootFolder { get; set; }
+        public ProjectFolder DeletedFolder { get; set; }
         //public string WebsiteUrl { get; set; }
 
         public ICollection<User> Users => _users;

@@ -18,9 +18,16 @@ namespace Carbon.Services.Controllers
 
         [Route("")]
         public async Task<IHttpActionResult> Get(string companyId)
-        {
+        {          
             var dashboard = await GetActor(companyId).GetDashboard(GetUserId());
             return Ok(new { Folders = dashboard });
+        }
+
+        [Route("deleteproject"), HttpGet]
+        public async Task<IHttpActionResult> DeleteProject(string companyId, string projectId)
+        {            
+            await GetActor(companyId).DeleteProject(projectId);
+            return Ok(new { });
         }
 
         private ICompanyActor GetActor(string companyId)
