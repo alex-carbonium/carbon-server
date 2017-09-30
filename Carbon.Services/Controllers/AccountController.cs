@@ -113,6 +113,15 @@ namespace Carbon.Services.Controllers
             return Ok(new { CompanyId = companyId });
         }
 
+        [HttpGet, Route("recentProjects")]
+        public async Task<IHttpActionResult> GetRecentProjects()
+        {
+            var actor = _actorFabric.GetProxy<ICompanyActor>(GetUserId());
+            var companyInfo = await actor.GetCompanyInfo();
+            var projects = await actor.GetRecentProjects();
+            return Ok(new { Projects=projects.Select(p=>new {projectName=p.Name, projectId = p.Id, companyId = GetUserId(), companyName = companyInfo.Name}) });
+        }
+
         [HttpGet, Route("getCompanyName")]
         public async Task<IHttpActionResult> GetCompanyName()
         {

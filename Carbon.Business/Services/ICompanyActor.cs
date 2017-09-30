@@ -37,5 +37,8 @@ namespace Carbon.Business.Services
         Task<CompanyFileInfo> GetFile(string userId, string name);
         Task RegisterFile(string userId, CompanyFileInfo file);
         Task DeleteFile(string userId, string name);
+
+        Task UpdatedRecentRef(string projectId);
+        Task<List<Project>> GetRecentProjects();
     }
 }

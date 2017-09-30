@@ -25,6 +25,9 @@ namespace Carbon.Business.Domain
         public string Logo { get; set; }
         public ProjectFolder RootFolder { get; set; }
         public ProjectFolder DeletedFolder { get; set; }
+
+        private const int RecentCount = 3;
+        public string[] RecentProjects { get; set; }
         //public string WebsiteUrl { get; set; }
 
         public ICollection<User> Users => _users;
@@ -101,6 +104,63 @@ namespace Carbon.Business.Domain
         public User GetOwner()
         {
             return _users.SingleOrDefault(x => x.Id == Id);
+        }
+
+        public void RemoveRecentRef(string projectId)
+        {
+            if (this.RecentProjects == null)
+            {
+                return;
+            }
+
+            var index = -1;
+            for (var i = 0; i < RecentCount; ++i)
+            {
+                if (this.RecentProjects[i] == projectId)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1)
+            {
+                return;
+            }
+
+            for (; index < RecentCount; ++index)
+            {
+                this.RecentProjects[index] = this.RecentProjects[index + 1]; // we always should have count of item as RecentCount +1, where the last item is null always.
+            }
+        }
+
+        public void AddRecentRef(string projectId)
+        {
+            if (this.RecentProjects == null)
+            {
+                this.RecentProjects = new string[RecentCount + 1];
+            }
+
+            this.RemoveRecentRef(projectId);
+            for (var i = 0; i < RecentCount; ++i)
+            {
+                this.RecentProjects[i + 1] = this.RecentProjects[i];
+            }
+
+            this.RecentProjects[RecentCount] = null;
+            this.RecentProjects[0] = projectId;
+        }
+
+        public List<Project> GetRecentProjectList()
+        {
+            if (this.RecentProjects == null)
+            {
+                return new List<Project>();
+            }
+
+            return this.RecentProjects.Select(projectId =>
+            {
+                return this.RootFolder.Projects.SingleOrDefault(project => project.Id == projectId);
+            }).Where(p => p != null).ToList();
         }
     }
 }

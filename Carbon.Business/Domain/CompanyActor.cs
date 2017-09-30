@@ -29,6 +29,8 @@ namespace Carbon.Business.Domain
         public IActorFabric ActorFabric { get; }
         public string CompanyId { get; }
 
+        public Project[] RecentProjects;
+
         public CompanyActor(string companyId, IActorFabric actorFabric, IActorStateManager stateManager)
         {
             StateManager = stateManager;
@@ -78,6 +80,7 @@ namespace Carbon.Business.Domain
         {
             var company = await GetCompany();
             var project = company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
+            company.RemoveRecentRef(projectId);
             if (project != null) {
                 company.RootFolder.Projects.Remove(project);
                 if(company.DeletedFolder == null)
@@ -98,6 +101,13 @@ namespace Carbon.Business.Domain
                     await this.SaveCompany(company);
                 }
             }
+        }
+
+        public async Task UpdatedRecentRef(string projectId)
+        {
+            var company = await GetCompany();
+            company.AddRecentRef(projectId);
+            await this.SaveCompany(company);
         }
 
         public async Task<Project> CreateProject(string userId, string folderId)
@@ -136,6 +146,8 @@ namespace Carbon.Business.Domain
                 }
             }
             folder.Projects.Add(project);
+
+            company.AddRecentRef(project.Id);
 
             await StateManager.SetStateAsync(Keys.Company, company);
             await StateManager.SetStateAsync(Keys.Counter, counter);
@@ -437,6 +449,13 @@ namespace Carbon.Business.Domain
             await SaveCompany(company);
         }
 
+
+        public async Task<List<Project>> GetRecentProjects()
+        {
+            var company = await GetCompany();
+            return company.GetRecentProjectList();
+        }
+
         public async Task DeleteFile(string userId, string name)
         {
             var company = await GetCompany();
@@ -495,5 +514,6 @@ namespace Carbon.Business.Domain
             //find in folders here
             return company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
         }
+
     }
 }

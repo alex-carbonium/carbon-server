@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Carbon.Business.Domain;
@@ -90,6 +91,13 @@ namespace Carbon.Business.Services
             await _projectModelRepository.InsertAsync(projectModel);
 
             return projectModel;
+        }
+
+
+        public async Task<List<Project>> GetRecentProjects(string companyId)
+        {
+            var companyActor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+            return await companyActor.GetRecentProjects();
         }
 
         private async Task<ProjectModel> FindProjectModel(string companyId, string projectId)
