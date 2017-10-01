@@ -28,9 +28,11 @@ namespace Carbon.Services.Controllers
             IssueAuthenticationCookie(userId);
 
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
-            var companyName = (await actor.GetCompanyInfo()).Name;
+            var companyInfo = await actor.GetCompanyInfo();
+            var companyName = companyInfo.Name;
+            
 
-            return Ok(new { UserId = userId, CompanyName = companyName });
+            return Ok(new { UserId = userId, CompanyName = companyName, companyInfo.Logo, userName = companyInfo.Owner.Name, avatar = companyInfo.Owner.Avatar });
         }
 
         [HttpPost, AllowAnonymous]
