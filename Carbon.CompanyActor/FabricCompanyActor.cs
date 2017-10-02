@@ -149,5 +149,15 @@ namespace Carbon.CompanyActor
         {
             return Impl.RemoveProjectShareCodes(userId, projectId);
         }
+
+        public Task UpdatedRecentRef(string projectId)
+        {
+            return Impl.UpdatedRecentRef(projectId);
+        }
+
+        public Task<List<Project>> GetRecentProjects()
+        {
+            return Impl.GetRecentProjects();
+        }
     }
 }
