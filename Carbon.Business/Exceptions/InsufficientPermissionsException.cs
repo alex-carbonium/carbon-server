@@ -16,6 +16,11 @@ namespace Carbon.Business.Exceptions
         {
         }
 
+        public InsufficientPermissionsException(Permission requested, Permission granted, string userId, string companyId, string resourceId)
+            : base($"Requested {requested}, granted {granted}, user {userId}, company {companyId}, resource {resourceId}")
+        {
+        }
+
         // Constructor needed for serialization
         protected InsufficientPermissionsException(SerializationInfo info, StreamingContext context)
             : base(info, context)

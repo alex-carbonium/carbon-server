@@ -12,19 +12,19 @@ namespace Carbon.Framework.Repositories
         void Rollback();
         void Flush();
     }
-    public interface IRepository<TEntity> : IRepository        
+    public interface IRepository<TEntity> : IRepository
     {
         IQueryable<TEntity> FindAll(bool cache = false);
-        IQueryable<TEntity> FindAllBy(ISpecification<TEntity> specification);        
+        IQueryable<TEntity> FindAllBy(ISpecification<TEntity> specification);
 
-        TEntity FindSingleBy(ISpecification<TEntity> specification);        
-        TEntity FindById(dynamic key, bool lockForUpdate = false);        
+        TEntity FindSingleBy(ISpecification<TEntity> specification);
+        TEntity FindById(dynamic key, bool lockForUpdate = false);
         TEntity FindFirstOnly();
 
         bool Exists(dynamic key);
         bool ExistsBy(ISpecification<TEntity> specification);
-        
-        void Insert(TEntity entity);        
+
+        void Insert(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
         void InsertOrUpdate(TEntity entity);

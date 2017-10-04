@@ -9,6 +9,7 @@ using Carbon.Business.Exceptions;
 using Carbon.Framework.Repositories;
 using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
+using Carbon.Framework.Specifications;
 
 namespace Carbon.Business.Services
 {
@@ -252,13 +253,7 @@ namespace Carbon.Business.Services
             var privatePageTask = FindPageById(ResourceScope.Company, userId, pageId);
 
             await Task.WhenAll(publicPageTask, privatePageTask);
-            var page = privatePageTask.Result ?? publicPageTask.Result;
-
-            if (page == null || page.AuthorId != userId)
-            {
-                return null;
-            }
-            return page;
+            return privatePageTask.Result ?? publicPageTask.Result;
         }
 
         public async Task<ResourceNameStatus> ValidatePageName(ResourceScope scope, string userId, string name)
@@ -277,7 +272,7 @@ namespace Carbon.Business.Services
             return ResourceNameStatus.Taken;
         }
 
-        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, ResourceScope scope)
+        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, IEnumerable<string> screenshots, ResourceScope scope)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
@@ -291,20 +286,22 @@ namespace Carbon.Business.Services
             GetRepoAndPartition(scope, userId, id, out partition, out repo);
 
             var status = await ValidatePageName(scope, userId, name);
+            Task<int[]> deleteTask = Task.FromResult(new int[1]);
             if (status == ResourceNameStatus.CanOverride)
             {
-                await Task.WhenAll(
+                deleteTask = Task.WhenAll(
                     DeletePageById(ResourceScope.Company, userId, id),
                     DeletePageById(ResourceScope.Public, userId, id));
             }
             var companyInfo = actor.GetCompanyInfo();
-            await Task.WhenAll(imageUri, dataUri, companyInfo);
+            await Task.WhenAll(imageUri, dataUri, companyInfo, deleteTask);
 
-            SharedPage page = new SharedPage
+            var page = new SharedPage
             {
                 PartitionKey = partition,
                 RowKey = id,
                 CoverUrl = imageUri.Result,
+                Screenshots = screenshots,
                 DataUrl = dataUri.Result,
                 AuthorId = userId,
                 AuthorName = companyInfo.Result.Name,
@@ -313,11 +310,47 @@ namespace Carbon.Business.Services
                 Created = DateTime.UtcNow,
                 Description = description,
                 Name = name,
-                Scope = (int)scope
+                Scope = (int)scope,
+                TimesUsed = deleteTask.Result.Max()
             };
 
             await repo.InsertAsync(page);
             return page;
+        }
+
+        public async Task TrackPrivatePageUsed(string companyId, string pageId)
+        {
+            var spec = new FindByRowKey<SharedPage>(companyId, pageId);
+
+            await TrackPageUsed(_privatePageRepository, spec);
+        }
+
+        public async Task TrackPublicPageUsed(string pageId)
+        {
+            var spec = new FindByRowKey<SharedPage>(pageId, pageId);
+
+            await TrackPageUsed(_publicPageRepository, spec);
+        }
+
+        public async Task TrackPageUsed(IRepository<SharedPage> repo, ISpecification<SharedPage> spec)
+        {
+            var page = await repo.FindSingleByAsync(spec);
+            if (page != null)
+            {
+                for (var i = 0; i < 10; ++i)
+                {
+                    try
+                    {
+                        page.TimesUsed += 1;
+                        await repo.UpdateAsync(page);
+                        break;
+                    }
+                    catch (UpdateConflictException)
+                    {
+                        page = await repo.FindSingleByAsync(spec);
+                    }
+                }
+            }
         }
 
         private string UpdatePageJson(string id, string name, string data)
@@ -354,8 +387,9 @@ namespace Carbon.Business.Services
             return await repo.FindSingleByAsync(spec);
         }
 
-        private async Task DeletePageById(ResourceScope scope, string userId, string pageId)
+        private async Task<int> DeletePageById(ResourceScope scope, string userId, string pageId)
         {
+            var timesUsed = 0;
             string partition;
             IRepository<SharedPage> repo;
             GetRepoAndPartition(scope, userId, pageId, out partition, out repo);
@@ -364,8 +398,10 @@ namespace Carbon.Business.Services
             var page = await repo.FindSingleByAsync(spec);
             if (page != null)
             {
+                timesUsed = page.TimesUsed;
                 await repo.DeleteAsync(page);
             }
+            return timesUsed;
         }
 
         public async Task<IQueryable<SharedPage>> SearchCompanyResources(string userId, string search)

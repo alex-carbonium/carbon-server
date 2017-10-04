@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage.Table;
 using Carbon.Framework.Repositories;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Carbon.Business.CloudDomain
 {
@@ -13,9 +15,9 @@ namespace Carbon.Business.CloudDomain
         public string AuthorAvatar { get; set; }
         public string Description { get; set; }
         public string CoverUrl { get; set; }
+        public string ScreenshotList { get; set; }
         public string DataUrl { get; set; }
         public int TimesUsed { get; set; }
-        public int TimesView { get; set; }
         public int Scope { get; set; }
         public DateTime Created { get; set; }
 
@@ -26,9 +28,16 @@ namespace Carbon.Business.CloudDomain
             set { RowKey = value; }
         }
 
+        [IgnoreProperty]
+        public IEnumerable<string> Screenshots
+        {
+            get { return ScreenshotList?.Split(',') ?? Enumerable.Empty<string>(); }
+            set { ScreenshotList = string.Join(",", value); }
+        }
+
         public static string PageNameToId(string name)
         {
-            return name.ToLowerInvariant().GetHashCode().ToString();
+            return ((uint)name.ToLowerInvariant().GetHashCode()).ToString();
         }
     }
 

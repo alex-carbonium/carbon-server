@@ -36,7 +36,7 @@ namespace Carbon.Business.Services
             var permission = await _permissionService.GetProjectPermission(userId, companyId, projectId);
             if (!permission.HasFlag(Permission.Read))
             {
-                throw new InsufficientPermissionsException(Permission.Read, permission);
+                throw new InsufficientPermissionsException(Permission.Read, permission, userId, companyId, projectId);
             }
 
             var activeProject = await MarkActiveProject(companyId, projectId);

@@ -150,7 +150,7 @@ namespace Carbon.Services.Controllers
 
             try
             {
-                var page = await _sharingService.PublishPage(userId, model.Name, model.Description, model.Tags, model.PageData, model.CoverUrl, model.Scope);
+                var page = await _sharingService.PublishPage(userId, model.Name, model.Description, model.Tags, model.PageData, model.CoverUrl, model.Screenshots, model.Scope);
                 return Ok(new { ok = true, result = page });
             }
             catch (InsertConflictException)
@@ -178,6 +178,7 @@ namespace Carbon.Services.Controllers
             public string Tags { get; set; }
             public string PageData { get; set; }
             public string CoverUrl { get; set; }
+            public string[] Screenshots { get; set; }
             public ResourceScope Scope { get; set; }
         }
     }

@@ -71,7 +71,7 @@ namespace Carbon.Business.Services
             }
             else if (!permissionTask.Result.HasFlag(Permission.Read))
             {
-                throw new InsufficientPermissionsException(Permission.Read, permissionTask.Result);
+                throw new InsufficientPermissionsException(Permission.Read, permissionTask.Result, change.UserId, change.CompanyId, change.ModelId);
             }
 
             return model;

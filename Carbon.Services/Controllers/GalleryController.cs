@@ -37,7 +37,21 @@ namespace Carbon.Services.Controllers
                 return Ok(resource);
             }
 
-            return Error("404", "Not found");
+            return NotFound();
+        }
+
+        [HttpPost, Route("trackPublicResourceUsed")]
+        public async Task<IHttpActionResult> TrackPublicResourceUsed(string resourceId)
+        {
+            await _sharingService.TrackPublicPageUsed(resourceId);
+            return Success();
+        }
+
+        [HttpPost, Route("trackPrivateResourceUsed")]
+        public async Task<IHttpActionResult> TrackPrivateResourceUsed(string companyId, string resourceId)
+        {
+            await _sharingService.TrackPrivatePageUsed(companyId, resourceId);
+            return Success();
         }
     }
 }
