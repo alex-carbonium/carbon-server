@@ -43,7 +43,7 @@ namespace Carbon.Business.Domain
             var company = new Company
             {
                 Id = CompanyId,
-                RootFolder = new ProjectFolder { Id = "my" }                
+                RootFolder = new ProjectFolder { Id = "my" }
             };
             company.AddOrReplaceUser(new User { Id = company.Id });
 
@@ -85,7 +85,7 @@ namespace Carbon.Business.Domain
                 company.RootFolder.Projects.Remove(project);
                 if(company.DeletedFolder == null)
                 {
-                    company.DeletedFolder = new ProjectFolder { Id = "deleted" };                    
+                    company.DeletedFolder = new ProjectFolder { Id = "deleted" };
                 }
 
                 company.DeletedFolder.Projects.Add(project);
@@ -178,7 +178,7 @@ namespace Carbon.Business.Domain
             var sharedFolder = new ProjectFolder
             {
                 Id = "shared"
-            };            
+            };
 
             foreach (var acl in company.ExternalAcls.Where(x => x.Entry.ResourceType == ResourceType.Project))
             {

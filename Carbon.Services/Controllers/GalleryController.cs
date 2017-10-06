@@ -22,7 +22,7 @@ namespace Carbon.Services.Controllers
             var resources = await _sharingService.SearchPublicResources(search);
             return Ok(new
             {
-                pageData = resources.Skip(from).Take(to - from).ToList(),
+                pageData = resources.Skip(from).Take(to - from + 1).ToList(),
                 totalCount = resources.Count()
             });
         }

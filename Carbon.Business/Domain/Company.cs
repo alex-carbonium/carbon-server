@@ -26,7 +26,7 @@ namespace Carbon.Business.Domain
         public ProjectFolder RootFolder { get; set; }
         public ProjectFolder DeletedFolder { get; set; }
 
-        private const int RecentCount = 3;
+        private const int RecentCount = 4;
         public string[] RecentProjects { get; set; }
         //public string WebsiteUrl { get; set; }
 
@@ -141,9 +141,9 @@ namespace Carbon.Business.Domain
             }
 
             this.RemoveRecentRef(projectId);
-            for (var i = 0; i < RecentCount; ++i)
+            for (var i = RecentCount - 1; i >= 1; --i)
             {
-                this.RecentProjects[i + 1] = this.RecentProjects[i];
+                this.RecentProjects[i] = this.RecentProjects[i - 1];
             }
 
             this.RecentProjects[RecentCount] = null;
