@@ -135,10 +135,10 @@ namespace Carbon.Business.Domain
 
         public void AddRecentRef(string projectId)
         {
-            if (this.RecentProjects == null)
+            if (this.RecentProjects == null || this.RecentProjects.Length != RecentCount + 1)
             {
                 this.RecentProjects = new string[RecentCount + 1];
-            }
+            }            
 
             this.RemoveRecentRef(projectId);
             for (var i = RecentCount - 1; i >= 1; --i)
