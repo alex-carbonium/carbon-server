@@ -247,6 +247,7 @@
     <Compile Include="Services\CampaignService.cs" />
     <Compile Include="CloudSpecifications\TableEntitySpecification.cs" />
     <Compile Include="CloudSpecifications\FindByPartition.cs" />
+    <Compile Include="Services\SharingModels.cs" />
     <Compile Include="Services\ResourceNameStatus.cs" />
     <Compile Include="Services\SharingService.cs" />
     <Compile Include="Strings.Designer.cs">

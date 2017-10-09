@@ -272,20 +272,20 @@ namespace Carbon.Business.Services
             return ResourceNameStatus.Taken;
         }
 
-        public async Task<SharedPage> PublishPage(string userId, string name, string description, string tags, string data, string previewPicture, IEnumerable<string> screenshots, ResourceScope scope)
+        public async Task<SharedPage> PublishPage(string userId, PublishPageModel model)
         {
             var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
 
-            var id = SharedPage.PageNameToId(name);
+            var id = SharedPage.PageNameToId(model.Name);
             var uniqueId = Guid.NewGuid().ToString("N");
-            var imageUri = SaveImage(uniqueId, previewPicture);
-            var dataUri = SaveData(uniqueId, UpdatePageJson(id, name, data));
+            var imageUri = SaveImage(uniqueId, model.CoverUrl);
+            var dataUri = SaveData(uniqueId, UpdatePageJson(id, model.Name, model.PageData));
 
             string partition;
             IRepository<SharedPage> repo;
-            GetRepoAndPartition(scope, userId, id, out partition, out repo);
+            GetRepoAndPartition(model.Scope, userId, id, out partition, out repo);
 
-            var status = await ValidatePageName(scope, userId, name);
+            var status = await ValidatePageName(model.Scope, userId, model.Name);
             Task<int[]> deleteTask = Task.FromResult(new int[1]);
             if (status == ResourceNameStatus.CanOverride)
             {
@@ -301,16 +301,18 @@ namespace Carbon.Business.Services
                 PartitionKey = partition,
                 RowKey = id,
                 CoverUrl = imageUri.Result,
-                Screenshots = screenshots,
+                ScreenshotsUrls = model.Screenshots.Select(x => x.Url).ToArray(),
+                ScreenshotIds = model.Screenshots.Select(x => x.Id).ToArray(),
+                ScreenshotNames = model.Screenshots.Select(x => x.Name).ToArray(),
                 DataUrl = dataUri.Result,
                 AuthorId = userId,
                 AuthorName = companyInfo.Result.Name,
                 AuthorAvatar = companyInfo.Result.Logo ?? companyInfo.Result.Owner.Avatar,
-                Tags = tags,
+                Tags = model.Tags,
                 Created = DateTime.UtcNow,
-                Description = description,
-                Name = name,
-                Scope = (int)scope,
+                Description = model.Description,
+                Name = model.Name,
+                Scope = (int)model.Scope,
                 TimesUsed = deleteTask.Result.Max()
             };
 

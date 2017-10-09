@@ -122,7 +122,7 @@ namespace Carbon.Services.Controllers
             var userId = GetUserId();
             var setup = await _sharingService.GetPageSetup(userId, pageId);
 
-            return Ok(setup);
+            return Ok(setup.ToApiResult());
         }
 
         public class ValidatePageModel
@@ -150,7 +150,7 @@ namespace Carbon.Services.Controllers
 
             try
             {
-                var page = await _sharingService.PublishPage(userId, model.Name, model.Description, model.Tags, model.PageData, model.CoverUrl, model.Screenshots, model.Scope);
+                var page = await _sharingService.PublishPage(userId, model);
                 return Ok(new { ok = true, result = page });
             }
             catch (InsertConflictException)
@@ -166,20 +166,9 @@ namespace Carbon.Services.Controllers
             var resources = await _sharingService.SearchCompanyResources(userId, search);
             return Ok(new
             {
-                pageData = resources.Skip(from).Take(to - from).ToList(),
+                pageData = resources.Skip(from).Take(to - from).Select(x => x.ToApiResult()).ToList(),
                 totalCount = resources.Count()
             });
-        }
-
-        public class PublishPageModel
-        {
-            public string Name { get; set;  }
-            public string Description { get; set; }
-            public string Tags { get; set; }
-            public string PageData { get; set; }
-            public string CoverUrl { get; set; }
-            public string[] Screenshots { get; set; }
-            public ResourceScope Scope { get; set; }
         }
     }
 }
