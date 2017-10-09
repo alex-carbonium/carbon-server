@@ -2,6 +2,7 @@
 using Carbon.Framework.Logging;
 using IdentityServer3.Core.Logging;
 using Logger = IdentityServer3.Core.Logging.Logger;
+using System.IdentityModel.Tokens;
 
 namespace Carbon.Services.IdentityServer
 {
@@ -33,6 +34,11 @@ namespace Carbon.Services.IdentityServer
         {
             if (exception != null)
             {
+                if (exception is SecurityTokenExpiredException)
+                {
+                    _logger.Info("Security token expired. " + exception.Message);
+                    return true;
+                }
                 _logger.Error(exception);
                 return true;
             }

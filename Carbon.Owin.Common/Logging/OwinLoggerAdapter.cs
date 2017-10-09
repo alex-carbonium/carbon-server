@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Owin.Logging;
+using System.Net;
 
 namespace Carbon.Owin.Common.Logging
 {
@@ -32,7 +33,7 @@ namespace Carbon.Owin.Common.Logging
                     break;
                 case TraceEventType.Error:
                     //standard transport exception that often happens in SignalR
-                    if (!message.Contains("The specified network name is no longer available"))
+                    if (!message.Contains("The specified network name is no longer available") && !IsIgnoredException(exception))
                     {
                         logger.Error(message);
                     }
@@ -42,6 +43,16 @@ namespace Carbon.Owin.Common.Logging
                     break;
             }
             return true;
+        }
+
+        private static bool IsIgnoredException(Exception ex)
+        {
+            if (ex == null)
+            {
+                return false;
+            }
+            return ex is ProtocolViolationException //happens in Owin when Head request is sent
+                   || ex is OperationCanceledException;
         }
     }
 }
