@@ -28,6 +28,7 @@ namespace Carbon.Services.Controllers
 
         public class FileContentModel
         {
+            public string Name { get; set; }
             public string Content { get; set; }
         }
 
@@ -64,33 +65,48 @@ namespace Carbon.Services.Controllers
             return url.Substring(0, url.LastIndexOf("/") + 1) + fileName + "_preview" + ext;
         }
 
-//        [HttpPost]
-//        public virtual ActionResult UploadExportedImage(long folderId, string encodedImage)
-//        {
-//            var name = Guid.NewGuid().ToString();
-//            var company = FindCompany(folderId);
-//
-//            var contents = _projectRendersService.DataFromDataURL(encodedImage);
-//            var companyFileInfo = SaveCompanyImage(company, name, contents);
-//
-//            if (companyFileInfo != null)
-//            {
-//                return Json(new
-//                {
-//                    adapter = "filesystem",
-//                    status = true,
-//                    userIcons = CompanyImages(folderId),
-//                    uploadedFileSrc = FullFileUrl(companyFileInfo.Url)
-//                });
-//            }
-//
-//            return Json(new
-//            {
-//                adapter = "filesystem",
-//                status = false,
-//                error = DictionaryValidator.Errors.ElementAt(0)
-//            });
-//        }
+        //        [HttpPost]
+        //        public virtual ActionResult UploadExportedImage(long folderId, string encodedImage)
+        //        {
+        //            var name = Guid.NewGuid().ToString();
+        //            var company = FindCompany(folderId);
+        //
+        //            var contents = _projectRendersService.DataFromDataURL(encodedImage);
+        //            var companyFileInfo = SaveCompanyImage(company, name, contents);
+        //
+        //            if (companyFileInfo != null)
+        //            {
+        //                return Json(new
+        //                {
+        //                    adapter = "filesystem",
+        //                    status = true,
+        //                    userIcons = CompanyImages(folderId),
+        //                    uploadedFileSrc = FullFileUrl(companyFileInfo.Url)
+        //                });
+        //            }
+        //
+        //            return Json(new
+        //            {
+        //                adapter = "filesystem",
+        //                status = false,
+        //                error = DictionaryValidator.Errors.ElementAt(0)
+        //            });
+        //        }
+
+        [HttpPost, Route("uploadUrl")]
+        public async Task<IHttpActionResult> UploadUrl(FileContentModel model)
+        {
+            var split = model.Content.Split(',');
+            if (split.Length != 2)
+            {
+                throw new ArgumentException(nameof(model));
+            }
+
+            var companyId = GetUserId();
+            var image = Convert.FromBase64String(split[1]);
+            var result = await SaveCompanyImage(companyId, model.Name, new MemoryStream(image));
+            return Ok(ToMetadata(companyId, result));
+        }
 
         [HttpPost, Route("upload")]
         public async Task<IHttpActionResult> Upload()
