@@ -30,23 +30,17 @@ namespace Carbon.Business.Services
         private readonly IRepository<ProjectSnapshot> _snapshotRepository;
         private readonly IRepository<ProjectLog> _primitivesRepository;
         private readonly IRepository<ProjectState> _realtimeInfoRepository;
-        private readonly IActorFabric _actorFabric;
-        private readonly FontManager _fontManager;
 
         public CloudProjectModelRepository(
             ILogService logService,
             IRepository<ProjectSnapshot> snapshotRepository,
             IRepository<ProjectLog> primitivesRepository,
-            IRepository<ProjectState> realtimeInfoRepository,
-            IActorFabric actorFabric,
-            FontManager fontManager)
+            IRepository<ProjectState> realtimeInfoRepository)
         {
             _logService = logService;
             _snapshotRepository = snapshotRepository;
             _primitivesRepository = primitivesRepository;
             _realtimeInfoRepository = realtimeInfoRepository;
-            _fontManager = fontManager;
-            _actorFabric = actorFabric;
         }
 
         public override IQueryable<ProjectModel> FindAll(bool cache)
@@ -228,9 +222,7 @@ namespace Carbon.Business.Services
 
         public async Task<IList<ProjectLog>> LoadModel(ProjectModel model, IList<ProjectLog> batchPrimitives)
         {
-            var projectId = model.Id;            
-            var companyActor = _actorFabric.GetProxy<ICompanyActor>(model.CompanyId);
-            var updateTask = companyActor.UpdatedRecentRef(projectId);
+            var projectId = model.Id;
             var latestSnapshot = await _snapshotRepository.FindByIdAsync(ProjectSnapshot.LatestId(model.CompanyId, projectId));
             model.Read(latestSnapshot.ContentStream);
             model.EditVersion = latestSnapshot.EditVersion;
@@ -282,8 +274,6 @@ namespace Carbon.Business.Services
                     await _snapshotRepository.UpdateAsync(latestSnapshot);
                 }
             }
-
-            await updateTask;
 
             return tail;
         }

@@ -127,6 +127,14 @@ namespace Carbon.Business.Domain.DataTree
             {
                 index = Children.Count;
             }
+
+            //temp fix for primitives sometimes generating duplicate nodes
+            var existing = Children.SingleOrDefault(x => x.Id == node.Id);
+            if (existing != null)
+            {
+                Children.Remove(existing);
+            }
+
             Children.Insert(index, node);
         }
 
@@ -166,11 +174,11 @@ namespace Carbon.Business.Domain.DataTree
 
         public void RemoveChild(string id)
         {
-            
+
             foreach(var child in Children?.Where(x => x.Id == id).ToList())
             {
                 Children.Remove(child);
-            }            
+            }
         }
 
         public void PatchProps(PatchType patchType, string propName, dynamic item)

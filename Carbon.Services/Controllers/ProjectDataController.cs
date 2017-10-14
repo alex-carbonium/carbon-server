@@ -12,15 +12,22 @@ namespace Carbon.Services.Controllers
     public class ProjectController : AuthorizedApiController
     {
         private readonly ProjectModelService _projectModelService;
+        private readonly IActorFabric _actorFabric;
 
-        public ProjectController(ProjectModelService projectModelService)
+        public ProjectController(ProjectModelService projectModelService, IActorFabric actorFabric)
         {
             _projectModelService = projectModelService;
+            _actorFabric = actorFabric;
         }
 
         [HttpGet, Route("model")]
         public async Task<HttpResponseMessage> GetModel(string companyId, string modelId)
         {
+            var companyActor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            companyActor.UpdatedRecentRef(modelId);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
             var model = await _projectModelService.GetProjectModel(GetUserId(), companyId, modelId);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(await model.ToStringCompact(), Encoding.UTF8, "applicaiton/json");

@@ -13,8 +13,5 @@ namespace Carbon.Tools
                 .WithParsed<LogPlayer.Options>(opts => new LogPlayer().ReplayProjectLog(opts).Wait())
                 .WithParsed<CreateProjectFromJson.Options>(opts => new CreateProjectFromJson().Run(opts).Wait());
         }
-
-
-
     }
 }
