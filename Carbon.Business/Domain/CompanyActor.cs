@@ -356,7 +356,7 @@ namespace Carbon.Business.Domain
             }
 
             return company.ExternalAcls
-                .SingleOrDefault(x => x.CompanyName == companyName)
+                .FirstOrDefault(x => x.CompanyName == companyName)
                 ?.Entry.Sid;
         }
 
