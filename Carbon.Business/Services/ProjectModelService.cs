@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Carbon.Business.Domain;
 using Carbon.Business.Exceptions;
-using Carbon.Business.Sync;
 using Carbon.Business.Sync.Handlers;
 using Carbon.Framework.Logging;
 using Carbon.Framework.Repositories;
@@ -32,6 +30,36 @@ namespace Carbon.Business.Services
             _actorFabric = actorFabric;
             _permissionService = permissionService;
             _trackingService = trackingService;
+        }
+
+        public async Task<ProjectModel> GetProjectModel(string userId, string companyId, string modelId)
+        {
+            var modelTask = FindProjectModel(companyId, modelId);
+
+            var permission = await _permissionService.GetProjectPermission(userId, companyId, modelId);
+            if (!permission.HasFlag(Permission.Read))
+            {
+                throw new InsufficientPermissionsException(Permission.Read, permission, userId, companyId, modelId);
+            }
+
+            return await modelTask;
+        }
+
+        public async Task Duplicate(string userId, string companyId, string modelId)
+        {
+            var modelTask = FindProjectModel(companyId, modelId);
+            var permission = await _permissionService.GetProjectPermission(userId, companyId, modelId);
+            if (!permission.HasFlag(Permission.Write))
+            {
+                throw new InsufficientPermissionsException(Permission.Write, permission, userId, companyId, modelId);
+            }
+
+            var project = await DuplicateProject(userId, companyId, modelId);
+
+            var model = await modelTask;
+            await model.EnsureLoaded();
+            model.Id = project.Id;
+            await _projectModelRepository.InsertAsync(model);
         }
 
         public async Task<ProjectModel> ChangeProjectModel(IDependencyContainer scope, ProjectModelChange change)
@@ -79,6 +107,16 @@ namespace Carbon.Business.Services
 
         public async Task<ProjectModel> CreateProjectAndModel(string userId, string companyId)
         {
+            var project = await CreateProject(userId, companyId);
+
+            var projectModel = ProjectModel.CreateNew(companyId, project.Id);
+            await _projectModelRepository.InsertAsync(projectModel);
+
+            return projectModel;
+        }
+
+        private async Task<Project> CreateProject(string userId, string companyId)
+        {
             var companyActor = _actorFabric.GetProxy<ICompanyActor>(companyId);
             var project = await companyActor.CreateProject(userId, folderId: null);
 
@@ -87,12 +125,21 @@ namespace Carbon.Business.Services
                 throw new InsufficientPermissionsException(Permission.CreateProject);
             }
 
-            var projectModel = ProjectModel.CreateNew(companyId, project.Id);
-            await _projectModelRepository.InsertAsync(projectModel);
-
-            return projectModel;
+            return project;
         }
 
+        private async Task<Project> DuplicateProject(string userId, string companyId, string projectId)
+        {
+            var companyActor = _actorFabric.GetProxy<ICompanyActor>(companyId);
+            var project = await companyActor.DuplicateProject(userId, projectId);
+
+            if (project == null)
+            {
+                throw new InsufficientPermissionsException(Permission.CreateProject);
+            }
+
+            return project;
+        }
 
         public async Task<List<Project>> GetRecentProjects(string companyId)
         {

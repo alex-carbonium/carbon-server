@@ -22,6 +22,18 @@ namespace Carbon.Business.Domain
             _shareCodes.Remove(code);
             _shareCodes.Add(code);
         }
+
+        public Project Clone(string id)
+        {
+            var project = new Project
+            {
+                Id = id,
+                Name = Name,
+                Avatar = Avatar
+            };
+
+            return project;
+        }
     }
 
     public class ProjectSettings

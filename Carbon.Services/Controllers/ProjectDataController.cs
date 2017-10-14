@@ -1,18 +1,31 @@
 ﻿using Carbon.Business.Services;
-using Carbon.Owin.Common.Security;
 using Carbon.Owin.Common.WebApi;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Carbon.Services.Controllers
 {
-    public class ProjectDataController : AuthorizedApiController
+    [RoutePrefix("project")]
+    public class ProjectController : AuthorizedApiController
     {
         private readonly ProjectModelService _projectModelService;
 
-        public ProjectDataController(ProjectModelService projectModelService)
+        public ProjectController(ProjectModelService projectModelService)
         {
             _projectModelService = projectModelService;
         }
 
+        [HttpGet, Route("model")]
+        public async Task<HttpResponseMessage> GetModel(string companyId, string modelId)
+        {
+            var model = await _projectModelService.GetProjectModel(GetUserId(), companyId, modelId);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(await model.ToStringCompact(), Encoding.UTF8, "applicaiton/json");
+            return response;
+        }
 
         //[HttpGet]
         //public async Task<HttpResponseMessage> ExportPackage(long id)

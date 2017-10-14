@@ -36,6 +36,11 @@ namespace Carbon.CompanyActor
             return Impl.CreateProject(userId, folderId);
         }
 
+        public Task<Project> DuplicateProject(string userId, string projectId)
+        {
+            return Impl.DuplicateProject(userId, projectId);
+        }
+
         public Task<int> GetProjectPermission(string userId, string projectId)
         {
             return Impl.GetProjectPermission(userId, projectId);

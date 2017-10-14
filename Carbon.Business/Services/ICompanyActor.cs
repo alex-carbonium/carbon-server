@@ -8,6 +8,7 @@ namespace Carbon.Business.Services
     public interface ICompanyActor : IActor
     {
         Task<Project> CreateProject(string userId, string folderId);
+        Task<Project> DuplicateProject(string userId, string projectId);
         Task<int> GetProjectPermission(string userId, string projectId);
         Task<List<ProjectFolder>> GetDashboard(string userId);
 

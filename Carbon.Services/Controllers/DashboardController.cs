@@ -10,24 +10,33 @@ namespace Carbon.Services.Controllers
     public class DashboardController : AuthorizedApiController
     {
         private readonly IActorFabric _actorFabric;
+        private readonly ProjectModelService _projectModelService;
 
-        public DashboardController(IActorFabric actorFabric)
+        public DashboardController(IActorFabric actorFabric, ProjectModelService projectModelService)
         {
             _actorFabric = actorFabric;
+            _projectModelService = projectModelService;
         }
 
         [Route("")]
         public async Task<IHttpActionResult> Get(string companyId)
-        {          
+        {
             var dashboard = await GetActor(companyId).GetDashboard(GetUserId());
             return Ok(new { Folders = dashboard });
         }
 
-        [Route("deleteproject"), HttpGet]
+        [Route("deleteProject"), HttpGet]
         public async Task<IHttpActionResult> DeleteProject(string companyId, string projectId)
-        {            
+        {
             await GetActor(companyId).DeleteProject(projectId);
-            return Ok(new { });
+            return await Get(companyId);
+        }
+
+        [HttpPost, Route("duplicateProject")]
+        public async Task<IHttpActionResult> DuplicateProject(string companyId, string projectId)
+        {
+            await _projectModelService.Duplicate(GetUserId(), companyId, projectId);
+            return await Get(companyId);
         }
 
         private ICompanyActor GetActor(string companyId)

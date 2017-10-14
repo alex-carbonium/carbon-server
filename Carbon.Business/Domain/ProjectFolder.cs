@@ -13,15 +13,15 @@ namespace Carbon.Business.Domain
         //public IList<ProjectFolder> SubFolders { get; set; }
 
         public ProjectFolder()
-        {                     
+        {
             Projects = new List<Project>();
-        }        
-        
+        }
+
         //public virtual ProjectFolder AddSubFolder(string name)
         //{
-        //    var folder = new ProjectFolder();                        
+        //    var folder = new ProjectFolder();
         //    folder.Name = name;
-        //    SubFolders.Add(folder);            
+        //    SubFolders.Add(folder);
         //    return folder;
         //}
 

@@ -113,23 +113,14 @@ namespace Carbon.Business.Domain
         public async Task<Project> CreateProject(string userId, string folderId)
         {
             var company = await GetCompany();
-            var counter = await StateManager.GetStateAsync<Dictionary<Countable, int>>(Keys.Counter);
-
             var folder = company.RootFolder; //find folder here
 
-            List<Acl> folderAcls = null;
-            if (userId != CompanyId)
+            if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
             {
-                folderAcls = company.Acls
-                    .Where(x => x.Entry.ResourceType == ResourceType.Folder && x.Entry.ResourceId == folder.Id)
-                    .ToList();
-
-                var userAcl = folderAcls.SingleOrDefault(x => x.Entry.Sid == userId);
-                if (userAcl == null || !userAcl.Allows(Permission.CreateProject))
-                {
-                    return null;
-                }
+                return null;
             }
+
+            var counter = await StateManager.GetStateAsync<Dictionary<Countable, int>>(Keys.Counter);
 
             var projectId = ++counter[Countable.Project];
             var project = new Project
@@ -138,12 +129,9 @@ namespace Carbon.Business.Domain
                 Name = "My carbon design"
             };
 
-            if (folderAcls != null)
+            if (userId != CompanyId)
             {
-                foreach (var acl in folderAcls)
-                {
-                    company.AddOrReplaceAcl(Acl.CreateForProject(acl.Entry.Sid, project.Id, acl.Permission));
-                }
+                company.PropagateFolderAcls(folder, project);
             }
             folder.Projects.Add(project);
 
@@ -153,6 +141,35 @@ namespace Carbon.Business.Domain
             await StateManager.SetStateAsync(Keys.Counter, counter);
 
             return project;
+        }
+
+        public async Task<Project> DuplicateProject(string userId, string projectId)
+        {
+            var company = await GetCompany();
+            //find folder
+            var folder = company.RootFolder;
+
+            if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
+            {
+                return null;
+            }
+
+            var counter = await StateManager.GetStateAsync<Dictionary<Countable, int>>(Keys.Counter);
+            var project = FindProject(company, projectId);
+
+            var newProjectId = ++counter[Countable.Project];
+            var newProject = project.Clone(newProjectId.ToString());
+
+            folder.Projects.Add(newProject);
+            if (userId != CompanyId)
+            {
+                company.PropagateFolderAcls(folder, newProject);
+            }
+
+            await StateManager.SetStateAsync(Keys.Company, company);
+            await StateManager.SetStateAsync(Keys.Counter, counter);
+
+            return newProject;
         }
 
         public async Task<int> GetProjectPermission(string userId, string projectId)
@@ -514,6 +531,5 @@ namespace Carbon.Business.Domain
             //find in folders here
             return company.RootFolder.Projects.SingleOrDefault(x => x.Id == projectId);
         }
-
     }
 }

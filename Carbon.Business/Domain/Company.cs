@@ -87,6 +87,35 @@ namespace Carbon.Business.Domain
             _users.Add(user);
         }
 
+        public IEnumerable<Acl> FindFolderAcls(ProjectFolder folder)
+        {
+            return Acls.Where(x => x.Entry.ResourceType == ResourceType.Folder && x.Entry.ResourceId == folder.Id);
+        }
+
+        public bool HasFolderPermission(string userId, ProjectFolder folder, Permission permission)
+        {
+            if (userId != Id)
+            {
+                var acls = FindFolderAcls(folder);
+                var userAcl = acls.SingleOrDefault(x => x.Entry.Sid == userId);
+                if (userAcl == null || !userAcl.Allows(Permission.CreateProject))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void PropagateFolderAcls(ProjectFolder folder, Project project)
+        {
+            var folderAcls = FindFolderAcls(folder);
+            foreach (var acl in folderAcls)
+            {
+                AddOrReplaceAcl(Acl.CreateForProject(acl.Entry.Sid, project.Id, acl.Permission));
+            }
+        }
+
         public void AddOrReplaceFile(CompanyFileInfo file)
         {
             _files.Remove(file);
@@ -138,7 +167,7 @@ namespace Carbon.Business.Domain
             if (this.RecentProjects == null || this.RecentProjects.Length != RecentCount + 1)
             {
                 this.RecentProjects = new string[RecentCount + 1];
-            }            
+            }
 
             this.RemoveRecentRef(projectId);
             for (var i = RecentCount - 1; i >= 1; --i)
