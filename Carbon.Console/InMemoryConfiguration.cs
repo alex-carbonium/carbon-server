@@ -33,6 +33,7 @@ namespace Carbon.Console
             Add("Endpoints", "Storage", "http://localhost:9100");
             Add("Endpoints", "File", "http://127.0.0.1:10000/devstoreaccount1");
             Add("Endpoints", "Cdn", "http://127.0.0.1:10000/devstoreaccount1");
+            Add("Endpoints", "Error", "https://carbon-functions-qa1.azurewebsites.net/api/trackError");
 
             Add("General", "SiteHost", "http://localhost:8080");
         }

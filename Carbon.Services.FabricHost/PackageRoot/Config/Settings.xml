@@ -14,6 +14,7 @@
     <Parameter Name="Storage" Value="" MustOverride="true" />
     <Parameter Name="Cdn" Value="" MustOverride="true"/>
     <Parameter Name="File" Value="" MustOverride="true"/>
+    <Parameter Name="Error" Value="" MustOverride="true" />
   </Section>
   <Section Name="IdSrv">
     <Parameter Name="PublicKeyFile" Value="" MustOverride="true"/>

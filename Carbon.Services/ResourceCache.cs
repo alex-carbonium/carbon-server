@@ -44,7 +44,8 @@ namespace Carbon.Services
                 .Replace("telemetryKey = ''", "telemetryKey = '" + _appSettings.Azure.TelemetryKey + "'")
                 .Replace("appBuild = '1.0.0'", "appBuild = '" + _appSettings.GetDataPackageVersion(Defs.Packages.Client) + "'")
                 .Replace("storage: ''", "storage: '" + _appSettings.Endpoints.Storage.WithoutScheme() + "'")
-                .Replace("cdn: ''", "cdn: '" + _appSettings.Endpoints.Cdn.WithoutScheme() + "'");
+                .Replace("cdn: ''", "cdn: '" + _appSettings.Endpoints.Cdn.WithoutScheme() + "'")
+                .Replace("error: ''", "error: '" + _appSettings.Endpoints.Error + "'");
         }
     }
 }

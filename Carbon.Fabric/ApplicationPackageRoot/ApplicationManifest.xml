@@ -27,6 +27,7 @@
     <Parameter Name="Endpoints_Storage" DefaultValue="http://localhost:9100" />
     <Parameter Name="Endpoints_Cdn" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
     <Parameter Name="Endpoints_File" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
+    <Parameter Name="Endpoints_Error" DefaultValue="https://carbon-functions-qa1.azurewebsites.net/api/trackError" />
     <Parameter Name="Azure_TelemetryKey" DefaultValue="6ad84643-9530-4367-a698-6dde4567f0cd" />
     <Parameter Name="Env" DefaultValue="local" />
   </Parameters>
@@ -118,6 +119,7 @@
             <Parameter Name="Listen" Value="[Endpoints_Listen]" />
             <Parameter Name="Cdn" Value="[Endpoints_Cdn]" />
             <Parameter Name="File" Value="[Endpoints_File]" />
+            <Parameter Name="Error" Value="[Endpoints_Error]" />
           </Section>
           <Section Name="Azure">
             <Parameter Name="TelemetryKey" Value="[Azure_TelemetryKey]" />

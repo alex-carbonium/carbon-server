@@ -143,6 +143,7 @@ namespace Carbon.Business
             public Uri Cdn => new Uri(_configuration.GetString(_section, "Cdn"));
             public Uri File => new Uri(_configuration.GetString(_section, "File"));
             public Uri Storage => new Uri(_configuration.GetString(_section, "Storage"));
+            public Uri Error => new Uri(_configuration.GetString(_section, "Error"));
         }
 
         public virtual string GetConnectionString(string name)
