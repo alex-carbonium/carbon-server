@@ -117,7 +117,7 @@ namespace Carbon.Business.Domain
             var company = await GetCompany();
             var folder = company.RootFolder; //find folder here
 
-            if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
+            if (userId != CompanyId && !company.HasFolderPermission(userId, folder, Permission.CreateProject))
             {
                 _logger.Warning($"User {userId} has no create project permission in company {company.Id}");
                 return null;
@@ -152,7 +152,8 @@ namespace Carbon.Business.Domain
             //find folder
             var folder = company.RootFolder;
 
-            if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
+            //TODO: check why some actors have Company.Id == "company"
+            if (userId != CompanyId && !company.HasFolderPermission(userId, folder, Permission.CreateProject))
             {
                 _logger.Warning($"User {userId} has no create project permission in company {company.Id}");
                 return null;
