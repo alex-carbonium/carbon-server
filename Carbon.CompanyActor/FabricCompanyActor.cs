@@ -27,7 +27,7 @@ namespace Carbon.CompanyActor
                 CommonEventSource.Current.Info("Actor activated: " + Id.ToString(), source: "FabricCompanyActor");
             }
 
-            Impl = new Business.Domain.CompanyActor(Id.GetStringId(), ActorFabric.Default, StateManager);
+            Impl = new Business.Domain.CompanyActor(Id.GetStringId(), ActorFabric.Default, StateManager, CommonEventSource.Current);
             await Impl.Activate();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Carbon.Business.Domain;
 using Carbon.Business.Services;
 using Microsoft.ServiceFabric.Actors;
+using Carbon.Framework.Logging;
 
 namespace Carbon.Console
 {
@@ -22,7 +23,7 @@ namespace Carbon.Console
                 ICompanyActor actor;
                 if (!_companyActorStore.TryGetValue(id, out actor))
                 {
-                    var companyActor = new CompanyActor(id, this, new InMemoryStateManager());
+                    var companyActor = new CompanyActor(id, this, new InMemoryStateManager(), new ConsoleLogger());
 #pragma warning disable 4014
                     companyActor.Activate();
 #pragma warning restore 4014

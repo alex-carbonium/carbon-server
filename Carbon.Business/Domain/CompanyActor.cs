@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Carbon.Business.Exceptions;
 using Carbon.Business.Services;
 using Microsoft.ServiceFabric.Actors.Runtime;
+using Carbon.Framework.Logging;
 
 namespace Carbon.Business.Domain
 {
@@ -29,13 +30,14 @@ namespace Carbon.Business.Domain
         public IActorFabric ActorFabric { get; }
         public string CompanyId { get; }
 
-        public Project[] RecentProjects;
+        private readonly ILogger _logger;
 
-        public CompanyActor(string companyId, IActorFabric actorFabric, IActorStateManager stateManager)
+        public CompanyActor(string companyId, IActorFabric actorFabric, IActorStateManager stateManager, ILogger logger)
         {
             StateManager = stateManager;
             ActorFabric = actorFabric;
             CompanyId = companyId;
+            _logger = logger;
         }
 
         public async Task Activate()
@@ -117,6 +119,7 @@ namespace Carbon.Business.Domain
 
             if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
             {
+                _logger.Warning($"User {userId} has no create project permission in company {company.Id}");
                 return null;
             }
 
@@ -151,6 +154,7 @@ namespace Carbon.Business.Domain
 
             if (!company.HasFolderPermission(userId, folder, Permission.CreateProject))
             {
+                _logger.Warning($"User {userId} has no create project permission in company {company.Id}");
                 return null;
             }
 
