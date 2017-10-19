@@ -187,6 +187,7 @@
     <Compile Include="WebApi\AuthorizedApiController.cs" />
     <Compile Include="WebApi\BaseApiController.cs" />
     <Compile Include="WebApi\CommonWebApiConfig.cs" />
+    <Compile Include="WebApi\FileRequestAttribute.cs" />
     <Compile Include="WebApi\FileResponseAttribute.cs" />
     <Compile Include="WebApi\HttpStatusCodeExt.cs" />
     <Compile Include="WebApi\KnownExceptionFilter.cs" />

@@ -128,7 +128,7 @@ namespace Carbon.Services.Controllers
             return ZippedContent(new StreamContent(zipStream), Path.GetFileName(zipFile));
         }
 
-        [Route("projectFromJson"), HttpPost]
+        [Route("projectFromJson"), HttpPost, FileRequest("multipart/form-data")]
         public async Task<IHttpActionResult> CreateProjectFromJson()
         {
             var multipart = await Request.Content.ReadAsMultipartAsync();
@@ -152,7 +152,10 @@ namespace Carbon.Services.Controllers
                 await _snapshotRepository.UpdateAsync(latestSnapshot);
             }
 
-            return Ok(new { id });
+            var actor = _actorFabric.GetProxy<ICompanyActor>(userId);
+            var info = await actor.GetCompanyInfo();
+
+            return Ok(new { id, link = $"{Request.RequestUri.GetLeftPart(UriPartial.Authority)}/app/@{info.Name}/id" });
         }
     }
 }

@@ -83,9 +83,9 @@ namespace Carbon.Tools.LogAnalysis
             var repo = container.Resolve<CloudProjectModelRepository>();
             var tail = await repo.LoadModel(model, logs);
 
-            PrintPrimitives(tail, options.Filter);
-
             System.IO.File.WriteAllText(Path.Combine(dir, "Model.json"), await model.ToStringPretty());
+
+            PrintPrimitives(tail, options.Filter);
         }
 
         private void PrintPrimitives(IList<ProjectLog> logs, string filter)

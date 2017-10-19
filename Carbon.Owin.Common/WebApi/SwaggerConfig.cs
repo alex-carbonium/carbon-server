@@ -249,12 +249,22 @@ namespace Carbon.Owin.Common.WebApi
                 operation.responses["200"].schema = new Schema { type = "file" };
             }
 
+            var fileRequest = apiDescription.ActionDescriptor.GetCustomAttributes<FileRequestAttribute>().SingleOrDefault();
+            if (fileRequest != null)
+            {
+                operation.consumes = new List<string> { fileRequest.MimeType };
+                operation.parameters = new List<Parameter> { new Parameter { name = "file", @in = "formData", type = "file", required = true } };
+            }
+
             if (operation.parameters != null)
             {
                 foreach (var parameter in operation.parameters)
                 {
-                    var p = apiDescription.ParameterDescriptions.Single(x => x.Name == parameter.name);
-                    parameter.@default = p.ParameterDescriptor.DefaultValue;
+                    if (parameter.type != "file")
+                    {
+                        var p = apiDescription.ParameterDescriptions.SingleOrDefault(x => x.Name == parameter.name);
+                        parameter.@default = p.ParameterDescriptor.DefaultValue;
+                    }
                 }
             }
         }
