@@ -119,6 +119,14 @@ namespace Carbon.Business.Domain.DataTree
         public void InsertChild(DataNode node, int index)
         {
             EnsureChildren();
+
+            //temp fix for primitives sometimes generating duplicate nodes
+            var existing = Children.SingleOrDefault(x => x.Id == node.Id);
+            if (existing != null)
+            {
+                Children.Remove(existing);
+            }
+
             if (index < 0)
             {
                 index = 0;
@@ -126,13 +134,6 @@ namespace Carbon.Business.Domain.DataTree
             else if (index > Children.Count)
             {
                 index = Children.Count;
-            }
-
-            //temp fix for primitives sometimes generating duplicate nodes
-            var existing = Children.SingleOrDefault(x => x.Id == node.Id);
-            if (existing != null)
-            {
-                Children.Remove(existing);
             }
 
             Children.Insert(index, node);
