@@ -11,7 +11,7 @@ namespace Carbon.Fabric.Common.Logging
 {
     public static class AppInsightsConfig
     {
-        private static readonly TimeSpan PerfCounterInterval = TimeSpan.FromMinutes(15);
+        private static readonly TimeSpan PerfCounterInterval = TimeSpan.FromHours(2);
 
         public static void Configure(string instrumentationKey)
         {
