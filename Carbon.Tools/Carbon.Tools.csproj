@@ -149,6 +149,7 @@
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="LogAnalysis\LogDownloader.cs" />
     <Compile Include="LogAnalysis\LogPlayer.cs" />
+    <Compile Include="LogAnalysis\LogStatistics.cs" />
     <Compile Include="OAuth\CarbonClient.cs" />
     <Compile Include="OAuth\TokenCache.cs" />
     <Compile Include="ToolsProgram.cs" />

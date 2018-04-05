@@ -8,9 +8,10 @@ namespace Carbon.Tools
     {
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<LogDownloader.Options, LogPlayer.Options, CreateProjectFromJson.Options>(args)
+            Parser.Default.ParseArguments<LogDownloader.Options, LogPlayer.Options, CreateProjectFromJson.Options, LogStatistics.Options>(args)
                 .WithParsed<LogDownloader.Options>(opts => new LogDownloader().DownloadProjectLog(opts).Wait())
                 .WithParsed<LogPlayer.Options>(opts => new LogPlayer().ReplayProjectLog(opts).Wait())
+                .WithParsed<LogStatistics.Options>(opts => new LogStatistics().Generate(opts).Wait())
                 .WithParsed<CreateProjectFromJson.Options>(opts => new CreateProjectFromJson().Run(opts).Wait());
         }
     }
