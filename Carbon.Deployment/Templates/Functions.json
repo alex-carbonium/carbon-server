@@ -43,7 +43,7 @@
     }
   },
   "variables": {
-    "sendgridAccountName": "[concat(parameters('CodeName'), '-sendgrid-', parameters('EnvironmentName'))]",
+    "sendgridAccountName": "[concat(parameters('CodeName'), 'sendgrid', parameters('EnvironmentName'))]",
     "functionAppName": "[concat(parameters('CodeName'), '-functions-', parameters('EnvironmentName'))]",
     "hostingPlanName": "[concat(parameters('CodeName'), '-functions-', parameters('EnvironmentName'))]",
     "storageAccountName": "[concat(parameters('CodeName'), 'functions', parameters('EnvironmentName'))]"

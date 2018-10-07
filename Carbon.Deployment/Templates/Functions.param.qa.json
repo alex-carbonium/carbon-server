@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "EnvironmentName": {
-      "value": "qa1"
+      "value": "qa3"
     },
     "sourceCodeRepositoryURL": {
       "value": "https://carbonproject.visualstudio.com/carbonium/_git/carbon-functions"
