@@ -22,7 +22,6 @@
     <Parameter Name="ConnectionStrings_cdn" DefaultValue="MIIB3wYJKoZIhvcNAQcDoIIB0DCCAcwCAQAxggFXMIIBUwIBADA7MCcxJTAjBgNVBAMMHGh0dHBzOi8vY2FyYm9uLWRlYnVnLWVuY3J5cHQCEC7nYc8wKB2STn3BQnVEE7AwDQYJKoZIhvcNAQEHMAAEggEAH19m5zk5URh8L2Ns3qalRmt+LULVFc/Gy8mW+BanY+Ak4cGy2k5yFm/lJ7ou6icSW0XDy8p2cqpX75woCDYV7/KExbMm3bybwmwgM+Z/IPujgHbdqc2l9CMdk7dalaWkaZKqTXQcpwnVjZ2TR6RHSl9La76EeyGWxSgvrb9zIYrGl9p703hj48pBXNMUsrrOZswRSUQbCAVu7fWeZVurH6NW/V31TV5N7LXHEM02nJeoZZOUxqZquZnVzSM8v6YmV9a8f6t1ntgWH5PscyRaaQCnx5ai53LyGI6fG578P/VzJ2OkR820jlfKwW6qfveBBUXX7Ke+qa42aiCQ6Thr4TBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/j/R1YdtHvyaEqqQ4gRGDgEDIiI7HDO09fxbRy+FjLJdhc8F3wMCAqBaifKuimGJQlk1ebUyqLqI6ByE0KAP2G4JZEk3NDpRe3lC7p1y7RO9c" />
     <Parameter Name="Certificates_IdSrv" DefaultValue="" />
     <Parameter Name="Certificates_Encrypt" DefaultValue="9D08EFD8B5B9ED86CE7E9AAB12B0E4C3FA11AF4F" />
-    <Parameter Name="Certificates_Ssl" DefaultValue="3C6C98A08678F2BEDFD558B24F4122AF12D1097B" />
     <Parameter Name="Endpoints_Listen" DefaultValue="ServiceEndpoint" />
     <Parameter Name="Endpoints_Storage" DefaultValue="http://localhost:9100" />
     <Parameter Name="Endpoints_Cdn" DefaultValue="http://127.0.0.1:10000/devstoreaccount1" />
@@ -81,9 +80,6 @@
     <EnvironmentOverrides CodePackageRef="Code">
       <EnvironmentVariable Name="Carbon_Env" Value="[Env]" />
     </EnvironmentOverrides>
-    <Policies>
-      <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
-    </Policies>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Carbon.Services.FabricHostPkg" ServiceManifestVersion="1.0.0" />
@@ -130,9 +126,6 @@
     <EnvironmentOverrides CodePackageRef="Code">
       <EnvironmentVariable Name="Carbon_Env" Value="[Env]" />
     </EnvironmentOverrides>
-    <Policies>
-      <EndpointBindingPolicy EndpointRef="SslServiceEndpoint" CertificateRef="SslCertificate" />
-    </Policies>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this
@@ -164,13 +157,11 @@
   <Policies>
     <SecurityAccessPolicies>
       <SecurityAccessPolicy ResourceRef="IdSrvRelease" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
-      <SecurityAccessPolicy ResourceRef="Encryption" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
-      <SecurityAccessPolicy ResourceRef="SslCertificate" PrincipalRef="ServiceAccount" ResourceType="Certificate" />
+      <SecurityAccessPolicy ResourceRef="Encryption" PrincipalRef="ServiceAccount" ResourceType="Certificate" />      
     </SecurityAccessPolicies>
   </Policies>
   <Certificates>
     <SecretsCertificate X509FindValue="[Certificates_IdSrv]" Name="IdSrvRelease" />
-    <SecretsCertificate X509FindValue="[Certificates_Encrypt]" Name="Encryption" />
-    <EndpointCertificate X509FindValue="[Certificates_Ssl]" Name="SslCertificate" />
+    <SecretsCertificate X509FindValue="[Certificates_Encrypt]" Name="Encryption" />    
   </Certificates>
 </ApplicationManifest>
