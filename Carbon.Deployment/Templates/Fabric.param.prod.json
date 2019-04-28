@@ -8,7 +8,7 @@
     "AppSettings": {
       "value": {
         "ServicesEndpoint": "//carbon-services-qa.azurewebsites.net",
-        "CdnEndpoint": "carboncdnqa.azureedge.net",
+        "CdnEndpoint": "carbonstatic3.azureedge.net",
         "Environment": "qa-frontend"
       }
     },

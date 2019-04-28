@@ -4,7 +4,7 @@
     <Parameter Name="FabricHost_InstanceCount" Value="-1" />
     <Parameter Name="IdSrv_PublicKeyFile" Value="idsrv-release.cer" />
     <Parameter Name="Endpoints_Storage" Value="http://carbon-qa2.westeurope.cloudapp.azure.com:9100" />
-    <Parameter Name="Endpoints_Cdn" Value="http://carbonstatic.azureedge.net" />
+    <Parameter Name="Endpoints_Cdn" Value="http://carbonstatic3.azureedge.net" />
     <Parameter Name="Endpoints_File" Value="http://carbonstorageqa1.blob.core.windows.net" />
     <Parameter Name="Endpoints_Error" Value="https://carbon-functions-qa1.azurewebsites.net/api/trackError" />
     <Parameter Name="Env" Value="qa" />
